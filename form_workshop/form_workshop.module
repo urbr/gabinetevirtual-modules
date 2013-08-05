@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Formulário Oficina de Criação feature.
+ */
+
+include_once 'form_workshop.features.inc';

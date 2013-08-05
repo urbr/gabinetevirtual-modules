@@ -1,0 +1,690 @@
+<?php
+
+/**
+ * @file
+ * Módulo Gabinete Virtual
+ * 
+ * @package 		 Gabinete Virtual
+ * @copyright   	 Copyright (c) 2013, Urucum Brasil
+ * 
+ * @author 			 Fellipe
+ * @description
+ *	 Módulo Gabinete Virtual para gestão de conteúdo
+ */
+form_load_include($form_state, 'inc', 'node', 'node.pages');
+module_load_include('inc', 'workshop', '/class/workshop.classes');
+module_load_include('inc', 'workshop', '/class/facebook.classes');
+module_load_include('inc', 'workshop', '/class/twitter.classes');
+
+# Implements hook_help()
+function workshop_help($path, $arg)
+{
+	if ($path == 'admin/help#workshop')
+	{
+		return t('Módulo de gestão de conteúdo.');
+	}
+}
+
+# Implements hook_menu()
+function workshop_menu()
+{
+	$items = array();
+	$path  = drupal_get_path('module', 'workshop').'/page';
+
+	$items['admin/config/gabinete-virtual'] = array(
+	    'title' => 'Gabinete Virtual',
+	    'description' => 'Configurações para o Gabinete Virtual.',
+	    'position' => 'right',
+	    'weight' => -99,
+	    'page callback' => 'system_admin_menu_block_page',
+	    'access arguments' => array('administer site configuration'),
+	    'file' => 'system.admin.inc',
+	    'file path' => drupal_get_path('module', 'system'),
+	);
+
+	$items['admin/config/gabinete-virtual/parameters'] = array(
+	    'title' => 'Gabinete Virtual',
+	    'page callback' => 'drupal_get_form',
+	    'page arguments' => array('workshop_admin_settings'),
+	    'access arguments' => array('administer_workshop'),
+	    'description' => 'Configurar os parametros do Gabinete Virtual.',
+	    'file' => 'workshop.admin.inc',
+	    'file path' => $path,
+	);
+
+	$items['workshop'] = array(
+		'title' => 'Oficina de Criação',
+		'page callback' => 'workshop_get_node_type_form',
+		'page arguments' => array('workshop'),
+		'access arguments' => array('administer_workshop'),
+		'description' => 'Formulário principal',
+		'file' => 'workshop.pages.inc',
+		'file path' => $path,
+		'menu_name' => 'main-menu',
+		'type' => MENU_NORMAL_ITEM,
+		'expanded' => TRUE,
+	);
+
+	$items['newsletter'] = array(
+		'title' => 'Boletins',
+		'page callback' => 'newsletter',
+		'access arguments' => array('administer_workshop'),
+		'description' => 'Boletim',
+		'file' => 'newsletter.pages.inc',
+		'file path' => $path,
+		'menu_name' => 'main-menu',
+		'type' => MENU_NORMAL_ITEM,
+		'expanded' => TRUE,
+	);
+
+	$items['socialnetworks'] = array(
+		'title' => 'Redes Sociais',
+	    'page callback' => 'drupal_get_form',
+	    'page arguments' => array('socialnetworks_form'),
+	    'access arguments' => array('administer_workshop'),
+		'description' => 'Configurar as redes sociais',
+		'file' => 'socialnetworks.pages.inc',
+		'file path' => $path,
+		'menu_name' => 'main-menu',
+		'type' => MENU_NORMAL_ITEM,
+		'expanded' => TRUE,
+	);
+
+	$items['socialnetworks/facebook'] = array(
+		'title' => 'Facebook',
+		'page callback' => 'socialnetworks_facebook',
+		'access arguments' => array('administer_workshop'),
+		'description' => 'Receber code do Facebook',
+		'file' => 'socialnetworks.pages.inc',
+		'file path' => $path,
+		'menu_name' => 'main-menu',
+		'type' => MENU_CALLBACK,
+		'expanded' => TRUE,
+	);
+
+	$items['socialnetworks/twitter'] = array(
+		'title' => 'Twitter',
+		'page callback' => 'socialnetworks_twitter',
+		'access arguments' => array('administer_workshop'),
+		'description' => 'Receber code do Twitter',
+		'file' => 'socialnetworks.pages.inc',
+		'file path' => $path,
+		'menu_name' => 'main-menu',
+		'type' => MENU_CALLBACK,
+		'expanded' => TRUE,
+	);
+
+	$items['newsletter/edit'] = array(
+		'title' => 'Montar Boletim',
+		'page callback' => 'newsletter_edit',
+		'access arguments' => array('administer_workshop'),
+		'description' => 'Montar um Boletim',
+		'file' => 'newsletter.pages.inc',
+		'file path' => $path,
+		'menu_name' => 'main-menu',
+		'type' => MENU_CALLBACK,
+		'expanded' => TRUE,
+	);
+
+	$items['newsletter/edit/item/%'] = array(
+		'title' => 'Editar Boletim',
+		'page callback' => 'newsletter_edit_item',
+		'page arguments' => array(3),
+		'access arguments' => array('administer_workshop'),
+		'description' => 'Editar um Boletim',
+		'file' => 'newsletter.pages.inc',
+		'file path' => $path,
+		'menu_name' => 'main-menu',
+		'type' => MENU_CALLBACK,
+		'expanded' => TRUE,
+	);
+
+	$items['newsletter/edit/save'] = array(
+		'title' => 'Salvar Boletim',
+		'page callback' => 'newsletter_edit_save',
+		'access arguments' => array('administer_workshop'),
+		'description' => 'Salvar um Boletim',
+		'file' => 'newsletter.pages.inc',
+		'file path' => $path,
+		'menu_name' => 'main-menu',
+		'type' => MENU_CALLBACK,
+		'expanded' => TRUE,
+	);
+
+	$items['newsletter/create'] = array(
+		'title' => 'Gerador de Boletim',
+		'page callback' => 'newsletter_create',
+		'access arguments' => array('administer_workshop'),
+		'description' => 'Gerador de Boletim',
+		'file' => 'newsletter.pages.inc',
+		'file path' => $path,
+		'menu_name' => 'main-menu',
+		'type' => MENU_CALLBACK,
+		'expanded' => TRUE,
+	);
+
+	$items['newsletter/item/%'] = array(
+		'title' => 'Visualizar Boletim',
+		'page callback' => 'newsletter_view',
+		'page arguments' => array(2),
+		'access arguments' => array('access_workshop'),
+		'description' => 'Visualizar um Boletim',
+		'file' => 'newsletter.pages.inc',
+		'file path' => $path,
+		'menu_name' => 'main-menu',
+		'type' => MENU_CALLBACK,
+		'expanded' => TRUE,
+	);
+
+	$items['newsletter/send/%'] = array(
+		'title' => 'Enviar um Boletim',
+		'page callback' => 'newsletter_send',
+		'page arguments' => array('newsletter_send_form', 2),
+		'access arguments' => array('administer_workshop'),
+		'description' => 'Enviar um boletim por e-mail',
+		'file' => 'newsletter.pages.inc',
+		'file path' => $path,
+		'menu_name' => 'main-menu',
+		'type' => MENU_CALLBACK,
+		'expanded' => TRUE,
+	);
+
+	$items['newsletter/send/test/%'] = array(
+		'title' => 'Enviar um Boletim de teste',
+		'page callback' => 'newsletter_send_test',
+		'page arguments' => array(3),
+		'access arguments' => array('administer_workshop'),
+		'description' => 'Enviar um de teste boletim por e-mail',
+		'file' => 'newsletter.pages.inc',
+		'file path' => $path,
+		'menu_name' => 'main-menu',
+		'type' => MENU_CALLBACK,
+		'expanded' => TRUE,
+	);
+
+	$items['newsletter/delete/%'] = array(
+		'title' => 'Deletar um Boletim',
+		'page callback' => 'newsletter_delete',
+		'page arguments' => array('newsletter_delete_form', 2),
+		'access arguments' => array('administer_workshop'),
+		'description' => 'Deletar um boletim pelo id',
+		'file' => 'newsletter.pages.inc',
+		'file path' => $path,
+		'menu_name' => 'main-menu',
+		'type' => MENU_CALLBACK,
+		'expanded' => TRUE,
+	);
+
+	$items['newsletter/email'] = array(
+		'title' => 'Banco de e-mails',
+		'page callback' => 'newsletter_email',
+		'access arguments' => array('administer_workshop'),
+		'description' => 'Administração do banco de e-mails',
+		'file' => 'newsletter.pages.inc',
+		'file path' => $path,
+		'menu_name' => 'main-menu',
+		'type' => MENU_CALLBACK,
+		'expanded' => TRUE,
+	);
+
+	$items['newsletter/email/create'] = array(
+		'title' => 'Adicionar novo contato',
+		'page callback' => 'newsletter_email_create',
+		'page arguments' => array('newsletter_email_create_form'),
+		'access arguments' => array('administer_workshop'),
+		'description' => 'Adicionar novo contato ao banco de e-mails',
+		'file' => 'newsletter.pages.inc',
+		'file path' => $path,
+		'menu_name' => 'main-menu',
+		'type' => MENU_CALLBACK,
+		'expanded' => TRUE,
+	);
+
+	$items['newsletter/email/edit/%'] = array(
+		'title' => 'Editar contato',
+		'page callback' => 'newsletter_email_edit',
+		'page arguments' => array('newsletter_email_edit_form', 3),
+		'access arguments' => array('administer_workshop'),
+		'description' => 'Editar contato existente',
+		'file' => 'newsletter.pages.inc',
+		'file path' => $path,
+		'menu_name' => 'main-menu',
+		'type' => MENU_CALLBACK,
+		'expanded' => TRUE,
+	);
+
+	$items['newsletter/email/delete/%'] = array(
+		'title' => 'Excluir contato',
+		'page callback' => 'newsletter_email_delete',
+		'page arguments' => array('newsletter_email_delete_form', 3),
+		'access arguments' => array('administer_workshop'),
+		'description' => 'Excluir contato existente',
+		'file' => 'newsletter.pages.inc',
+		'file path' => $path,
+		'menu_name' => 'main-menu',
+		'type' => MENU_CALLBACK,
+		'expanded' => TRUE,
+	);
+
+	$items['newsletter/email/dump/%'] = array(
+		'title' => 'Exportar contatos',
+		'page callback' => 'email_dump',
+		'page arguments' => array(3),
+		'access arguments' => array('administer_workshop'),
+		'description' => 'Exportar contatos existente',
+		'file' => 'newsletter.pages.inc',
+		'file path' => $path,
+		'menu_name' => 'main-menu',
+		'type' => MENU_CALLBACK,
+		'expanded' => TRUE,
+	);
+
+	$items['newsletter/email/cancel/%/%'] = array(
+		'title' => 'Cancelar inscrição',
+		'page callback' => 'newsletter_email_cancel',
+		'page arguments' => array(3, 4),
+		'access arguments' => array('access_workshop'),
+		'description' => 'Cancelar inscrição',
+		'file' => 'newsletter.pages.inc',
+		'file path' => $path,
+		'menu_name' => 'main-menu',
+		'type' => MENU_CALLBACK,
+		'expanded' => TRUE,
+	);
+
+	$items['newsletter/user/search'] = array(
+		'title' => 'Procurar usuários',
+		'page callback' => 'newsletter_user_search',
+		'access arguments' => array('administer_workshop'),
+		'description' => 'Procurar usuários pelo nome ou email',
+		'file' => 'newsletter.pages.inc',
+		'file path' => $path,
+		'menu_name' => 'main-menu',
+		'type' => MENU_CALLBACK,
+		'expanded' => TRUE,
+	);
+
+	$items['newsletter/filter'] = array(
+		'title' => 'Filtros de email',
+	    'page callback' => 'drupal_get_form',
+	    'page arguments' => array('newsletter_filter_form'),
+		'access arguments' => array('administer_workshop'),
+		'description' => 'Configurar filtros do e-mail',
+		'file' => 'newsletter.pages.inc',
+		'file path' => $path,
+		'menu_name' => 'main-menu',
+		'type' => MENU_CALLBACK,
+		'expanded' => TRUE,
+	);
+
+	$items['agenda'] = array(
+		'title' => 'Agenda',
+		'page callback' => 'agenda_view',
+		'access arguments' => array('access_workshop'),
+		'description' => 'Agenda do usuário',
+		'file' => 'agenda.pages.inc',
+		'file path' => $path,
+		'menu_name' => 'main-menu',
+		'type' => MENU_NORMAL_ITEM,
+		'expanded' => TRUE,
+	);
+
+	$items['agenda/save'] = array(
+		'title' => 'Salvar um evento',
+		'page callback' => 'agenda_save',
+		'access arguments' => array('administer_workshop'),
+		'description' => 'Salvar um evento (AJAX)',
+		'file' => 'agenda.pages.inc',
+		'file path' => $path,
+		'menu_name' => 'main-menu',
+		'type' => MENU_CALLBACK,
+		'expanded' => TRUE,
+	);
+
+	$items['agenda/update'] = array(
+		'title' => 'Atualiza a data de um evento',
+		'page callback' => 'agenda_update',
+		'access arguments' => array('administer_workshop'),
+		'description' => 'Atualiza a data de um evento (AJAX)',
+		'file' => 'agenda.pages.inc',
+		'file path' => $path,
+		'menu_name' => 'main-menu',
+		'type' => MENU_CALLBACK,
+		'expanded' => TRUE,
+	);
+
+	$items['agenda/update/form/%'] = array(
+		'title' => 'Atualiza um evento',
+		'page callback' => 'agenda_get_form',
+		'access arguments' => array('administer_workshop'),
+		'page arguments' => array('agenda_update_form', 3),
+		'description' => 'Atualiza um evento',
+		'file' => 'agenda.pages.inc',
+		'file path' => $path,
+		'menu_name' => 'main-menu',
+		'type' => MENU_CALLBACK,
+		'expanded' => TRUE,
+	);
+
+	$items['agenda/delete'] = array(
+		'title' => 'Deleta um evento',
+		'page callback' => 'agenda_delete',
+		'access arguments' => array('administer_workshop'),
+		'description' => 'Deletar um evento (AJAX)',
+		'file' => 'agenda.pages.inc',
+		'file path' => $path,
+		'menu_name' => 'main-menu',
+		'type' => MENU_CALLBACK,
+		'expanded' => TRUE,
+	);
+
+	$items['monitor'] = array(
+		'title' => 'Monitor',
+		'page callback' => 'monitor_view',
+		'access arguments' => array('administer_workshop'),
+		'description' => 'Monitor de redes sociais',
+		'file' => 'monitor.pages.inc',
+		'file path' => $path,
+		'menu_name' => 'main-menu',
+		'type' => MENU_NORMAL_ITEM,
+		'expanded' => TRUE,
+	);
+
+	$items['monitor/search'] = array(
+		'title' => 'Procurar por termos',
+		'page callback' => 'monitor_search',
+		'access arguments' => array('administer_workshop'),
+		'description' => 'Procurar por termos',
+		'file' => 'monitor.pages.inc',
+		'file path' => $path,
+		'menu_name' => 'main-menu',
+		'type' => MENU_CALLBACK,
+		'expanded' => TRUE,
+	);
+
+	return $items;
+}
+
+# Implements hook_permission
+function workshop_permission()
+{
+	return array(
+		'administer_workshop' => array(
+			'title' => t('Administrador da Oficina de Criação'),
+		),
+		'access_workshop' => array(
+			'title' => t('Usuário Anônimo'),
+		),
+	);
+}
+
+# Implements hook_theme
+function workshop_theme()
+{
+	return array(
+		'notice' => array(
+			'variables' => array('node' => NULL, 'image' => NULL)
+		 ),
+        'newsletters_page' => array(
+        	'template' => 'newsletters_page',
+            'variables' => array('newsletters' => NULL),
+            'path' => drupal_get_path('module', 'workshop').'/theme'
+        ),
+        'newsletters_page_create' => array(
+        	'template' => 'newsletters_page_create',
+            'variables' => array('newsletters' => NULL),
+            'path' => drupal_get_path('module', 'workshop').'/theme'
+        ),
+        'newsletters_page_edit' => array(
+        	'template' => 'newsletters_page_edit',
+            'variables' => array('nodes' => NULL, 'news_id' => NULL),
+            'path' => drupal_get_path('module', 'workshop').'/theme'
+        ),
+        'newsletters_page_published' => array(
+        	'template' => 'newsletters_page_published',
+            'variables' => array('nodes' => NULL, 'news_id' => NULL, 'mail' => FALSE),
+            'path' => drupal_get_path('module', 'workshop').'/theme'
+        ),
+        'newsletters_page_email' => array(
+        	'template' => 'newsletters_page_email',
+            'variables' => array('users' => NULL, 'result' => NULL, 'fields' => NULL, 'filters' => NULL),
+            'path' => drupal_get_path('module', 'workshop').'/theme'
+        ),
+        'agenda_page' => array(
+        	'template' => 'agenda_page',
+            'variables' => array('events' => NULL),
+            'path' => drupal_get_path('module', 'workshop').'/theme/agenda'
+        ),
+        'monitor_page' => array(
+        	'template' => 'monitor_page',
+            'variables' => array('terms' => NULL, 'orig' => NULL),
+            'path' => drupal_get_path('module', 'workshop').'/theme'
+        ),
+	);
+}
+
+function workshop_cron()
+{
+	if(time() > variable_get('workshop_facebook_token_expiration', 0))
+	{
+		$object = new Facebook();
+		$params['subject'] = "GABINETE VIRTUAL - A chave de permissão do Faceook expirou!";
+		$params['body']    = array("A chave de permissão do Facebook expirou! Por favor renove a sua chave <a href='".$object->getUrlAuthFacebook()."'>clicando aqui!</a>");
+
+		$mail_message = drupal_mail('workshop', 'message', 
+			variable_get('workshop_mail_admin', ''), language_default(),
+			$params, variable_get('workshop_mail', 'boletim-virtual@norepley.com'), FALSE);
+	}
+}
+
+function workshop_mail($key, &$message, $params)
+{
+    switch ($key)
+    {
+      case 'newsletter':
+        $hash = md5(rand());
+
+        $headers = array(
+            'MIME-Version' => '1.0',
+            'Content-Type' => "multipart/mixed; boundary=\"".$hash."\"",
+            'Content-Transfer-Encoding' => 'base64',
+            'X-Mailer' => 'Drupal'
+        );
+
+        foreach ($headers as $key => $value)
+        {
+            $message['headers'][$key] = $value;
+        }
+
+        foreach($params['body'] as $body)
+        {
+            $body_ = drupal_html_to_text($body);
+            $body_ = substr($body_, 635, strlen($body_));
+
+            $multipart = "--".$hash."\n"
+                ."Content-Type: text/plain; charset=UTF-8; format=flowed; delsp=yes\n"
+                ."Content-Transfer-Encoding: base64\n\n"
+                ."\n".$body_."\n";
+
+            $multipart .= "\n--".$hash."\n"
+                ."Content-Type: text/html; charset=UTF-8; format=flowed; delsp=yes\n"
+                ."Content-Transfer-Encoding: base64\n"
+                ."\n".$body."\n"
+            	."--".$hash."--";
+        }
+
+        $message['subject'] = $params['subject'];
+        $message['body'] = array($multipart);
+      	break;
+
+    case 'message':
+       $hash = md5(rand());
+
+        $headers = array(
+            'MIME-Version' => '1.0',
+            'Content-Type' => "multipart/mixed; boundary=\"".$hash."\"",
+            'Content-Transfer-Encoding' => 'base64',
+            'X-Mailer' => 'Drupal'
+        );
+
+        foreach ($headers as $key => $value)
+        {
+            $message['headers'][$key] = $value;
+        }
+
+        foreach($params['body'] as $body)
+        {
+            $body_ = drupal_html_to_text($body);
+
+            $multipart = "--".$hash."\n"
+                ."Content-Type: text/plain; charset=UTF-8; format=flowed; delsp=yes\n"
+                ."Content-Transfer-Encoding: base64\n\n"
+                ."\n".$body_."\n";
+
+            $multipart .= "\n--".$hash."\n"
+                ."Content-Type: text/html; charset=UTF-8; format=flowed; delsp=yes\n"
+                ."Content-Transfer-Encoding: base64\n"
+                ."\n".$body."\n"
+            	."--".$hash."--";
+        }
+
+        $message['subject'] = $params['subject'];
+        $message['body'] = array($multipart);
+    	break;
+    
+      default:
+        break;
+    }
+}
+
+function workshop_node_presave($node)
+{
+	$fields = new stdClass();
+
+	$fields->field_video       = 'workshop_video';
+	$fields->field_audio       = 'workshop_audio';
+	$fields->field_publicacoes = 'workshop_publicacoes';
+
+	foreach ($fields as $key => $value)
+	{
+		$newKey = $key."_type";
+		$arr = $node->$key;
+		if (!empty($arr['und']))
+		{
+			$node->type = $value;
+			$node->$newKey = $node->$key;
+			unset($node->$key);
+		}
+	}
+}
+
+function workshop_form_alter(&$form, $form_state, $form_id)
+{
+	switch($form_id)
+	{ 
+		case 'workshop_node_form':
+
+			$form = unsetFormFields($form);
+
+			$form['#after_build'][] = 'workshop_node_form_node_form_after_build';
+
+			$options = array();
+
+			if(variable_get('workshop_facebook_access_token', null))
+			{
+				$options['facebook'] = 'Facebook';
+			}
+			if(variable_get('workshop_twitter_oauth_token', null))
+			{
+				$options['twitter'] = 'Twitter';
+			}
+
+			if(isset($options) && !empty($options))
+			{
+				$form['socialnetworks'] = array(
+					'#type'          => 'checkboxes',
+					'#title'         => t('Postar matéria em redes sociais:'),
+					'#options' 		 => $options,
+					'#description'   => t('Selecione as redes sociais para postar o conteúdo da matéria.'),
+					'#required'		 => FALSE,
+					'#weight'        => 10,
+				);
+			    $form['#validate'][] = 'socialnetworks_custom_validate_function';
+			    $form['#submit'][] = 'socialnetworks_custom_submit_function';
+
+			    return $form;
+			}
+		break;
+	}
+}
+
+function workshop_node_form_node_form_after_build($form)
+{
+	unset($form['body']['und'][0]['format']['guidelines']);
+    return $form;
+}
+
+function socialnetworks_custom_validate_function($form, &$form_state)
+{
+	if (!form_get_errors())
+	{
+		return;
+	}
+}
+
+function socialnetworks_custom_submit_function($form, &$form_state)
+{
+	$facebook = new Facebook();
+
+	$twitter = new Twitter(variable_get('workshop_twitter_oauth_consumer_key'), 
+		variable_get('workshop_twitter_oauth_consumer_secret'));
+
+	$message = $form_state['values']['title'];
+	$link = 'http://'.$_SERVER['SERVER_NAME'].'/node/'.$form_state['values']['nid'];
+
+	foreach ($form_state['values']['socialnetworks'] as $value)
+	{
+		if($value === "facebook")
+		{
+			$response = $facebook->publishMessageFacebook($message, $link);
+
+			if($response)
+			{
+				drupal_set_message("Mensagem postada no Facebook com sucesso!");
+			} 
+			else 
+			{
+				form_set_error("error", "Não foi possível postar esta matéria no Facebook");
+			}
+
+		} 
+		else if($value === "twitter")
+		{
+			$response = $twitter->publishMessageTwitter($message);
+
+			if($response)
+			{
+				drupal_set_message("Mensagem postada no Twitter com sucesso!");
+			} 
+			else 
+			{
+				form_set_error("error", "Não foi possível postar esta matéria no Twitter");
+			}
+		}
+	}
+	return;
+}
+
+function unsetFormFields($form)
+{
+	unset($form['menu']);
+	unset($form['body_field']['format']);
+	unset($form['revision_information']);
+	unset($form['path']);
+	unset($form['attachments']);
+	unset($form['author']);
+	unset($form['options']);
+	unset($form['comment_settings']);
+	unset($form['actions']['preview']);
+	return $form;
+}

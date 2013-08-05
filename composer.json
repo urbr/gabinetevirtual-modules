@@ -1,0 +1,15 @@
+{
+    "name": "urucumbrasil/modules-gabinetevirtual",
+    "description": "Módulo Gabinete Virtual para gestão de conteúdo em Drupal 7.x",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "Urucum Brasil",
+            "email": "urucum@urucumbrasil.com.br"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.3.0"
+    }
+}

@@ -1,0 +1,17 @@
+ERROS ENCONTRADOS NO CORE DO DRUPAL COM SUAS DEVIDAS CORREÇÕES:
+
+######## CORRIGIDO ########
+ERRO: Notice: Undefined property: stdClass::$comment_count in comment_node_page_additions()
+LINK: http://drupal.org/node/1020658
+ARQUIVO: modules/comment/comment.module
+CORREÇÃO:
+LINHA 728: !empty($node->comment_count)
+
+######## CORRIGIDO ########
+ERRO: Notice: Undefined index: homepage in comment_form_validate()
+ERRO: Notice: Undefined index: mail in comment_form_validate()
+LINK:
+ARQUIVO: modules/comment/comment.module
+CORREÇÃO:
+LINHA 2140: !empty($form_state['values']['mail'])
+LINHA 2143: !empty($form_state['values']['homepage'])

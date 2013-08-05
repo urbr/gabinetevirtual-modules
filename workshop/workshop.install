@@ -1,0 +1,151 @@
+<?php
+
+function workshop_schema()
+{
+  $schema['newsletter'] = array(
+   'description' => 'Tabela dos boletins publicados',
+   'fields' => array(
+      'id' => array(
+        'description' => 'Identificador primário da tabela',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'uid' => array(
+        'description' => 'Identificador do usuário',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'nid' => array(
+        'description' => 'Identificador da matéria',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'title' => array ( 
+        'description' => 'Título de uma matéria',
+        'type' => 'text',
+        'not null' => TRUE,
+      ),
+      'content' => array (
+        'description' => 'Conteúdo de uma matéria',
+        'type' => 'text',
+        'not null' => TRUE,
+      ),
+      'created' => array (
+        'description' => 'Data de criação',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'news_id' => array (
+        'description' => 'Id do newsletter',
+        'type' => 'varchar',
+        'length' => 8,
+        'not null' => TRUE,
+      ),
+    ),
+   'primary key' => array('id'),
+  );
+
+  $schema['agenda'] = array(
+   'description' => 'Tabela de eventos da agenda',
+   'fields' => array(
+      'id' => array(
+        'description' => 'Identificador primário da tabela',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'title' => array(
+        'description' => 'Título do evento',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+      ),
+      'start_date' => array(
+        'description' => 'Data de início do evento',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'end_date' => array ( 
+        'description' => 'Data final do evento',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'fname' => array (
+        'description' => 'Primeiro nome do usuário',
+        'type' => 'varchar',
+        'length' => 50,
+        'not null' => TRUE,
+      ),
+      'lname' => array (
+        'description' => 'Último nome do usuário',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+      ),
+      'event_color' => array (
+        'description' => 'Cor do evento',
+        'type' => 'varchar',
+        'length' => 7,
+        'not null' => TRUE,
+      ),
+      'text_color' => array (
+        'description' => 'Cor do texto do evento',
+        'type' => 'varchar',
+        'length' => 7,
+        'not null' => TRUE,
+      ),
+      'created' => array (
+        'description' => 'Data de criação',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+    ),
+   'primary key' => array('id'),
+  );
+
+  $schema['newsletter_filter'] = array(
+   'description' => 'Tabela de filtros de email',
+   'fields' => array(
+      'id' => array(
+        'description' => 'Identificador primário da tabela',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'field' => array(
+        'description' => 'Filtros de email',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+      ),
+      'status' => array(
+        'description' => 'Status do filtro, (0 = Desativado / 1 = Ativado)',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+    ),
+   'primary key' => array('id'),
+  );
+
+  return $schema;
+}
+
+function workshop_install()
+{
+  drupal_install_schema('workshop');
+}
+
+function workshop_uninstall()
+{
+  #Deleta o node type
+  //node_type_delete('workshop');
+  //node_type_delete('contatos');
+}

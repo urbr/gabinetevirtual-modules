@@ -1,0 +1,16 @@
+name = Gabinete Virtual
+description = Módulo para gestão de conteúdo
+package = "Gabinete Virtual"
+configure = admin/config/gabinete-virtual/parameters
+core = 7.x
+php = 5.3
+
+files[] = workshop.install
+files[] = workshop.module
+
+dependencies[] = form_workshop
+dependencies[] = wysiwyg
+dependencies[] = date
+
+version = "7.15"
+project = "Gabinete Virtual"
