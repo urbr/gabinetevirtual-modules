@@ -264,10 +264,6 @@
 				this.jqyObj.removeClass();
 			}
 		};
-
-		this.addId = function(id){
-			this.jqyObj.attr('id', id);
-		}
 		
 		/**
 		 * Add the "more" link div and renders it. If you add a more link and one is already there
@@ -2930,7 +2926,6 @@
 			data: dataObj,
 			displayProp: displayPropObj
 		};
-
 		return agendaData;	
 	};
 	/**

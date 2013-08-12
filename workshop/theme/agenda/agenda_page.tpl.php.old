@@ -7,6 +7,11 @@
 <!-- Include CSS for JQuery UI (Required for calendar plugin.) -->
 <link rel="stylesheet" type="text/css" href="sites/all/modules/workshop/theme/agenda/css/jquery-ui/smoothness/jquery-ui-1.8.1.custom.css" />
 
+<!-- CSS DO BRUNNO-->
+
+<link rel="stylesheet" href="http://bolsafamilia.urucumbrasil.com.br/themes/bolsa/css/homegabinete.css" type="text/css" media="all">
+
+
 <!--
 Include JQuery Core (Required for calendar plugin)
 ** This is our IE fix version which enables drag-and-drop to work correctly in IE. See README file in sites/all/modules/workshop/theme/agenda/sites/all/modules/workshop/theme/agenda/js/jquery-core folder. **
@@ -31,7 +36,7 @@ Include JQuery Core (Required for calendar plugin)
 <script type="text/javascript" src="sites/all/modules/workshop/theme/agenda/js/lib/jshashtable-2.1.js"></script>
 
 <!-- Include JQuery Frontier Calendar plugin -->
-<script type="text/javascript" src="sites/all/modules/workshop/theme/agenda/js/frontierCalendar/jquery-frontier-cal-1.3.2.js"></script>
+<script type="text/javascript" src="sites/all/modules/workshop/theme/agenda/js/frontierCalendar/jquery-frontier-cal-1.3.2.min.js"></script>
 
 
 <!-- Some CSS for our example. (Not required for calendar plugin. Used for example.)-->
@@ -54,24 +59,6 @@ body { font-size: 62.5%; }
 	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#aaaaaa');
 }
 </style>
-
-<script type="text/javascript">
-	function show_hide_event(element_id,check) {
-		if ($(check).is(':checked')) {
-			$(element_id).show();
-		} else {
-			$(element_id).hide();
-		}
-	}
-	function jqCheckAll() {
-		$("INPUT[@name=check_calendars][type='checkbox']").attr('checked', true);
-		$('.events').show();
-	}
-	function jqUncheckAll() {
-		$("INPUT[@name=check_calendars][type='checkbox']").attr('checked', false);
-		$('.events').hide();
-	}
-</script>
 
 <script type="text/javascript">
 $(document).ready(function(){	
@@ -302,7 +289,6 @@ $(document).ready(function(){
 		$("#dateSelect").datepicker("setDate",cyear+"-"+(cmonth+1)+"-"+cday);
 		var data = new Array("Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro");
 		document.getElementById("boxMonth").innerHTML = "<h3>" + data[cmonth] + " - " + cyear + "</h3>";
-		hideEvents();
 		return false;
 	});
 	/**
@@ -321,7 +307,6 @@ $(document).ready(function(){
 		$("#dateSelect").datepicker("setDate",cyear+"-"+(cmonth+1)+"-"+cday);
 		var data = new Array("Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro");
 		document.getElementById("boxMonth").innerHTML = "<h3>" + data[cmonth] + " - " + cyear + "</h3>";
-		hideEvents();
 		return false;
 	});
 
@@ -644,38 +629,9 @@ $(document).ready(function(){
 	 	);
 	 <?php  endforeach; ?>
 
-	 function hideEvents(){
-	 	$(".events").hide();
-	 }
-
 	});
 </script>
 
-<div class="col_calendar">
-	<div class="portlet-header">
-	    <div class="portlet-title">
-	      <h3 id="calendar_portal_portlet">Calendário</h3>
-	    </div>
-	 </div>
-	<div class="color_666">
-		<a href="#calendar" onclick="javascript:jqCheckAll()">Marcar Todos</a> | <a href="#calendar" onclick="javascript:jqUncheckAll();">Limpar</a>
-	</div>
-	<br/>
-	<?php
-		$users = db_query("SELECT DISTINCT(fname) as name FROM agenda");
-		foreach ($users as $user)
-		{
-			$randomColor = dechex(rand(9999,10000000));
-			$rgb = rand(0,200) . ',' . rand(0,200) . ',' . rand(0,200);
-			echo '<div class=" user" style="background-color:rgb('.$rgb.');">
-					  <input name="check_calendars" onclick="javascript:show_hide_event('.$user->name.',this);" type="checkbox">
-					  '.$user->name.'
-					  <br>
-				  </div>';
-		}
-	?>
-</div>
-</p>
 <div  class="ui-widget-header ui-corner-all" style="padding:3px; vertical-align: middle; white-space:nowrap; overflow: hidden;">
 	<button id="BtnPreviousMonth">Mês Anterior</button>
 	<button id="BtnNextMonth">Próximo Mês</button>

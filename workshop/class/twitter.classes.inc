@@ -34,7 +34,7 @@ class Twitter
             $this->params['consumer_key']    = $consumerKey;
             $this->params['consumer_secret'] = $consumerSecret;
             $this->params['nonce']           = md5(microtime() . mt_rand());
-            $this->params['timestamp']       = time();
+            $this->params['timestamp']       = mktime();
             $this->params['callback']        = $_SERVER['SERVER_NAME'] . "/socialnetworks/twitter";
             $this->tokens                    = new stdClass;
         } 

@@ -1,5 +1,15 @@
 <script type="text/javascript" src="sites/all/libraries/tinymce_4.02b/js/tinymce/tinymce.min.js"></script>
 
+<script type="text/javascript">
+	tinyMCE.init({
+	   mode : "textareas", 
+	   theme : "modern",	
+	   valid_elements :"*[*]",
+	   editor_selector :"description textareaG",
+       height: "200",
+	});
+</script>
+
 <style type="text/css">
 
 .button {
@@ -130,7 +140,6 @@ td img {
 											$node = (is_array($node)) ? $node[0] : $node;
 											$content = (is_array($node)) ? $node[0]->content : (isset($node->body)) ? $node->body['und'][0]['value'] : $node->content;
 											$content = (count((array)$nodes) == 1) ? $content : substr(drupal_html_to_text($content), 0, 170);
-											$content_ = substr(drupal_html_to_text($content), 0, 110);
 
 											if($i < 3){
 												print '<table border="0" cellpadding="3" class="boxNews">';
@@ -155,26 +164,12 @@ td img {
 												print '		 	<td '.$colspan.' valign="top">';
 												print '				<label>Descri&ccedil;&atilde;o da mat&eacute;ria '.$i.':</label>';
 												$class = ($i < 3) ? 'description textareaG' : 'description textareaP';
-												$cont = ($i < 3) ? $content : $content_;
-												print '				<textarea class="'.$class.'" name="publish_body_'.$node->nid.'" rows="3" cols="28">'.$cont.'</textarea>';
+												print '				<textarea class="'.$class.'" name="publish_body_'.$node->nid.'" rows="3" cols="28">'.$content.'</textarea>';
 												print '			 </td>
 															  </tr>';
 												print '	   </table>';
 											}
 											$i++;
-										}
-										if($i <= 2){
-											?>
-												<script type="text/javascript">
-													tinyMCE.init({
-													   mode : "textareas", 
-													   theme : "modern",	
-													   valid_elements :"*[*]",
-													   editor_selector :"description textareaG",
-												       height: "200",
-													});
-												</script>
-											<?php
 										}
 									?>
 

@@ -1,9 +1,7 @@
 <?php
 
 # Retorna um formulário de um tipo de conteúdo
-
-function workshop_get_node_type_form($type)
-{
+function workshop_get_node_type_form($type){
   ctools_include('node.pages', 'node', '');
   global $user;
   $node = new stdClass;

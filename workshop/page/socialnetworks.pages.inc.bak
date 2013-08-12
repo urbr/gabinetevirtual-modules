@@ -2,13 +2,8 @@
 
 function socialnetworks_form($form, &$form_state){
 	
-	$facebook = new Facebook();
-
-  $twitter = new Twitter(variable_get('workshop_twitter_oauth_consumer_key', null), 
-    variable_get('workshop_twitter_oauth_consumer_secret', null));
-
-	$accessToken = variable_get('workshop_facebook_access_token', '');
-  $oauthToken  = variable_get('workshop_twitter_oauth_token', '');
+	$object = new Facebook();
+	$AccessToken = variable_get('workshop_facebook_access_token', '');
 
   $form['facebook'] = array(
     '#prefix' => '<p><b><h1>' . t('Configurações de redes sociais') . '</h1></b></p>
@@ -19,19 +14,19 @@ function socialnetworks_form($form, &$form_state){
     '#collapsed' => TRUE,
   );
 
-  if(empty($accessToken)){
-    $form['facebook']['login'] = array(
-      '#type' => 'fieldset',
-      '#title' => t('<b>1&deg; PASSO -&nbsp;</b> Autorizar aplicativo do Gabinete Virtual'),
-      '#collapsible' => TRUE,
-      '#collapsed' => TRUE,
-    );
+  $form['facebook']['login'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('<b>1&deg; PASSO -&nbsp;</b> Autorizar aplicativo do Gabinete Virtual'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
 
+  if(empty($AccessToken)){
     $form['facebook']['login']['login_link'] = array(
       '#prefix' => '<p><font color="green"><p>' . t('Atenção: Você precisa se conectar com o Facebook para autorizar o aplicativo do Gabinete Virtual.') . '</font></p>',
       '#type' => 'link',
       '#title' => t('Clique aqui para autorizar o aplicativo no Facebook'),
-      '#href' => $facebook->getUrlAuthFacebook(),
+      '#href' => $object->getUrlAuthFacebook(),
     );
   }
 
@@ -42,14 +37,14 @@ function socialnetworks_form($form, &$form_state){
     '#collapsed' => TRUE,
   );
 
-  if(!empty($accessToken)){
+  if(!empty($AccessToken)){
 
     $pages = array();
-    foreach ($facebook->getAllPages() as $value) {
+    foreach ($object->getAllPages() as $value) {
       $pages[$value->access_token] = $value->name.t(" (".$value->category.")");
     }
     if(empty($pages)){
-      $pages[$accessToken] = "Perfil Pessoal - (Nenhuma página encontrada)";
+      $pages[$AccessToken] = "Perfil Pessoal - (Nenhuma página encontrada)";
     }
 
     $form['facebook']['accounts']['pages'] = array(
@@ -76,28 +71,12 @@ function socialnetworks_form($form, &$form_state){
     '#collapsed' => TRUE,
   );
 
-  if(empty($oauthToken)){
-    $form['twitter']['login'] = array(
-      '#type' => 'fieldset',
-      '#title' => t('<b>1&deg; PASSO -&nbsp;</b> Autorizar aplicativo do Gabinete Virtual'),
-      '#collapsible' => TRUE,
-      '#collapsed' => TRUE,
-    );
-
-    $form['twitter']['login']['login_link'] = array(
-      '#prefix' => '<p><font color="green"><p>' . t('Atenção: Você precisa se conectar ao Twitter para autorizar o aplicativo do Gabinete Virtual.') . '</font></p>',
-      '#type' => 'link',
-      '#title' => t('Clique aqui para autorizar o aplicativo no Twitter'),
-      '#href' => $twitter->getUrlAuthTwitter(),
-    );
-  } else {
-    $form['twitter']['confirmed'] = array(
-      '#prefix' => '<p><font color="green"><p>' . t('O Twitter está configurado!') . '</font></p>',
-      '#type' => 'link',
-      '#title' => t(''),
-      '#href' => '',
-    );
-  }
+  $form['twitter']['login'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Autorizar aplicativo do Gabinete Virtual'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
 
 	return $form;
 }
@@ -119,31 +98,19 @@ function socialnetworks_facebook(){
 	if(!empty($_GET['code'])){
 
 		variable_set('workshop_facebook_code', $_GET['code']);
-		$facebook = new Facebook();
+		$object = new Facebook();
 
-		if($facebook->setAccessTokenFacebook($_GET['code'])){
+		if($object->setAccessTokenFacebook($_GET['code'])){
       variable_set('workshop_facebook_token_expiration', time() + 86400*30*2);
 			drupal_set_message("Aplicativo autorizado com sucesso!<p>
         Por favor verifique o <b>2&deg; PASSO.</b></p>");
-		} else {
-      form_set_error("error", "Não foi possível obter nenhuma resposta do Facebook, por favor tente novamente mais tarde");
-    }
+			drupal_goto("socialnetworks");
+		}
+    form_set_error("error", "Não foi possível obter nenhuma resposta do Facebook, por favor tente novamente mais tarde");
+    drupal_goto("socialnetworks");
+
 	} else {
 		form_set_error("error", "Não foi possível obter nenhuma resposta do Facebook, por favor tente novamente mais tarde");
+		drupal_goto("agenda");
 	}
-  drupal_goto("socialnetworks");
-}
-
-function socialnetworks_twitter(){
-  $twitter = new Twitter(variable_get('workshop_twitter_oauth_consumer_key', null), 
-      variable_get('workshop_twitter_oauth_consumer_secret', null));
-  if(!empty($_GET['oauth_verifier']) && !empty($_GET['oauth_token'])){
-
-    if($twitter->oauthVerifier($_GET['oauth_token'], $_GET['oauth_verifier'])){
-      drupal_set_message("As configurações do Twitter foram finalizadas com sucesso!");
-    } else {
-      form_set_error("error", "Não foi possível obter nenhuma resposta do Twitter, por favor tente novamente mais tarde");
-    }
-  }
-  drupal_goto("socialnetworks");
 }

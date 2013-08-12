@@ -4,8 +4,8 @@
 
 #FORMULÁRIO PRINCIPAL
 
-function workshop_admin_settings()
-{
+function workshop_admin_settings(){
+
   $form['workshop_menu'] = array(
     '#type'          => 'checkboxes',
     '#title'         => t('Funcionalidades disponíveis para o cliente'),
@@ -108,8 +108,7 @@ function workshop_admin_settings()
   return system_settings_form($form);
 }
 
-function workshop_admin_settings_validate($form, &$form_state)
-{
+function workshop_admin_settings_validate($form, &$form_state){
 	if(!valid_email_address($form_state['values']['workshop_mail']))
 		form_set_error("error", "Digite um e-mail válido!");
 }

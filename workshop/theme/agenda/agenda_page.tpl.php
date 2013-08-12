@@ -643,7 +643,7 @@ $(document).ready(function(){
 		 	}
 	 	);
 	 <?php  endforeach; ?>
-	 $(".events").hide();
+ 	 $(".events").hide();
 
 	 function hideEvents(){
 	 	$(".events").hide();
@@ -659,7 +659,7 @@ $(document).ready(function(){
 	    </div>
 	 </div>
 	<div class="color_666">
-		<a href="#calendar" onclick="javascript:jqCheckAll()">Marcar Todos</a> | <a href="#calendar" onclick="javascript:jqUncheckAll();">Limpar</a>
+		<a href="#calendar" onclick="javascript:jqCheckAll()">Marcar Todos</a> | <a href="#calendar" onclick="javascript:jqUncheckAll();">Limpar</a><?php if(user_access('administer_workshop')){ print ' | <a href="/agenda/aprovar">Aprovar agendas públicas</a>'; } ?>
 	</div>
 	<br/>
 	<?php

@@ -16,23 +16,21 @@ class Facebook {
 
 	private $redirect_uri;
 	
-	public function Facebook()
-	{
+	public function Facebook(){
 		$this->redirect_uri = url("socialnetworks/facebook/", array('absolute'=>TRUE));
 	}
 
-	public function getUrlAuthFacebook()
-	{
+	public function getUrlAuthFacebook(){
+
 		return "http://www.facebook.com/dialog/oauth?"
 		   . "client_id=" . variable_get('workshop_facebook_app_id')
 		   . "&redirect_uri=" . urlencode($this->redirect_uri)
 		   . "&scope=publish_stream";
 	}
 
-	public function setAccessTokenFacebook($code)
-	{
-		if(!empty($code))
-		{
+	public function setAccessTokenFacebook($code){
+
+		if(!empty($code)){
 		    $token_url="https://graph.facebook.com/oauth/access_token?"
 		      . "client_id=" . variable_get('workshop_facebook_app_id')
 		      . "&client_secret=" . variable_get('workshop_facebook_app_secret')
@@ -49,24 +47,21 @@ class Facebook {
 		return false;
 	}
 
-	public function getUserId($access_token)
-	{
+	public function getUserId($access_token){
 	    $uid_url = "https://graph.facebook.com/me?fields=id&access_token=".$access_token;
 	    return json_decode(file_get_contents($uid_url))->id;
 	}
 
-	public function getAllPages()
-	{
+	public function getAllPages(){
 		$pages_url = "https://graph.facebook.com/me/accounts?access_token="
 			. variable_get('workshop_facebook_access_token');
 
 		return json_decode(file_get_contents($pages_url))->data;
 	}
 
-	public function publishMessageFacebook($message = '', $link = '')
-	{
-		if(!empty($message) && !empty($link))
-		{ 
+	public function publishMessageFacebook($message = '', $link = ''){
+
+		if(!empty($message) && !empty($link)){ 
 		    $graph_url= "https://graph.facebook.com/"
 		      . variable_get('workshop_facebook_uid') . "/feed?"
 		      . "message=" . urlencode($message)

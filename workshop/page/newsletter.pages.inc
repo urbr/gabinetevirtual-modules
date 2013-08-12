@@ -2,10 +2,10 @@
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ INICIO NEWSLETTER @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#
 
-#INDEX DA NEWSLETTER
+# INDEX DA NEWSLETTER
 
-function newsletter()
-{
+function newsletter(){
+
 	$newsletters = db_select('newsletter', 'nl')->distinct()
 	->fields('nl', array('news_id', 'created'))
 	->orderBy('created', 'DESC')
@@ -14,13 +14,13 @@ function newsletter()
 
 	return theme('newsletters_page', array('newsletters' => $newsletters));
 }
-#FIM INDEX DA NEWSLETTER
+# FIM INDEX DA NEWSLETTER
 
 
 #GERAR FORMULÁRIO DE CRIAÇÃO DE NEWSLETTER
 
-function newsletter_create()
-{
+function newsletter_create(){
+
 	$result = db_select('node', 'n')
 	->fields('n', array('nid', 'title', 'created'))	
 	->condition('n.type', 'workshop')	
@@ -29,8 +29,7 @@ function newsletter_create()
 
 	$newsletter = array();
 
-	foreach ($result as $res)
-	{
+	foreach ($result as $res) {
 		$newsletter[] = array(
 			'nid' => $res->nid,
 			'title' => $res->title,
@@ -45,23 +44,19 @@ function newsletter_create()
 
 #GERAR FORMULÁRIO DE EDIÇÃO (APÓS SER CRIADO)
 
-function newsletter_edit()
-{
-	if(!empty($_POST['news_items']))
-	{
+function newsletter_edit(){
+
+	if(!empty($_POST['news_items'])){
 		$nids = explode(" ", $_POST['news_items']);
 
 		$result = new stdClass();
 
-		foreach ($nids as $nid)
-		{
+		foreach ($nids as $nid) {
 			if(is_numeric($nid))
 				$result->$nid = node_load($nid);
 		}
 		return theme('newsletters_page_edit', array('nodes' => $result));
-	} 
-	else 
-	{
+	} else {
 		drupal_goto("/newsletter/create");
 	}
 }
@@ -70,29 +65,24 @@ function newsletter_edit()
 
 #SALVAR A EDIÇÃO DE UM NEWSLETTER
 
-function newsletter_edit_save()
-{
+function newsletter_edit_save(){
+
 	global $user;
 
-	$news_id = isset($_POST['newsletter_id']) ? $_POST['newsletter_id'] : hash("adler32", uniqid(rand(), true));
+	$news_id = isset($_POST['newsletter_id']) ? $_POST['newsletter_id'] : hash("adler32", time());
 
-	foreach($_POST as $key => $value)
-	{
+	foreach($_POST as $key => $value){
 		$nid = explode('publish_title_', $key);
 		if(array_key_exists(1, $nid))
-			if(is_numeric($nid[1]))
-			{
+			if(is_numeric($nid[1])){
 				@$title[$nid[1]]   = $_POST['publish_title_'.$nid[1]];
 				@$content[$nid[1]] = $_POST['publish_body_'.$nid[1]];
 			}
 	}
 
-	foreach ($title as $key => $value)
-	{
-		try
-		{
-			if(!isset($_POST['newsletter_id']))
-			{
+	foreach ($title as $key => $value) {
+		try{
+			if(!isset($_POST['newsletter_id'])){
 				$new = db_insert('newsletter')
 				->fields(array(
 					'uid' => $user->uid,
@@ -102,9 +92,7 @@ function newsletter_edit_save()
 					'created' => time(),
 					'news_id' => $news_id,
 				))->execute();
-			} 
-			else 
-			{
+			} else {
 				db_update('newsletter')
 				->fields(array(
 					'uid' => $user->uid,
@@ -115,10 +103,8 @@ function newsletter_edit_save()
 				->condition('news_id', $news_id)
 				->execute();
 			}
-		} 
-		catch(Exception $e)
-		{
-			drupal_goto("newsletter/create");
+		}catch(Exception $e){
+			drupal_goto("/newsletter/create");
 		}
 	}
 
@@ -130,10 +116,10 @@ function newsletter_edit_save()
 
 #GERAR FORMULÁRIO DE EDIÇÃO DE NEWSLETTER PELO ID
 
-function newsletter_edit_item($newsletter_id)
-{
-	if(!empty($newsletter_id))
-	{
+function newsletter_edit_item($newsletter_id){
+
+	if(!empty($newsletter_id)){
+
 		$query = db_select('newsletter', 'nl')
 		->fields('nl', array('nid'))
 		->condition('nl.news_id', $newsletter_id, '=')	
@@ -143,8 +129,7 @@ function newsletter_edit_item($newsletter_id)
 
 		$result = new stdClass();
 
-		foreach ($query as $res)
-		{
+		foreach ($query as $res) {
 				$nid = $res->nid;
 
 				$result->$nid = db_select('newsletter', 'nl')
@@ -158,9 +143,7 @@ function newsletter_edit_item($newsletter_id)
 
 		return theme('newsletters_page_edit', array('nodes' => $result, 'news_id' => $newsletter_id));
 
-	} 
-	else 
-	{
+	} else {
 		drupal_goto("/newsletter/create");
 	}
 }
@@ -169,8 +152,8 @@ function newsletter_edit_item($newsletter_id)
 
 #VISUALIZAR NEWSLETTER PELO ID
 
-function newsletter_view($newsletter_id)
-{
+function newsletter_view($newsletter_id){
+
 	$result = db_select('newsletter', 'nl')
 	->fields('nl')
 	->condition('nl.news_id', $newsletter_id, '=')
@@ -178,12 +161,9 @@ function newsletter_view($newsletter_id)
 	->execute()
 	->fetchAll();
 
-	if($result)
-	{
+	if($result){
 		print theme('newsletters_page_published', array('nodes' => $result, 'news_id' => $newsletter_id));
-	} 
-	else 
-	{
+	} else {
 		drupal_goto();
 	}
 }
@@ -191,39 +171,43 @@ function newsletter_view($newsletter_id)
 
 #FORMULÁRIO P/ ENVIO DE E-MAIL
 
-function newsletter_send($form, $news_id)
-{
+function newsletter_send($form, $news_id){
 	return drupal_get_form($form, $news_id);
 }
 
-function newsletter_send_form($form, &$form_state, $news_id)
-{
+function newsletter_send_form($form, &$form_state, $news_id){
+
+	// Iniciamos o "contador"
+	list($usec, $sec) = explode(' ', microtime());
+	$script_start = (float) $sec + (float) $usec;
+	 
+	/* SEU CÓDIGO PHP */
+
+	$result = db_select('node', 'n')
+	->fields('n', array('nid'))
+	->condition('n.type', 'contatos', '=')
+	->execute();
+
 	$fields = field_info_instances("node", "contatos");
 
-	foreach (getFieldsNewsletter() as $value)
-	{
+	foreach (getFieldsNewsletter() as $value) {
 		if(isset($fields[$value]))
 			unset($fields[$value]);
 	}
 
-	foreach ($fields as $key => $value)
-	{
-		$field[]  = "{$key}_value";
-		$join[]   = "INNER JOIN field_data_{$key} AS $key ON {$key}.entity_id = n.nid";
-	}
+	while ($res = $result->fetchObject()) {
+		foreach ($fields as $key => $value) {
 
-	$field = implode(',', $field);
-	$join  = implode(' ', $join);
+			$name = str_replace('field_', '', $key);
 
-	$query = db_query("SELECT DISTINCT {$field} FROM node AS n {$join}");
+			$field = db_select("field_data_".$key, 'f')
+				->fields('f', array("field_".$name."_value"))
+				->condition('f.entity_id', $res->nid, '=')
+				->execute()
+				->fetchField();
 
-	while ($res = $query->fetchObject())
-	{
-		foreach ($fields as $key => $value)
-		{
-			$k = "{$key}_value";
-			$values[$key][$res->$k] = $res->$k;
-			$options[$key] = str_replace('field_', '', $key);
+			$values[$key][$field] = $field;
+			$options[$key] = $name;
 		}
 	}
 
@@ -248,7 +232,7 @@ function newsletter_send_form($form, &$form_state, $news_id)
 	);
 	*/
 
-	//Comentar o array $form['field']['all'] caso o bloco acima seja descomentado
+	//Comentar esse bloco caso o bloco acima seja descomentado
 	$form['field']['all'] = array(
 	  '#type' => 'hidden', 
 	  '#default_value' => 1,
@@ -274,24 +258,24 @@ function newsletter_send_form($form, &$form_state, $news_id)
         '#suffix' => '</div>'
     );
 
+    // Terminamos o "contador" e exibimos
+list($usec, $sec) = explode(' ', microtime());
+$script_end = (float) $sec + (float) $usec;
+$elapsed_time = round($script_end - $script_start, 5);
+
+echo 'Elapsed time: ', $elapsed_time, ' secs. Memory usage: ', round(((memory_get_peak_usage(true) / 1024) / 1024), 2), 'Mb';
+
 	return $form;
 }
 
-function newsletter_send_form_validate($form, &$form_state)
-{
+function newsletter_send_form_validate($form, &$form_state){
 	$status = FALSE;
-	if(!empty($form_state['values']['news_id']))
-	{
-		if (!form_get_errors())
-		{
-			if($form_state['values']['all'] == "1")//não selecionar nenhuma categoria
-			{ 
-				foreach($form_state['values'] as $key => $value)
-				{
-					if(is_array($form_state['values'][$key]))
-					{
-						foreach($form_state['values'][$key] as $k)
-						{
+	if(!empty($form_state['values']['news_id'])){
+		if (!form_get_errors()){
+			if($form_state['values']['all'] == "1"){ //não selecionar nenhuma categoria
+				foreach($form_state['values'] as $key => $value){
+					if(is_array($form_state['values'][$key])){
+						foreach($form_state['values'][$key] as $k){
 							if($k != "0")
 								$status = TRUE;
 						}
@@ -305,8 +289,8 @@ function newsletter_send_form_validate($form, &$form_state)
 		form_set_error("field", t("Selecione uma condição antes de enviar o e-mail!"));
 }
 
-function newsletter_send_form_submit($form, &$form_state)
-{
+function newsletter_send_form_submit($form, &$form_state){
+
 	$news_id = $form_state['values']['news_id'];
 
 	$result = db_select('newsletter', 'nl')
@@ -322,27 +306,22 @@ function newsletter_send_form_submit($form, &$form_state)
 	$leftjoin = array();
 	$entry = 0;
 
-	if(@$form_state['values']['all']['all'] == 1)
-	{
+	if(@$form_state['values']['all']['all'] == 1){
+
 		$fields = field_info_instances("node", "contatos");
 
-		foreach (getFieldsNewsletter() as $value)
-		{
+		foreach (getFieldsNewsletter() as $value) {
 			if(isset($fields[$value]))
 				unset($fields[$value]);
 		}
 
 		$oldKey = "";
 
-		foreach($fields as $key => $value)
-		{
+		foreach($fields as $key => $value){
 			$key = str_replace('field_', '', $key);
-			foreach ($form_state['values'][$key] as $k => $v)
-			{
-				if($v)
-				{
-					if($v != 'all')
-					{
+			foreach ($form_state['values'][$key] as $k => $v){
+				if($v){
+					if($v != 'all'){
 						$entry++;
 						if($oldKey != $key)
 							$leftjoin[] = "LEFT JOIN field_data_field_$key as $key on $key.entity_id = n.nid";
@@ -360,8 +339,7 @@ function newsletter_send_form_submit($form, &$form_state)
 	$query = ($entry == 0) ? $query.$type : $query.' AND '.$type;
 
 	$fail = $success = 0;
-	foreach (db_query($query) as $res)
-	{
+	foreach (db_query($query) as $res){
 		(Workshop::sendMail($html, $res)) ? $success++ : $fail++;
 	}
 	drupal_set_message("<p><b>Newsletter enviado com sucesso!</b></p><p><i>Relatório:</i></p>
@@ -374,8 +352,8 @@ function newsletter_send_form_submit($form, &$form_state)
 
 #ENVIO DE NEWSLETTER (TESTE)
 
-function newsletter_send_test($news_id)
-{
+function newsletter_send_test($news_id){
+
 	global $user;
 
 	$result = db_select('newsletter', 'nl')
@@ -387,15 +365,12 @@ function newsletter_send_test($news_id)
 
 	$html = theme('newsletters_page_published', array('nodes' => $result, 'news_id' => $news_id, 'mail' => TRUE));
 
-	if($user->uid)
-	{
+	if($user->uid){
 		if(Workshop::sendMail($html, $user))
 			drupal_set_message("Um newsletter de teste foi enviado para o e-mail: <b>".$user->mail."</b>");
 		else
 			form_set_error("error", "Não foi possível enviar esse newsletter por e-mail!");
-	} 
-	else 
-	{
+	} else {
 		form_set_error("error", "Você não está logado!");
 	}
 	drupal_goto("newsletter");
@@ -405,13 +380,12 @@ function newsletter_send_test($news_id)
 
 #FORMULÁRIO P/ DELETAR UM BOLETIM
 
-function newsletter_delete($form, $news_id)
-{
+function newsletter_delete($form, $news_id){
 	return drupal_get_form($form, $news_id);
 }
 
-function newsletter_delete_form($form, &$form_state, $news_id)
-{
+function newsletter_delete_form($form, &$form_state, $news_id){
+
 	$form['news_id'] = array(
 		'#type' => 'hidden',
 		'#value' => (!empty($news_id)) ? $news_id : null,
@@ -438,8 +412,8 @@ function newsletter_delete_form($form, &$form_state, $news_id)
 	return $form;
 }
 
-function newsletter_delete_form_validate($form, &$form_state)
-{
+function newsletter_delete_form_validate($form, &$form_state){
+
 	if(!empty($form_state['values']['news_id'])){
 		if (!form_get_errors()){
 			return;
@@ -449,20 +423,16 @@ function newsletter_delete_form_validate($form, &$form_state)
 	drupal_goto("newsletter");
 }
 
-function newsletter_delete_form_submit($form, &$form_state)
-{
-	try
-	{
-		if($form_state['values']['action'] == "0") //action = sim
-		{ 
+function newsletter_delete_form_submit($form, &$form_state){
+
+	try{
+		if($form_state['values']['action'] == "0"){ //action = sim
 			db_delete('newsletter')
 			->condition('news_id', $form_state['values']['news_id'])
 			->execute();
 			drupal_set_message("Newsletter excluido com sucesso!");
 		}
-	} 
-	catch(Exception $e)
-	{
+	} catch(Exception $e){
 		drupal_goto("newsletter");
 	}
 
@@ -474,13 +444,13 @@ function newsletter_delete_form_submit($form, &$form_state)
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ FIM NEWSLETTER @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#
 
 
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ INICIO BANCO DE E-MAILS @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ INICIO BANCO DE E-MAILS @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#
 
 
 #RETORNA A INDEX DO BANCO DE E-MAILS
 
-function newsletter_email()
-{
+function newsletter_email(){
+
 	$sum = db_query("SELECT COUNT(nid) FROM node WHERE type = 'contatos'")->fetchField();
 
 	return theme("newsletters_page_email", array("users" => $sum, "filters" => NULL));
@@ -488,13 +458,12 @@ function newsletter_email()
 
 #FORMULÁRIO P/ CADASTRAR UM E-MAIL (USUÁRIO)
 
-function newsletter_email_create($form)
-{
+function newsletter_email_create($form){
 	return drupal_get_form($form);
 }
 
-function newsletter_email_create_form($form, &$form_state)
-{
+function newsletter_email_create_form($form, &$form_state){
+
 	$fields = field_info_instances("node", "contatos");
 
 	$form['email'] = array(
@@ -524,19 +493,16 @@ function newsletter_email_create_form($form, &$form_state)
 	return $form;
 }
 
-function newsletter_email_create_form_validate($form, &$form_state)
-{
-	if (!form_get_errors())
-	{
+function newsletter_email_create_form_validate($form, &$form_state){
+	if (!form_get_errors()){
 		return;
 	}
 	drupal_goto("newsletter/email");
 }
 
-function newsletter_email_create_form_submit($form, &$form_state)
-{
-	try
-	{
+function newsletter_email_create_form_submit($form, &$form_state){
+	try {
+
 		global $user;
 
 		$fields = field_info_instances("node", "contatos");
@@ -558,20 +524,16 @@ function newsletter_email_create_form_submit($form, &$form_state)
 
 		node_save($newNode);
 
-		foreach($fields as $key => $value)
-		{
+		foreach($fields as $key => $value){
 			$k = str_replace('field_', '', $key);
 			$v = $form_state['values'][$k];
 			$v = (!is_numeric($v)) ? "'$v'" : $v;
-
 			db_query("INSERT INTO field_data_field_$k VALUES ('node', 'contatos', 0, ".$newNode->nid.", ".$newNode->nid.", 'und', 0, $v, 'full_html')");
 		}
 
 		drupal_set_message("Contato adicionado com sucesso ao banco de emails!");
 
-	}
-	catch(Exception $e)
-	{
+	} catch(Exception $e){
 		form_set_error("error", "Aconteceu um erro inesperado ao cadastrar o contato! Por 
 			favor tente novamente!");
 	}
@@ -581,13 +543,12 @@ function newsletter_email_create_form_submit($form, &$form_state)
 
 #FORMULÁRIO P/ EDITAR UM E-MAIL (USUÁRIO)
 
-function newsletter_email_edit($form, $entity_id)
-{
+function newsletter_email_edit($form, $entity_id){
 	return drupal_get_form($form, $entity_id);
 }
 
-function newsletter_email_edit_form($form, &$form_state, $entity_id)
-{
+function newsletter_email_edit_form($form, &$form_state, $entity_id){
+
 	$fields = field_info_instances("node", "contatos");
 
 	$mail = db_query("SELECT title FROM node WHERE nid = :nid", 
@@ -607,8 +568,7 @@ function newsletter_email_edit_form($form, &$form_state, $entity_id)
 		'#default_value' => (!empty($mail)) ? $mail : "",
 	);
 
-	foreach($fields as $key => $value)
-	{
+	foreach($fields as $key => $value){
 		$key = str_replace('field_', '', $key);
 
 		$value = db_query("SELECT field_".$key."_value 
@@ -634,27 +594,24 @@ function newsletter_email_edit_form($form, &$form_state, $entity_id)
 	return $form;
 }
 
-function newsletter_email_edit_form_validate($form, &$form_state)
-{
-	if (!form_get_errors())
-	{
+function newsletter_email_edit_form_validate($form, &$form_state){
+	if (!form_get_errors()){
 		if(!empty($form_state['values']['entity_id']))
 			return;
 	}
 	drupal_goto("newsletter/email");
 }
 
-function newsletter_email_edit_form_submit($form, &$form_state)
-{
-	try
-	{
+function newsletter_email_edit_form_submit($form, &$form_state){
+
+	try {
+
 		$fields = field_info_instances("node", "contatos");
 
 		db_query("UPDATE node SET title = :mail WHERE nid = :nid", 
 			array(":mail" => $form_state['values']['email'], ":nid" => $form_state['values']['entity_id']));
 
-		foreach($fields as $key => $value)
-		{
+		foreach($fields as $key => $value){
 			$key = str_replace('field_', '', $key);
 			$v = $form_state['values'][$key];
 			$v = (!is_numeric($v)) ? "'$v'" : $v;
@@ -665,9 +622,7 @@ function newsletter_email_edit_form_submit($form, &$form_state)
 
 		drupal_set_message("Edição realizada com sucesso!");
 
-	} 
-	catch(Exception $e)
-	{
+	} catch(Exception $e){
 		form_set_error("error", "Aconteceu um erro inesperado ao editar este usuário! Por favor
 			tente novamente!");
 	}
@@ -679,13 +634,12 @@ function newsletter_email_edit_form_submit($form, &$form_state)
 
 #FORMULÁŔIO P/ EXCLUIR UM E-MAIL (USUÁRIO)
 
-function newsletter_email_delete($form, $entity_id)
-{
+function newsletter_email_delete($form, $entity_id){
 	return drupal_get_form($form, $entity_id);
 }
 
-function newsletter_email_delete_form($form, &$form_state, $entity_id)
-{
+function newsletter_email_delete_form($form, &$form_state, $entity_id){
+
 	$form['entity_id'] = array(
 		'#type' => 'hidden',
 		'#required' => TRUE,
@@ -713,28 +667,22 @@ function newsletter_email_delete_form($form, &$form_state, $entity_id)
     return $form;
 }
 
-function newsletter_email_delete_form_validate($form, &$form_state)
-{
-	if (!form_get_errors())
-	{
+function newsletter_email_delete_form_validate($form, &$form_state){
+	if (!form_get_errors()){
 		if(!empty($form_state['values']['entity_id']))
 			return;
 	}
 	drupal_goto("newsletter/email");
 }
 
-function newsletter_email_delete_form_submit($form, &$form_state)
-{
-	try
-	{
-		if($form_state['values']['action'] == "0") //action = sim
-		{
+function newsletter_email_delete_form_submit($form, &$form_state){
+
+	try{
+		if($form_state['values']['action'] == "0"){ //action = sim
 			node_delete($form_state['values']['entity_id']);
 			drupal_set_message("E-mail excluido com sucesso!");
 		}
-	} 
-	catch(Exception $e)
-	{
+	} catch(Exception $e){
 		form_set_error("error", "Aconteceu um erro inesperado ao excluir esse e-mail! Por favor
 			 tente novamente!");
 	}
@@ -747,12 +695,12 @@ function newsletter_email_delete_form_submit($form, &$form_state)
 
 #FORMULÁRIO P/ CONFIGURAR FILTROS DO E-MAIL (USUÁRIO)
 
-function newsletter_filter_form($form, &$form_state)
-{
+function newsletter_filter_form($form, &$form_state){
+
 	$fields = field_info_instances("node", "contatos");
 
-	foreach ($fields as $key => $value)
-	{
+	foreach ($fields as $key => $value) {
+
 		$status = db_select('newsletter_filter', 'nf')
 		->fields('nf', array('status'))
 		->condition('nf.field', $key)
@@ -775,6 +723,7 @@ function newsletter_filter_form($form, &$form_state)
 		  '#suffix' => '</span></div>',
 		  '#tree' => TRUE,
 		);
+
 	}
 
     $form['enviar'] = array(
@@ -787,17 +736,15 @@ function newsletter_filter_form($form, &$form_state)
     return $form;
 }
 
-function newsletter_filter_form_validate($form, &$form_state)
-{
-	if (!form_get_errors())
-	{
+function newsletter_filter_form_validate($form, &$form_state){
+	if (!form_get_errors()){
 		return;
 	}
 	drupal_goto("newsletter/filter");
 }
 
-function newsletter_filter_form_submit($form, &$form_state)
-{
+function newsletter_filter_form_submit($form, &$form_state){
+
 	$filters = db_select('newsletter_filter', 'nf')
 	->fields('nf', array('field'))
 	->execute()
@@ -805,10 +752,9 @@ function newsletter_filter_form_submit($form, &$form_state)
 
 	$fields = field_info_instances("node", "contatos");
 
-	try
-	{
-        foreach ($fields as $key => $value)
-        {
+	try {
+
+        foreach ($fields as $key => $value) {
             $update = db_update('newsletter_filter')
             ->fields(array(
                     'status' => @(int)$form_state['values'][$key]
@@ -816,8 +762,7 @@ function newsletter_filter_form_submit($form, &$form_state)
             ->condition('field', $key)
             ->execute();
 
-            if(!$update)
-            {
+            if(!$update){
                 db_insert('newsletter_filter')
                 ->fields(array(
                         'field' => $key,
@@ -827,11 +772,8 @@ function newsletter_filter_form_submit($form, &$form_state)
         }
 
 		drupal_set_message("Filtros configurados com sucesso!");
-		drupal_goto("newsletter/email");
 
-	} 
-	catch(Exception $e) 
-	{
+	} catch(Exception $e) {
 		form_set_error("error", "Não foi possível salvar as suas configurações, tente novamente!");
 	}
 }
@@ -841,8 +783,8 @@ function newsletter_filter_form_submit($form, &$form_state)
 
 #BUSCAR CAMPOS DESATIVADOS DO FILTRO
 
-function getFieldsNewsletter()
-{
+function getFieldsNewsletter(){
+
 	$filters = array();
 
 	$query = db_select('newsletter_filter', 'nf')
@@ -850,8 +792,7 @@ function getFieldsNewsletter()
 	->condition('nf.status', 0)
 	->execute();
 
-	while($field = $query->fetchObject())
-	{
+	while($field = $query->fetchObject()) {
 		$filters[] = $field->field;
 	}
 
@@ -863,43 +804,35 @@ function getFieldsNewsletter()
 
 #FUNÇÃO P/ BUSCAR USUÁRIOS PELO NOME OU E-MAIL
 
-function newsletter_user_search()
-{
-	try
-	{
-		if(isset($_POST['search_email']) && !empty($_POST['search_email']))
-		{
+function newsletter_user_search(){
+
+	try {
+		if(isset($_POST['search_email']) && !empty($_POST['search_email'])){
+
 			@$mail = $_POST['search_email'];
 
 			$result = db_query("SELECT nid FROM node 
 								WHERE title LIKE '%".$mail."%'
 								AND type = 'contatos' ORDER BY nid ASC");
 
-		}
-		elseif(isset($_POST['search_name']) && !empty($_POST['search_name']))
-		{
+		}elseif(isset($_POST['search_name']) && !empty($_POST['search_name'])){
+
 			@$name = $_POST['search_name'];
 
 			$result = db_query("SELECT entity_id FROM field_data_field_nome 
 								WHERE field_nome_value LIKE '%".$name."%'
 								ORDER BY entity_id ASC");
 
-		} 
-		else 
-		{
+		} else {
 			$result = db_query("SELECT nid FROM node WHERE type = 'contatos'");
 		}
-	} 
-	catch(Exception $e)
-	{
+	} catch(Exception $e){
 		drupal_goto("newsletter/email");
 	}
 
-	if($result)
-	{
+	if($result){
 		$sum = db_query("SELECT COUNT(nid) FROM node WHERE type = 'contatos'")->fetchField();
 		$fields = field_info_instances("node", "contatos");
-		
 		return theme("newsletters_page_email", array("users" => $sum, "result" => $result, "fields" => $fields));
 	}
 
@@ -910,8 +843,7 @@ function newsletter_user_search()
 
 #EXPORTAR EMAILS CADASTRADOS
 
-function email_dump($type)
-{
+function email_dump($type){
 	switch ($type) {
 		case 'csv':
 		    Workshop::dumpCsv();
@@ -927,20 +859,16 @@ function email_dump($type)
 
 #CANCELAR INSCRIÇÃO
 
-function newsletter_email_cancel($nid, $email)
-{
+function newsletter_email_cancel($nid, $email){
 	//Por segurança é necessário informar o NID e EMAIL do usuário
-	try
-	{
+	try {
 		db_update('node')
 		->fields(array('status' => 0))
 		->condition('nid', $nid)
 		->condition('title', $email)
 		->condition('type', 'contatos')
 		->execute();
-	} 
-	catch(Exception $e) 
-	{
+	} catch(Exception $e) {
 		form_set_error("error", "Não foi possível cancelar a sua inscriçao! Por favor 
 			tente novamente mais tarde!");
 	}

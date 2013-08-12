@@ -17,7 +17,7 @@ class WorkShop {
 			$body[]  = $html;
 		    $params['subject'] = $subject;
 		    $params['body']    = $body;
-		    $mail_message            = drupal_mail('workshop', 'newsletter', $mail, 
+		    $mail_message            = drupal_mail('workshop', 'notice', $mail, 
 		    	language_default(), $params, variable_get('workshop_mail', 'boletim-virtual@norepley.com'), FALSE);
 		    $mail_message['subject'] = $subject;
 		    $mail_message['body']    = $body;

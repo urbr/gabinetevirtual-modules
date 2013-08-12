@@ -44,19 +44,11 @@
       <p align="center" style="font-family:'Lucida Sans Unicode', 'Lucida Grande', arial;"><font color="#666666" size="2">Caso n&atilde;o esteja conseguindo visualizar esse email</font> <a href="http://localhost/drupal/?q=newsletter/item/<?php print $news_id; ?>"><font color="#666666" size="2">clique aqui.</font></a></p>
 
       <table width="778px" border="0" bgcolor="#FFFFFF" style="border-collapse:collapse; margin:10px auto; font-family:'Lucida Sans Unicode', 'Lucida Grande', arial; -moz-border-radius-bottomright:12px; -moz-border-radius-bottomleft:12px; -moz-border-radius-topright:12px;  -moz-border-radius-topleft:12px;">
-        <tr>
-          <td width="20"><img alt="Layout" src="http://www.urucumbrasil.com.br/resources/newsletter/default/images/spacer.gif" width="20" height="15" /></td>
-          <td>&nbsp;</td>
-          <td width="20"><img alt="Layout" src="http://www.urucumbrasil.com.br/resources/newsletter/default/images/spacer.gif" alt="" width="20" height="15" /></td>
-        </tr>
-        <tr>
           <td><img alt="Layout" src="http://www.urucumbrasil.com.br/resources/newsletter/default/images/spacer.gif" alt="" width="20" height="1" /></td>
           <td valign="top"><table width="100%" height="130" border="0" style="border-collapse:collapse;">
 
             <tr>
-              <td valign="top" style="padding-top:20px;"><img alt="Layout" src="http://www.urucumbrasil.com.br/resources/newsletter/default/images/logo_boletim.gif" />
-                <p style="margin:-11px 0 0 0; padding-left:62px;"><font size="1">Ed. Nº3 - 09/04/2013</font></p></td>
-                <td valign="top" style="padding-top:20px;"><a href="http://www.urucumbrasil.com.br"><img alt="Layout" src="http://www.urucumbrasil.com.br/resources/newsletter/default/images/logomarca.gif" align="right" border="0" /></a></td>
+              <td valign="top" style="padding-top:20px;"><img alt="Layout" src="http://www.urucumbrasil.com.br/resources/newsletter/bolsafamilia/images/cabecalho_news.png" />
               </tr>
             </table></td>
             <td>&nbsp;</td>
@@ -73,15 +65,14 @@
                     $others = array();
                     foreach ($nodes as $node) {
                        if($i < 5){
-                          if($i <= 3)
-                            print '<img alt="Layout" src="http://www.urucumbrasil.com.br/resources/newsletter/default/images/divisor.gif">';
                            @$file = (array)file_load(node_load($node->nid)->field_imagem['und'][0]['fid']);
                            if($i < 3){
-                              print '<table width="100%" border="0" cellpadding="3">';
+                              print '<table width="100%" border="0" cellpadding="3" style="border-collapse:collapse; border-top:1px solid #E0E8ED;">';
                               print '  <tr>';
                               print '   <td colspan="2" style="padding-top:20px;">';
                               print '      <h2><a href="http://'.$_SERVER['SERVER_NAME'].'/node/'.$node->nid.'" style="text-decoration:none;">';
                               print '      <font size="5" color="#003D6F">'.$node->title.'</font></a></h2>';
+
                            } else {
                               $style = ($i%2!=0) ? 'float:left' : 'float:right';
                               print '<table border="0" width="45%" style="'.$style.';" cellpadding="3">';
@@ -151,11 +142,11 @@
                   <table width="100%" style="margin-top:20px;">
                     <tr>
                       <td width="90"><h3 style="margin:0; padding:0;"><font size="1" color="#000000">Bras&iacute;lia</font></h3>
-                        <p style="margin:0; padding:0;"><font size="2"><span style="font-size:10px;">61</span> 3542 6189</font></p>
+                        <p style="margin:0; padding:0;"><font size="2"><span style="font-size:10px;">61</span> 3215 5269</font></p>
                         <h3 style="margin:15px 0 0 0; padding:0;"><font size="1" color="#000000">Porto Alegre</font></h3>
-                        <p style="margin:0; padding:0;"><font size="2"><span style="font-size:10px;">51</span> 3062 4511</font></p>
+                        <p style="margin:0; padding:0;"><font size="2"><span style="font-size:10px;">51</span> 3023 3922</font></p>
 
-                        <p><a href="http://www.urucumbrasil.com.br"><img alt="Layout" src="http://www.urucumbrasil.com.br/resources/newsletter/default/images/bt_site.gif" border="0" /></a></p></td>
+                        <p><a href="http://www.urucumbrasil.com.br"><img alt="Layout" src="http://www.urucumbrasil.com.br/resources/newsletter/bolsafamilia/images/bt_site.gif" border="0" /></a></p></td>
                         <td width="34"><!-- Redes Sociais -->
 
                           <p style="margin:0 0 12px 0; padding:0;"><a href="#"><img alt="Layout" src="http://www.urucumbrasil.com.br/resources/newsletter/default/images/ic_twitter.gif" alt="Twitter" border="none;" /></a></p>
