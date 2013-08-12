@@ -177,12 +177,6 @@ function newsletter_send($form, $news_id){
 
 function newsletter_send_form($form, &$form_state, $news_id){
 
-	// Iniciamos o "contador"
-	list($usec, $sec) = explode(' ', microtime());
-	$script_start = (float) $sec + (float) $usec;
-	 
-	/* SEU CÓDIGO PHP */
-
 	$result = db_select('node', 'n')
 	->fields('n', array('nid'))
 	->condition('n.type', 'contatos', '=')
@@ -251,19 +245,12 @@ function newsletter_send_form($form, &$form_state, $news_id){
 		}
 	}
 
-    $form['enviar'] = array(
-        '#type' => 'submit',
-        '#value' => 'Enviar',
-        '#prefix' => '<p>&nbsp;</p>',
-        '#suffix' => '</div>'
-    );
-
-    // Terminamos o "contador" e exibimos
-list($usec, $sec) = explode(' ', microtime());
-$script_end = (float) $sec + (float) $usec;
-$elapsed_time = round($script_end - $script_start, 5);
-
-echo 'Elapsed time: ', $elapsed_time, ' secs. Memory usage: ', round(((memory_get_peak_usage(true) / 1024) / 1024), 2), 'Mb';
+        $form['enviar'] = array(
+        	'#type' => 'submit',
+        	'#value' => 'Enviar',
+        	'#prefix' => '<p>&nbsp;</p>',
+        	'#suffix' => '</div>'
+    	);
 
 	return $form;
 }
