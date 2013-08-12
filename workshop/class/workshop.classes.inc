@@ -17,15 +17,8 @@ class WorkShop {
 			$body[]  = $html;
 		    $params['subject'] = $subject;
 		    $params['body']    = $body;
-		    $mail_message            = drupal_mail('workshop', 'newsletter', $mail, 
-		    	language_default(), $params, variable_get('workshop_mail', 'boletim-virtual@norepley.com'), FALSE);
-		    $mail_message['subject'] = $subject;
-		    $mail_message['body']    = $body;
-
-		    $mail_system  = drupal_mail_system("workshop", "newsletter");
-		    $mail_message = $mail_system->format($mail_message);
-		    
-		    return @$mail_system->mail($mail_message);
+		    return drupal_mail('workshop', 'newsletter', $mail, 
+		    	language_default(), $params, variable_get('workshop_mail', 'boletim-virtual@norepley.com'), TRUE);
     	}
     	return false;
     }
