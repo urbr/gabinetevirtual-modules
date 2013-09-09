@@ -14,3 +14,7 @@ function monitor_search(){
 		'orig' => $_POST['terms'])
 	);
 }
+
+function monitor_search_twitter($term){
+	echo file_get_contents("http://apps.urucumbrasil.com.br/gabinetevirtual/twitter_api_11/web/search_tweets.php?q=".rawurlencode($term));
+}

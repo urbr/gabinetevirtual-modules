@@ -1,0 +1,115 @@
+li {
+	font-size: 15px;
+}
+h1 {
+	font-size: 48px;
+	font-weight: 100;
+	text-align: left;
+	color: #333;
+}
+h2 {
+	color: #999;
+	font-size: 24px;
+	font-weight:100;
+}
+
+p {
+	line-height: 150%;
+}
+
+
+.activityFeed ul, .activityFeedTwitter ul {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.activityFeed ul li, .activityFeedTwitter ul li{
+	border-bottom:1px solid #CCC;
+	font-size: 13px;
+    line-height:1.45em;
+	}
+	
+.activityFeed ul li{
+	padding:15px 0 !important;
+	}	
+	
+.activityFeedTwitter ul li{
+	padding:15px 0 15px 60px!important;
+	}		
+
+.activityFeedTwitter ul li a, .activityFeed ul li a{
+	text-decoration: none;
+	color:#437EA1;
+}
+.activityFeedTwitter ul li a:hover, .activityFeed ul li a:hover {
+	text-decoration: underline;
+}
+
+#box_container {
+	background:#EBEBEB;
+	margin: auto;
+	padding:10px; 
+	/* width: 680px; */
+}
+
+	
+#box_container #box_content{
+	background:#FFF;
+	padding:20px;
+	/*width:637px;*/
+	}		
+	
+
+#lc {
+	float: left;
+	width: 288px;
+}
+#lc2 {
+	float: left;
+	width: 100%;
+}
+
+#rc {
+	float: right;
+	width: 298px;
+}
+
+#lc .loader{
+	left:300px;
+	position:relative;
+	}
+
+#lc H3, #rc H3{
+	border-bottom:1px solid #ccc;
+	font-size:15px;
+	font-weight:normal;
+	padding:5px 0;
+	}
+	
+#lc H3{
+	background:url(/themes/workshop/images/ic_rede.gif) no-repeat right;
+	}	
+	
+#rc H3{
+	background:url(/themes/workshop/images/ic_twitter.gif) no-repeat right;
+	}		
+	
+
+.clear {
+	clear: both;
+	display: block;
+	height: 0px;
+	margin: 0;
+	padding: 0;
+}
+
+/* Elementos com cantos arredondados */
+
+#box_container{
+	-moz-border-radius:5px; /* Para Firefox */
+	-webkit-border-radius:5px; /*Para Safari e Chrome */
+	border-radius:5px; /* Para Opera 10.5+*/
+	}
+
+

@@ -12,8 +12,6 @@ Include JQuery Core (Required for calendar plugin)
 ** This is our IE fix version which enables drag-and-drop to work correctly in IE. See README file in sites/all/modules/workshop/theme/agenda/sites/all/modules/workshop/theme/agenda/js/jquery-core folder. **
 -->
 
-<script type="text/javascript" src="sites/all/modules/urucumbrasil/modules-gabinetevirtual/workshop/theme/agenda/js/jquery-core/jquery-1.4.2-ie-fix.min.js"></script>
-
 <!-- Include JQuery UI (Required for calendar plugin.) -->
 <script type="text/javascript" src="sites/all/modules/urucumbrasil/modules-gabinetevirtual/workshop/theme/agenda/js/jquery-ui/smoothness/jquery-ui-1.8.1.custom.min.js"></script>
 

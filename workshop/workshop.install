@@ -136,9 +136,9 @@ function workshop_schema() {
   return $schema;
 }
 
-function workshop_update_5() {
-  drupal_install_schema('workshop');
-}
+//function workshop_update_5() {
+//  drupal_install_schema('workshop');
+//}
 
 
 function workshop_install() {

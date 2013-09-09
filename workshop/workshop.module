@@ -414,6 +414,19 @@ function workshop_menu() {
 		'expanded' => TRUE,
 	);
 
+        $items['monitor/search/twitter/%'] = array(
+                'title' => 'Retorna json do twitter',
+                'page callback' => 'monitor_search_twitter',
+		'page arguments' => array(3),
+                'access arguments' => array('administer_workshop'),
+                'description' => 'Procurar por termos do twitter',
+                'file' => 'monitor.pages.inc',
+                'file path' => $path,
+                'menu_name' => 'main-menu',
+                'type' => MENU_CALLBACK,
+                'expanded' => TRUE,
+        );
+
 	return $items;
 }
 
@@ -650,21 +663,21 @@ function socialnetworks_custom_submit_function($form, &$form_state){
 
 function workshop_node_presave($node){
 	if($node->type != "galeria"){
-	$fields = new stdClass();
+		$fields = new stdClass();
 
-	$fields->field_video       = 'workshop_video';
-	$fields->field_audio       = 'workshop_audio';
-	$fields->field_publicacoes = 'workshop_publicacoes';
+		$fields->field_video       = 'workshop_video';
+		$fields->field_audio       = 'workshop_audio';
+		$fields->field_publicacoes = 'workshop_publicacoes';
 
-	foreach ($fields as $key => $value) {
-		$newKey = $key."_type";
-		$arr = $node->$key;
-		if (!empty($arr['und'])){
-			$node->type = $value;
-			$node->$newKey = $node->$key;
-			unset($node->$key);
+		foreach ($fields as $key => $value) {
+			$newKey = $key."_type";
+			$arr = $node->$key;
+			if (!empty($arr['und'])){
+				$node->type = $value;
+				$node->$newKey = $node->$key;
+				unset($node->$key);
+			}
 		}
-	}
 	}
 }
 

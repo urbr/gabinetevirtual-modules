@@ -1,5 +1,3 @@
-<script type="text/javascript" src="http://www.urucumbrasil.com.br/resources/ajaxhelper/jquery/jquery.min.js"></script>
-<script type="text/javascript" src="http://www.urucumbrasil.com.br/resources/ajaxhelper/jquery/jquery-ui-min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 	$('#drag .sortable-list').sortable({
@@ -58,7 +56,7 @@ $(document).ready(function(){
 }
 
 .setas{
-	background:url("http://www.urucumbrasil.com.br/resources/pro-gabinete/images/setas.png") no-repeat;
+	background:url("/themes/workshop/images/setas.png") no-repeat;
 	height:71px;
 	display:block;
 	margin-left:305px;
@@ -70,7 +68,7 @@ $(document).ready(function(){
 }
 
 .column .item_date{
-	background:url("http://www.urucumbrasil.com.br/resources/pro-gabinete/images/ic_date.gif") no-repeat 88px 7px;
+	background:url("/themes/workshop/images/ic_date.gif") no-repeat 88px 7px;
 	padding:0 0 0 15px;
 	color:437EA1;
 	font-size:10px;

@@ -9,7 +9,7 @@
 
   .button {
     -moz-border-radius:5px 5px 5px 5px;
-    background:url("http://www.urucumbrasil.com.br/resources/pro-gabinete/images/bg_button_g.png") repeat-x scroll 0 0 transparent;
+    background:url("/themes/workshop/images/bg_button_g.png") repeat-x scroll 0 0 transparent;
     color:#FFFFFF !important;
     display:inline-block;
     font-size:16px;
@@ -44,16 +44,16 @@
 
       <table width="778px" border="0" bgcolor="#FFFFFF" style="border-collapse:collapse; margin:10px auto; font-family:'Lucida Sans Unicode', 'Lucida Grande', arial; -moz-border-radius-bottomright:12px; -moz-border-radius-bottomleft:12px; -moz-border-radius-topright:12px; 	-moz-border-radius-topleft:12px;">
         <tr>
-          <td width="20"><img alt="Layout" src="http://www.urucumbrasil.com.br/resources/newsletter/default/images/spacer.gif" width="20" height="15" /></td>
+          <td width="20"><img alt="Layout" src="/themes/workshop/images/spacer.gif" width="20" height="15" /></td>
           <td>&nbsp;</td>
-          <td width="20"><img alt="Layout" src="http://www.urucumbrasil.com.br/resources/newsletter/default/images/spacer.gif" alt="" width="20" height="15" /></td>
+          <td width="20"><img alt="Layout" src="/themes/workshop/images/spacer.gif" alt="" width="20" height="15" /></td>
         </tr>
         <tr>
-          <td><img alt="Layout" src="http://www.urucumbrasil.com.br/resources/newsletter/default/images/spacer.gif" alt="" width="20" height="1" /></td>
+          <td><img alt="Layout" src="/themes/workshop/images/spacer.gif" alt="" width="20" height="1" /></td>
           <td valign="top"><table width="100%" height="130" border="0" style="border-collapse:collapse;">
 
             <tr>
-              <td valign="top"><img alt="Layout" src="http://www.urucumbrasil.com.br/resources/newsletter/bolsafamilia/images/cabecalho_news.png" /></td>
+              <td valign="top"><img alt="Layout" src="/themes/workshop/images/cabecalho_news.png" /></td>
               </tr>
             </table></td>
             <td>&nbsp;</td>
@@ -71,7 +71,7 @@
                     foreach ($nodes as $node) {
                        if($i < 5){
 			   if($i <= 3)
-                              print '<img alt="Layout" src="http://www.urucumbrasil.com.br/resources/newsletter/default/images/divisor.gif">';
+                              print '<img alt="Layout" src="/themes/workshop/images/divisor.gif">';
                            @$file = (array)file_load(node_load($node->nid)->field_imagem['und'][0]['fid']);
                            if($i < 3){
                               print '<table width="100%" border="0" cellpadding="3">';
@@ -103,7 +103,7 @@
                            if($i < 3 && $length != 1 && isset($file['filename']))
                               @print '   <td valign="top"><a href="http://'.$_SERVER['SERVER_NAME'].'/node/'.$node->nid.'">'.theme('image_style', array('style_name' => 'large', 'path' => file_build_uri($file['filename']),'getsize' => TRUE, 'attributes' => array('class' => 'thumb', 'width' => '298', 'height' => '150'))).'</a></td>';
                            elseif($i >= 3 && $length != 1 && isset($file['filename']))
-                              @print '   <td valign="top"><a href="http://'.$_SERVER['SERVER_NAME'].'/node/'.$node->nid.'"><img src="http://costaadvogados.adv.br/sites/default/files/styles/square_thumbnail/public/'.$file['filename'].'" width = "120" height = "120" /></a></td>';
+                              @print '   <td valign="top"><a href="http://'.$_SERVER['SERVER_NAME'].'/node/'.$node->nid.'"><img src="http://'.$_SERVER['SERVER_NAME'].'/sites/default/files/styles/square_thumbnail/public/'.$file['filename'].'" width = "120" height = "120" /></a></td>';
                            $font = ($i < 3) ? 3 : 2;
                            if($length != 1)
                               print '    <td valign="top"><a href="http://'.$_SERVER['SERVER_NAME'].'/node/'.$node->nid.'" style="text-decoration:none;"><font size="'.$font.'" color="#484848">'.$node->content.'</font></a></td>';
@@ -122,8 +122,8 @@
              <td valign="top" width="231" border="0" style="border-collapse:collapse;">
               <table border="0" style="border-collapse:collapse; -moz-border-radius-bottomleft:0px; -moz-border-radius-topleft:0px;" height="100%">
                 <tr>
-                  <td><img alt="Layout" src="http://www.urucumbrasil.com.br/resources/newsletter/default/images/spacer.gif" alt="" width="20" height="23" /></td>
-                  <td bgcolor="#EDEDED" id="colAux"><img alt="Layout" src="http://www.urucumbrasil.com.br/resources/newsletter/default/images/spacer.gif" alt="" width="20" height="23" /></td>
+                  <td><img alt="Layout" src="/themes/workshop/images/spacer.gif" alt="" width="20" height="23" /></td>
+                  <td bgcolor="#EDEDED" id="colAux"><img alt="Layout" src="/themes/workshop/images/spacer.gif" alt="" width="20" height="23" /></td>
                   <td width="170" bgcolor="#EDEDED">
 
                   <?php
@@ -138,11 +138,11 @@
                           print '<table cellpadding="2">
                                     <tr>';
 				      if(isset($file['filename']))
-                                      	print '<td valign="top"><a href="http://'.$_SERVER['SERVER_NAME'].'/node/'.$others[$key][0].'"><img src="http://costaadvogados.adv.br/sites/default/files/styles/square_thumbnail/public/'.$file['filename'].'" width="78" heght="78" /></td>';
+                                      	print '<td valign="top"><a href="http://'.$_SERVER['SERVER_NAME'].'/node/'.$others[$key][0].'"><img src="http://'.$_SERVER['SERVER_NAME'].'/sites/default/files/styles/square_thumbnail/public/'.$file['filename'].'" width="78" heght="78" /></td>';
                                       print '<td valign="top"><a href="http://'.$_SERVER['SERVER_NAME'].'/node/'.$others[$key][0].'" style="text-decoration:none;"><font size="1" color="#484848">'.$others[$key][1].'</font></a></td>
                                     </tr>
                                  </table>
-                                 <img alt="Layout" src="http://www.urucumbrasil.com.br/resources/newsletter/default/images/divisor_col_aux.gif" />';
+                                 <img alt="Layout" src="/themes/workshop/images/divisor_col_aux.gif" />';
                        }
                     }
                   ?>
@@ -154,19 +154,19 @@
                     <tr>
                         <td style="width:25%;">&nbsp;</td>
                         <td><h3 style="margin:0; padding:0;"><font size="1" color="#000000">Brasília</font></h3><font size="-1" color="#5B5B5B">61 3215-5269</font></td>
-			<!--<td><img alt="Layout" src="http://www.urucumbrasil.com.br/resources/newsletter/default/images/ic_twitter.gif" alt="Twitter" border="none;" /></td>-->
+			<!--<td><img alt="Layout" src="/themes/workshop/images/ic_twitter.gif" alt="Twitter" border="none;" /></td>-->
                     </tr>
                     <tr>
                         <td style="width:25%;">&nbsp;</td>
                         <td><h3 style="margin:0; padding:0;"><font size="1" color="#000000">Porto Alegre</font></h3><font size="-1" color="#5B5B5B">51 3023-3922</font></td>
-                        <!--<td><img alt="Layout" src="http://www.urucumbrasil.com.br/resources/newsletter/default/images/ic_twitter.gif" alt="Twitter" border="none;" /></td>-->
+                        <!--<td><img alt="Layout" src="/themes/workshop/images/ic_twitter.gif" alt="Twitter" border="none;" /></td>-->
                     </tr>
                   </table>
                   <table width="100%" style="margin-bottom:10px">
                     <tr>
                     </tr>
-			<td><a href="http://<?php echo $_SERVER['SERVER_NAME']; ?>"><img alt="Layout" src="http://www.urucumbrasil.com.br/resources/newsletter/bolsafamilia/images/bt_site.gif" border="0" /></a></td>
-			<!--<td style="width:23%;"><img alt="Layout" src="http://www.urucumbrasil.com.br/resources/newsletter/default/images/ic_facebook.gif" alt="Facebook" border="none;" /></td>-->
+			<td><a href="http://<?php echo $_SERVER['SERVER_NAME']; ?>"><img alt="Layout" src="/themes/workshop/images/bt_site.gif" border="0" /></a></td>
+			<!--<td style="width:23%;"><img alt="Layout" src="/themes/workshop/images/ic_facebook.gif" alt="Facebook" border="none;" /></td>-->
                     <tr>
                   </table>
 
@@ -177,15 +177,15 @@
             </tr>
             <tr>
               <td>&nbsp;</td>
-              <td style="  border-top: 1px solid #CCCCCC;margin-top: 20px;" valign="bottom"><p style="float:left;"><font size="1">Lucio Costa & Advogados Associados</font></p>
+              <td style="  border-top: 1px solid #CCCCCC;margin-top: 20px;" valign="bottom"><p style="float:left;"><font size="1">Bolsa Família</font></p>
 
                 <p style="padding-left: 319px;"><font size="1">A mensagem foi enviada para 1change_email1. Se você não deseja mais receber os e-mails do Modelo, use este <a href="1change_href1" style="color:#468BCA;">link</a> para cancelar sua inscrição.</font></p></td>
                 <td>&nbsp;</td>
               </tr>
               <tr>
-                <td><img alt="Layout" src="http://www.urucumbrasil.com.br/resources/newsletter/default/images/spacer.gif" alt="" width="20" height="15" /></td>
+                <td><img alt="Layout" src="/themes/workshop/images/spacer.gif" alt="" width="20" height="15" /></td>
                 <td>&nbsp;</td>
-                <td><img alt="Layout" src="http://www.urucumbrasil.com.br/resources/newsletter/default/images/spacer.gif" alt="" width="20" height="15" /></td>
+                <td><img alt="Layout" src="/themes/workshop/images/spacer.gif" alt="" width="20" height="15" /></td>
       </td>
     </tr>
   </table>

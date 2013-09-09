@@ -12,5 +12,10 @@ dependencies[] = form_workshop
 dependencies[] = wysiwyg
 dependencies[] = date
 
+stylesheets[all][] = theme/css/monitor.css
+
+;scripts[] = theme/js/jquery.min.js
+;scripts[] = theme/agenda/js/jquery-core/jquery-1.4.2-ie-fix.min.js
+
 version = "7.15"
 project = "Gabinete Virtual"
