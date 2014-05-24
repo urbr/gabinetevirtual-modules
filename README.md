@@ -13,7 +13,7 @@ Instalação:
 	4 - Install composer
 		Command: curl -sS https://getcomposer.org/installer | php
 	5 - Donwload composer.json for Gabinete Virtual
-		Command: curl https://raw.githubusercontent.com/urucumbrasil/modules-gabinetevirtual/master/composer.json
+		Command: wget https://raw.githubusercontent.com/urucumbrasil/modules-gabinetevirtual/master/install/composer.json
 	6 - Donwload Gabinete Virtual
 		Command: php composer.phar install
 	7 - Restaurar o DUMP do banco de dados que encontra-se na raiz com o nome 'database.tar.gz'. 
