@@ -8,9 +8,53 @@ php = 5.3
 files[] = workshop.install
 files[] = workshop.module
 
-dependencies[] = form_workshop
-dependencies[] = wysiwyg
+
+
+dependencies[] = audiofield
 dependencies[] = date
+dependencies[] = fb_app
+dependencies[] = fb
+dependencies[] = fb_connect
+dependencies[] = fb_canvas
+dependencies[] = fb_tab
+dependencies[] = fb_user
+dependencies[] = fb_views
+dependencies[] = fb_graph
+dependencies[] = fb_autopost
+dependencies[] = field_group
+dependencies[] = jquery_update
+dependencies[] = media
+dependencies[] = panels
+dependencies[] = weight
+dependencies[] = drupalchat
+dependencies[] = features
+dependencies[] = field_group_table
+dependencies[] = juicebox
+dependencies[] = mimemail
+dependencies[] = video
+dependencies[] = wysiwyg
+dependencies[] = entity
+dependencies[] = feeds
+dependencies[] = form_workshop
+dependencies[] = libraries
+dependencies[] = nodeorder
+dependencies[] = views
+dependencies[] = composer_manager
+dependencies[] = examples
+dependencies[] = feeds_excel
+dependencies[] = imagefield_crop
+dependencies[] = login_destination
+dependencies[] = node_order
+dependencies[] = smtp
+dependencies[] = views_jqfx
+dependencies[] = ctools
+dependencies[] = fb
+dependencies[] = feeds_xls
+dependencies[] = job_scheduler
+dependencies[] = mailsystem
+dependencies[] = nodequeue
+dependencies[] = themekey
+dependencies[] = views_jqfx_imageflow
 
 stylesheets[all][] = theme/css/monitor.css
 
