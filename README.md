@@ -16,12 +16,13 @@ Instalação:
 		Command: wget https://raw.githubusercontent.com/urucumbrasil/modules-gabinetevirtual/master/install/composer.json
 	6  - Donwload Gabinete Virtual
 		Command: php composer.phar install
-	7  - Restaurar o DUMP do banco de dados que encontra-se na raiz com o nome 'database.tar.gz'. 
-		Comando: psql dbname < db.sql
+	7  - Restore DUMP 'database.tar.gz'. 
+		Command: tar -zxvf database.tar.gz 
+		Command: psql dbname < db.sql
 	8  - Enable modules "Formulário Oficina de Criação" e "Gabinete Virtual" in Drupal Configuration.
 	9  - Configure parameters in section Gabinete Virtual on Configuration page.
 	10 - Install theme
-		Command: ln -sh sites/all/modules/urucumbrasil/modules-gabinetevirtual/themes sites/themes/urucumbrasil
+		Command: ln -sf ../modules/urucumbrasil/modules-gabinetevirtual/themes/ sites/all/themes/urucumbrasil
 
 Mais Informações
 ===============
