@@ -22,7 +22,7 @@ Instalação:
 	8  - Enable modules "Formulário Oficina de Criação" e "Gabinete Virtual" in Drupal Configuration.
 	9  - Configure parameters in section Gabinete Virtual on Configuration page.
 	10 - Install theme
-		Command: ln -sf ../modules/urucumbrasil/modules-gabinetevirtual/themes/ sites/all/themes/urucumbrasil
+		Command: ln -sf ../modules/urucumbrasil/gabinetevirtual-modules/themes/ sites/all/themes/urucumbrasil
 
 Mais Informações
 ===============
