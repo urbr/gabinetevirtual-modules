@@ -1,0 +1,254 @@
+/* GABINETE */
+boby {
+	background-color:#FFF !important;
+}
+
+
+.JFrontierCal-Week-Header-Cell {
+	background-color:#E7F0FA !important;
+	color:#666 !important;
+	font-weight:bold !important;
+	padding:7px 0px !important;
+	text-align:center !important;
+	border-bottom:1px solid #999 !important;
+	border-right:1px solid #999 !important;
+	border-collapse: collapse !important;
+}
+.ui-droppable {
+	background-color:#FFF !important;
+	background-image:none !important;
+	border-bottom:#999 1px solid !important;
+	border-right:1px solid #999 !important;
+	line-height:15px !important;
+	border-collapse: collapse !important;
+}
+
+.JFrontierCal-Header-Cell {
+	background:#3E3E3E !important;
+	font-weight:bold !important;
+	border:none !important;
+	font-size:14px;
+	padding:11px 0px !important;
+	text-align:center;
+	border-right:1px solid #3E3E3E !important;
+}
+
+.JFrontierCal-PrevMonth-Week-Header-Cell {
+	background-color:#CCC !important;
+	color:#FFF !important;
+}
+
+.JFrontierCal-NextMonth-Week-Header-Cell {
+	background-color:#CCC !important;
+	color:#FFF !important;
+}
+
+
+.JFrontierCal-PrevMonth-Day-Cell {
+	background-color:#CCC !important;
+}
+
+.JFrontierCal-NextMonth-Day-Cell  {
+	background-color:#CCC !important;
+}
+
+.ui-widget-header {
+	background-image:none !important;
+	background-color:#999 !important;
+	border: none !important;
+	color:#FFF !important;
+}
+
+.ui-button-text {
+	background-color:#FCFCFC !important;
+	background-image:none !important;
+	color:#666 !important;
+	border:none !important;
+	color:#333333 !important;	
+}
+
+#site {
+	height:1980px;
+}
+
+#dateSelect {
+	display:none !important;
+}
+
+#iCalSource {
+	display:none !important;
+}
+
+#BtnICalTest {
+	display:none !important;
+}
+
+#BtnNextMonth {
+	margin-left:500px !important;
+}
+
+#cont_itens_gabinete_interno {
+	position:absolute;
+	width:758px !important; 
+	height:1000px;
+	margin:705px 0 0 215px;
+}
+
+.box_item_principal {
+	width:758px;
+	height:203px;
+	margin-bottom:23px;
+	float:left;
+}
+
+.box_item_menor {
+	width:328px;
+	height:213px;
+	background-image:url(/themes/workshop/images/png.png);
+	background-repeat:no-repeat;
+	float:left;
+}
+
+.box_margin  {
+	margin:0 91px 30px 0;
+}
+	
+.box_item_menor h2 {
+	float:left;
+	margin:12px 0 15px 20px;
+	width:300px;
+	color: #4489c9;
+	font-size: 16px;
+	font-weight: bold;
+	padding-top: 0;	
+}
+
+.box_item_menor img {
+	float:left;
+	margin:7px 30px 30px 15px;
+}
+
+.box_item_menor p {
+	margin:45px 15px 0 0;
+}
+
+.box_item_menor p a {
+	color:#666;
+	font-size:11px;
+	line-height:18px;
+}
+
+.box_item_menor p:hover {
+	text-decoration: underline;
+	cursor:pointer;
+}
+
+
+/* CRIAÇÃO */
+
+.fieldset-wrapper {
+	margin-top:15px;
+}
+
+#edit-submit {
+	width:90px !important;
+	height:35px !important;
+}
+
+#edit-field-imagem-und-0-upload-button {
+	margin-left:7px;
+	width:90px;
+	height:30px;
+}
+
+#edit-field-audio-und-0-upload-button {
+	margin-left:7px;
+	width:90px;
+	height:30px;
+}
+
+#edit-field-video-und-0-upload-button {
+	margin-left:7px;
+	width:90px;
+	height:30px;
+}
+
+.form-submit {
+	color:#FFF !important;
+	background-color:#666 !important;
+	font-size:14px !important;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+
+a .launcher {
+	width:100px;
+	height:30px;
+}
+
+.fieldset-legend {
+	font-size:16px !important;
+	font-weight:bold !important;
+	top:25px !important;
+}
+
+#edit-title {
+	background: url("http://getcreditable.com/images/inputbg__v1.2.png") no-repeat scroll -2px -4px #FCFCFC;
+	border-color: #A6A6A6 #CED7DB #CED7DB #A6A6A6;
+	border-radius: 3px 3px 3px 3px;
+	border-style: solid;
+	border-width: 1px;
+	color: #555555;
+	margin: 0;
+	padding: 6px;
+	font-size: 16px;
+	margin-top:14px;
+}
+
+.form-item-title {
+	font-size:18px !important;
+	color:#666 !important;
+	margin-bottom:10px;
+}
+
+.form-type-managed-file label {
+	font-size:14px !important;
+	color:#666 !important;
+}
+
+.horizontal-tab-button {
+	background-color:#333 !important;
+	color:#FFF !important;
+	height:30px !important;
+}
+
+.horizontal-tab-button strong {
+	color:#FFF !important;
+	margin-top:7px !important;
+}
+
+.selected {
+	background-color:#FFF !important;
+	color:#333 !important;
+}
+
+.selected strong {
+	color:#333 !important;
+}
+
+.horizontal-tab-button strong:hover {
+	background-color:#FFF !important;
+	color:#333 !important;
+}
+
+.horizontal-tabs ul.horizontal-tabs-list li a:hover {
+outline: none !important;
+background-color: #FFF !important;
+color:#333 !important;
+}
+
+.horizontal-tabs ul.horizontal-tabs-list li a:hover strong {
+outline: none !important;
+background-color: #FFF !important;
+color:#333 !important;
+}

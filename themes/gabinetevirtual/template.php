@@ -4,6 +4,15 @@
  * Add body classes if certain regions have content.
  */
 function workshop_preprocess_html(&$variables) {
+
+  # Evitar conflitos jQuery nas páginas informadas
+  if(arg(0) != 'workshop' && arg(0) != 'newsletter' && arg(0) != 'batch')
+  	drupal_add_js(drupal_get_path('module', 'workshop').'/theme/agenda/js/jquery-core/jquery-1.4.2-ie-fix.min.js', array('weight' => -20));  
+  if(arg(0) == 'newsletter'){
+	drupal_add_js(drupal_get_path('module', 'workshop').'/theme/js/jquery.min.js', array('weight' => -20));
+	drupal_add_js(drupal_get_path('module', 'workshop').'/theme/js/jquery-ui-min.js', array('weight' => -19));
+  }
+
   if (!empty($variables['page']['featured'])) {
     $variables['classes_array'][] = 'featured';
   }
@@ -76,14 +85,22 @@ function workshop_process_page(&$variables) {
   }
 
   if(arg(0) == 'agenda'){
-    $variables['img_header'] = 'http://www.urucumbrasil.com.br/resources/pro-gabinetetheme/images/bolsafamilia/bolsafamilia.png';
+    $variables['img_header'] = '/themes/bolsa/img/bolsafamilia.png';
   }
 
   if($user->uid != 0){
     $variables['name'] = $user->name;
+    $variables['mail'] = $user->mail;
     $variables['config'] = t('<a href="@url">Editar Configurações</a>', array('@url' => url('user/'.$user->uid.'/edit')));
     $variables['pass'] = t('<a href="@url">Mudar minha Senha</a>', array('@url' => url('user/'.$user->uid.'/edit')));
     $variables['online'] = workshop_get_users_online();
+  }
+
+  if($user->uid){
+	$variables['avatar'] = theme('user_picture', array('account' => user_load($user->uid), 'getsize' => TRUE, 'attributes' => array('class' => 'thumb', 'width' => '175', 'height' => '175')));
+	if(empty($variables['avatar']))
+		$variables['avatar'] = '<img class="portrait" src="/themes/workshop/images/no_picture.jpg">';
+	$variables['uid'] = $user->uid;
   }
 }
 
@@ -170,22 +187,17 @@ function workshop_field__taxonomy_term_reference($variables) {
 }
 
 function workshop_links__system_main_menu($variables) {
-  $menu = array();
-  foreach(variable_get('workshop_menu', '') as $key => $value){
-    if($value != '0' && $value != '')
-      $menu[] = $value;
-  }
   $html = "<ul>";
   $html .= "<li>".l('Gabinete', 'agenda')."</li>";
   $html .= "<li>".l('Site', '')."</li>";
-  foreach ($variables['links'] as $link => $value) {
-    foreach ($menu as $values) {
-      if($values == $value['title']){
-        $html .= "<li>".l($value['title'], $value['href'], $value)."</li>";
-        break;
-      }
-    }
-  }
+  //$html .= "<li>".l('Agenda', 'agenda')."</li>";
+  $html .= "<li>".l('Oficina de criação', 'workshop')."</li>";
+  $html .= "<li>".l('Boletins', 'newsletter')."</li>";
+  $html .= "<li>".l('Conteúdos', 'admin/content')."</li>";
+  $html .= "<li>".l('Galeria', 'workshop/gallery')."</li>";
+  $html .= "<li>".l('Monitor', 'monitor')."</li>";
+  $html .= "<li>".l('Perguntas', 'workshop/listaperguntas')."</li>";
+  //$html .= "<li>".l('Redes Sociais', 'socialnetworks')."</li>";
   $html .= "<li>".l('Sair', 'user/logout')."</li>";
   $html .= "</ul>";
   return $html;
@@ -209,11 +221,11 @@ function workshop_get_users_online(){
     $output = "";
     foreach ($allusers as $u) {
       @$output .= '<div class="user_chat">
-                    <a href="http://www.urucumbrasil.com.br/urucumti/gabinete/shared/user-info?user_id=314322"><img width="37" class="portrait" src="http://www.urucumbrasil.com.br/resources/acs-subsite/no_picture.jpg"></a>
+                    <a href="/user/'.$u->uid.'"><img width="37" class="portrait" src="/themes/workshop/images/no_picture.jpg"></a>
                     <span>';
-      @$output .= '<a href="javascript:void(0)" onclick="javascript:chatWith('.$u->uid.',\''.$u->name.'\')">'.$u->name.'</a></span>';
+      @$output .= '<a href="javascript:void(0)" onclick="javascript:chatWith('.$u->uid.',\''.$u->name.'\')">'.substr($u->name, 0, 15).'</a></span>';
       $img = ($u->access >= time() - $time_period) ? 'online' : 'offline';
-      @$output .= '<img class="online" src="http://www.urucumbrasil.com.br/resources/acs-subsite/'.$img.'.png">';
+      @$output .= '<img class="online" src="/themes/workshop/images/'.$img.'.png">';
       @$output .= '</div>';
    }
 

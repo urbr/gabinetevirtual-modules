@@ -1,0 +1,17 @@
+
+
+.font_size { margin-left:10px; top:310px;}
+.font_size ul { margin-left:8px; }
+.font_size ul li { display:inline; margin-left:0 }
+.font_size .fontdown a { width:30px; height:25px; display:block; float:left; background:url(/themes/workshop/images/icone_letra_pequena.gif) no-repeat; text-indent:-999999px; overflow:hidden; }
+.font_size .fontdown a:hover { border-bottom:3px solid #000; }
+.font_size .fontup a {width:30px; height:25px; display:block; float:left; background:url(/themes/workshop/images/icone_letra_grande.gif) no-repeat; text-indent:-999999px; overflow:hidden; margin-left:3px;}
+.font_size .fontup a:hover { border-bottom:3px solid #000; }
+.font_size p { font:9px Arial; margin:5px 0; }
+
+.fontsize_1 { font:13px Arial; line-height:1.33em; }
+.fontsize_2 { font:14px Arial; line-height:1.33em;}
+.fontsize_3 { font:15px Arial; line-height:1.33em;}
+
+
+

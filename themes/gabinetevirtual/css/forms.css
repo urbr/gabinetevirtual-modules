@@ -1,0 +1,133 @@
+form fieldset {
+	border: 0px solid #F00;
+}
+
+form .form-required-mark {
+    color: #ff0000;
+    display: inline;
+}
+
+form .form-item-wrapper {
+	clear: both;
+	padding: 5px;
+}
+
+form .form-item-wrapper .form-label {
+   display: block;
+}
+
+form .form-item-wrapper .form-widget, form .form-button, form .form-help-text {
+}
+.form-help-text {
+	font-size: 13px;
+	color:#666;
+}
+form .form-item-wrapper .form-error {
+	display: block;
+	color: #ff0000;
+}
+
+.login_portal { margin-bottom:30px; float:left; }
+.registro_portal { float:left; margin-left:20px; }
+
+.form-item-wrapper input { background:#FFF; border-left:1px solid #999; border-top:1px solid #999; border-right:1px solid #EFEFEF; border-bottom:1px solid #EFEFEF; font:10px Verdana, Tahoma, Arial; color:#333; padding:2px; }
+.form-label-error, .form-widget-error, .form-required-mark, .form-error {
+	color: #7F7F7F;
+}
+
+/* form layout for forms with divs*/
+
+.form-fieldset {
+	border: 1px solid #F2A754;
+	margin-top: 10px;
+}
+
+.margin-form .form-required-mark {
+    display: inline;
+}
+
+.margin-form .form-item-wrapper {
+	clear: both;
+	padding: 5px;
+}	
+
+.margin-form .form-item-wrapper .form-label {
+    border-bottom: 1px solid #CCCCCC;
+    color: #666666;
+    font-size: 19px;
+    margin-bottom: 11px;
+    padding-bottom: 8px;
+}
+
+.margin-form .form-item-wrapper .form-widget, .margin-form .form-button, .margin-form div.form-help-text {
+	color:#666;
+}
+
+.margin-form .form-item-wrapper .form-error, .margin-form .form-item-wrapper .form-widget-error {
+	display: block;
+	margin-left: 16em;
+}
+
+
+.vertical-form .form-required-mark {
+    display: inline;
+}
+
+.vertical-form .form-item-wrapper {
+	clear: both;
+	padding: 8px;
+}	
+
+.vertical-form .form-item-wrapper .form-label{
+	text-align: left;
+	display: block;
+
+}
+
+.vertical-form .form-item-wrapper .form-widget{
+	display: inline;
+
+}
+
+
+.inline-form div {
+	display: inline;	
+}
+
+
+/* pages that are laid out like forms but do not use the form builder and do not have input fields*/
+.margin-form-div .form-item-wrapper {
+	padding-bottom: 10px;
+}
+
+.margin-form-div h1 {}
+
+input { border:1px solid #999; padding:2px; font:13px Arial, Helvetica, sans-serif; color:#333; }
+select { border:1px solid #999; padding:2px; font:13px Arial, Helvetica, sans-serif; color:#333; }
+textarea { border:1px solid #999; padding:2px; font:13px Arial, Helvetica, sans-serif; color:#333; }
+
+.margin-form { width:98%; background:#F3F3F3; padding:10px; border:1px solid #E4E4E4; margin-bottom:10px; margin-top:10px; display:table; }
+.form-item-wrapper input, textarea, input.file {     background: url("http://getcreditable.com/images/inputbg__v1.2.png") no-repeat scroll -2px -4px #FCFCFC;
+    border-color: #A6A6A6 #CED7DB #CED7DB #A6A6A6;
+    border-radius: 3px 3px 3px 3px;
+    border-style: solid;
+    border-width: 1px;
+    color: #555555;
+    margin: 0;
+    padding: 6px;
+    font-size: 16px;
+}
+.form-item-wrapper select { background:#FFF; border-left:1px solid #999; border-top:1px solid #999; border-right:1px solid #DDD; border-bottom:1px solid #DDD; padding:2px; font:13px Arial, Helvetica, sans-serif; color:#333; }
+/*.form-item-wrapper textarea { background:#FFF; border-left:1px solid #999; border-top:1px solid #999; border-right:1px solid #DDD; border-bottom:1px solid #DDD; padding:2px; font:13px Arial, Helvetica, sans-serif; color:#333; } */
+.form-button input {    background: none repeat scroll 0 0 #EB9811;
+    border: 0 solid #999999;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: block;
+    float: left;
+    font-size: 20px;
+    margin-right: 5px;
+    margin-top: 10px;
+    padding: 5px;
+    text-align: center;
+}

@@ -4,10 +4,12 @@ package = workshop
 version = VERSION
 core = 7.x
 
-;stylesheets[all][] = css/layout.css
-;stylesheets[all][] = css/style.css
-;stylesheets[all][] = css/colors.css
-;stylesheets[print][] = css/print.css
+stylesheets[all][] = css/lists.css
+stylesheets[all][] = css/forms.css
+stylesheets[all][] = css/default-master.css
+stylesheets[all][] = css/font-size.css
+stylesheets[all][] = css/home.css
+stylesheets[all][] = css/homegabinete.css
 
 regions[header] = Header
 regions[help] = Help

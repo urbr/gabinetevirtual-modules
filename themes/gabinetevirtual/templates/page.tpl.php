@@ -86,27 +86,6 @@
 */
 ?>
 
-  <meta name="keywords" content="" />
-  <meta name="description" content="" />
-  <meta name="robots" content="All" />
-  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-  <meta name="generator" lang="en" content="OpenACS version 5.5.1" />
-  <meta name="author" content="Urucum Brasil" />
-  <link rel="stylesheet" href="http://www.urucumbrasil.com.br/resources/ajaxhelper/jquery/chat.css" type="text/css" media="all">
-  <link rel="stylesheet" href="http://www.urucumbrasil.com.br/resources/acs-templating/lists.css" type="text/css" media="all">
-  <link rel="stylesheet" href="http://www.urucumbrasil.com.br/resources/acs-templating/forms.css" type="text/css" media="all">
-  <link rel="alternate" href="http://www.urucumbrasil.com.br/urucumti/gabinete/noticias/rss/" title="Urucum Brasil" type="application/rss+xml">
-  <link rel="stylesheet" href="http://www.urucumbrasil.com.br/resources/acs-subsite/default-master.css" type="text/css" media="all">
-  <link rel="stylesheet" href="http://www.urucumbrasil.com.br/resources/acs-templating/fontsize/font-size.css" type="text/css" media="all">
-  <link rel="stylesheet" href="http://www.urucumbrasil.com.br/resources/pro-gabinete/css/home.css" type="text/css" media="all">
-  <link rel="stylesheet" href="http://bolsafamilia.urucumbrasil.com.br/themes/bolsa/css/homegabinete.css" type="text/css" media="all">
-
-/<!--\[if lte IE 6\]>
-<style type="text/css">
-<script src="http://www.urucumbrasil.com.br/resources/pro-gabinetetheme/js/DD_belatedPNG.js" type="text/javascript"></script>
-</style>  
-<!\[endif\]-->
-
 <div id="site">
   <div id="topo">
     <div class="menu">
@@ -141,7 +120,9 @@
 
     <div id="user_information">
       <div class="user_photo">
-        <a href="http://www.urucumbrasil.com.br/urucumti/gabinete/user/portrait/upload?return_url=http://www.urucumbrasil.com.br/urucumti/gabinete/arquivos/" target="_blank"><img class="portrait" src="http://www.urucumbrasil.com.br/resources/acs-subsite/no_picture.jpg"> </a>
+        <a href="/user/<?php echo isset($uid) ? $uid : 0 ?>/edit?destination=admin/people" target="_blank">
+		<?php print isset($avatar) ? $avatar : ""; ?>
+	</a>
         <div class="user_status">
           <span>
             <b>
@@ -150,7 +131,7 @@
               <?php endif; ?>
             </b>
           </span> 
-          <img class="online" src="http://www.urucumbrasil.com.br/resources/acs-subsite/online.png">
+          <img class="online" src="/themes/workshop/images/online.png">
         </div>
 
       </div>
@@ -177,12 +158,12 @@
           <?php endif; ?>
 
             <ul style="padding-top:8px;">
-              <li style="float:left;margin-right:8px; float:left;"><a href="http://www.urucumbrasil.com.br/urucumti/gabinete/g/member-invite?return_url=http://www.urucumbrasil.com.br/urucumti/gabinete/arquivos/" class="button" style="border:none;">Convidar</a></li>
-              <li><a href="http://www.urucumbrasil.com.br/urucumti/gabinete/members" class="button" style="border:none;">Membros</a></li>
+              <li style="float:left;margin-right:8px; float:left;"><a href="/admin/people/create" class="button" style="border:none;">Convidar</a></li>
+              <li><a href="/admin/people" class="button" style="border:none;">Membros</a></li>
 
               <div class="box-webconferencia">
                 <p><strong>Webconferência</strong> com membros do gabinete.</p>
-                <p><a href="http://li172-158.members.linode.com/dimdim/html/envcheck/connect.action?action=host&amp;email=fellipe.vasconcelos@urucumbrasil.com.br&amp;confKey=A86CB678AD0FACA0&amp;displayName=Fellipe&amp;confName=Conferência com Membros do Gabinete&amp;lobby=false&amp;networkProfile=2&amp;meetingHours=5&amp;meetingMinutes=0&amp;maxParticipants=100&amp;presenterAV=av&amp;maxAttendeeMikes=3&amp;returnUrl=http://www.urucumbrasil.com.br/urucumti/gabinete/arquivos/&amp;whiteboardEnabled=true&amp;screenShareEnabled=true"><img src="http://www.urucumbrasil.com.br/resources/pro-gabinete/images/bt_iniciar.png" /></a></p>
+                <p><a href="http://li172-158.members.linode.com/dimdim/html/envcheck/connect.action?action=host&amp;email=<?php echo $mail ?>&amp;confKey=A86CB678AD0FACA0&amp;displayName=<?php echo $name ?>&amp;confName=Conferência com Membros do Gabinete&amp;lobby=false&amp;networkProfile=2&amp;meetingHours=5&amp;meetingMinutes=0&amp;maxParticipants=100&amp;presenterAV=av&amp;maxAttendeeMikes=3&amp;returnUrl=http://<?php echo $_SERVER['SERVER_NAME'] ?>"><img src="/themes/workshop/images/bt_iniciar.png" /></a></p>
               </div>
             </ul>
 
@@ -190,44 +171,44 @@
 
         </div>
 
-  <?php if(arg(0) == "agenda"): ?>
+	<?php if(arg(0) == "agenda"): ?>
 
-  <div id="cont_itens_gabinete_interno">
-    <div class="box_item_principal"><a href="<?php print url('workshop'); ?>"><img src="http://bolsafamilia.urucumbrasil.com.br/themes/bolsa/img/agenda/bg_box_m.png" /></a></div>
+ 	<div id="cont_itens_gabinete_interno">
+    <div class="box_item_principal"><img src="/themes/workshop/images/bg_box_m.png" /></div>
     <div class="box_item_menor box_margin">
-      <h2>Gerador de boletim</h2>
-        <img src="http://bolsafamilia.urucumbrasil.com.br/themes/bolsa/img/agenda/thumb_gerador_boletim.png" />
-        <p><a href="<?php print url('newsletter'); ?>">Produza com simples clic boletins personalizados e distribua para públicos especificamente selecionados</a></p>
+    	<h2>Gerador de boletim</h2>
+        <img src="/themes/workshop/images/thumb_gerador_boletim.png" />
+        <p><a href="/newsletter">Produza com simples clic boletins personalizados e distribua para públicos especificamente selecionados</a></p>
     </div>
     <div class="box_item_menor">
-      <h2>Monitor</h2>
-        <img src="http://bolsafamilia.urucumbrasil.com.br/themes/bolsa/img/agenda/thumb_monitor.png" />
-        <p><a href="<?php print url('monitor'); ?>">Acompanhe em tempo real os conteúdos de sites de notícias, blogs, twiters, facebook e demais mídias sociais</a></p>
+    	<h2>Monitor</h2>
+        <img src="/themes/workshop/images/thumb_monitor.png" />
+        <p><a href="/monitor">Acompanhe em tempo real os conteúdos de sites de notícias, blogs, twiters, facebook e demais mídias sociais</a></p>
         </div>
     <div class="box_item_menor box_margin">
-      <h2>Arquivos</h2>
-        <img src="http://bolsafamilia.urucumbrasil.com.br/themes/bolsa/img/agenda/thumb_doc_compartilhados.png" />
-        <p><a>Armazene e organize seus documentos compartilhados deixando-os disponíveis a qualquer tempo e local</a></p>
+    	<h2>Arquivos</h2>
+        <img src="/themes/workshop/images/thumb_doc_compartilhados.png" />
+        <p><a href="/arquivos">Armazene e organize seus documentos compartilhados deixando-os disponíveis a qualquer tempo e local</a></p>
         </div>
     <div class="box_item_menor">
-      <h2>Banco de imagens</h2>
-        <img src="http://bolsafamilia.urucumbrasil.com.br/themes/bolsa/img/agenda/thumb_banco_imagem.png" />
-        <p><a>Faça uploads de suas imagens e as envie para publicação na rede, imprensa ou banco de imagens</a></p>
+    	<h2>Banco de imagens</h2>
+        <img src="/themes/workshop/images/thumb_banco_imagem.png" />
+        <p><a href="/">Faça uploads de suas imagens e as envie para publicação na rede, imprensa ou banco de imagens</a></p>
         </div>
     <div class="box_item_menor box_margin">
-      <h2>Contato</h2>
-        <img src="http://bolsafamilia.urucumbrasil.com.br/themes/bolsa/img/agenda/thumb_contato.png" />
-        <p><a href="<?php print url('newsletter/email'); ?>">Gerencie sua base de contatos organizando-os por região, estrato profissional, área de interesse e outras categorias personalizadas</a></p>
+    	<h2>Contato</h2>
+        <img src="/themes/workshop/images/thumb_contato.png" />
+        <p><a href="/newsletter/email">Gerencie sua base de contatos organizando-os por região, estrato profissional, área de interesse e outras categorias personalizadas</a></p>
         </div>
     <div class="box_item_menor">
-      <h2>Agendar Web Conferência Pública</h2>
-        <img src="http://bolsafamilia.urucumbrasil.com.br/themes/bolsa/img/agenda/thumb_conferencia.png" />
-        <p><a>Crie Web conferencias para conversar diretamente com seu público, com apoio de áudio, vídeo, chat e apresentações online</a></p>
+    	<h2>Agendar Web Conferência Pública</h2>
+        <img src="/themes/workshop/images/thumb_conferencia.png" />
+        <p><a href="/">Crie Web conferencias para conversar diretamente com seu público, com apoio de áudio, vídeo, chat e apresentações online</a></p>
         </div>
 
     <?php endif; ?>
 
-  </div>
+ 	</div>
         <div id="boxes">
           <?php if ($messages): ?>
             <div id="messages">
@@ -239,8 +220,6 @@
           <?php print render($page['content']); ?> 
           
         </div>
-        
-      
 
     </div>
 
@@ -253,7 +232,7 @@
 
 <!-- Rodapé -->
 <div id="footer"> 
-  <p>Produzido por: <a href="#"><img src="http://www.urucumbrasil.com.br/resources/pro-gabinete/images/logo_urucum.png" /></a></p>
+  <p>Produzido por: <a href="#"><img src="/themes/workshop/images/logo_urucum.png" /></a></p>
 </div>
 
 <!-- fecha tudo -->
