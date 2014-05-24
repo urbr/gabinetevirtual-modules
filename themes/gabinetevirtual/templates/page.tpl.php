@@ -131,7 +131,7 @@
               <?php endif; ?>
             </b>
           </span> 
-          <img class="online" src="/themes/workshop/images/online.png">
+          <img class="online" src="/sites/all/themes/workshop/images/online.png">
         </div>
 
       </div>
@@ -161,10 +161,10 @@
               <li style="float:left;margin-right:8px; float:left;"><a href="/admin/people/create" class="button" style="border:none;">Convidar</a></li>
               <li><a href="/admin/people" class="button" style="border:none;">Membros</a></li>
 
-              <div class="box-webconferencia">
+              <!--<div class="box-webconferencia">
                 <p><strong>Webconferência</strong> com membros do gabinete.</p>
-                <p><a href="http://li172-158.members.linode.com/dimdim/html/envcheck/connect.action?action=host&amp;email=<?php echo $mail ?>&amp;confKey=A86CB678AD0FACA0&amp;displayName=<?php echo $name ?>&amp;confName=Conferência com Membros do Gabinete&amp;lobby=false&amp;networkProfile=2&amp;meetingHours=5&amp;meetingMinutes=0&amp;maxParticipants=100&amp;presenterAV=av&amp;maxAttendeeMikes=3&amp;returnUrl=http://<?php echo $_SERVER['SERVER_NAME'] ?>"><img src="/themes/workshop/images/bt_iniciar.png" /></a></p>
-              </div>
+                <p><a href="http://li172-158.members.linode.com/dimdim/html/envcheck/connect.action?action=host&amp;email=<?php echo $mail ?>&amp;confKey=A86CB678AD0FACA0&amp;displayName=<?php echo $name ?>&amp;confName=Conferência com Membros do Gabinete&amp;lobby=false&amp;networkProfile=2&amp;meetingHours=5&amp;meetingMinutes=0&amp;maxParticipants=100&amp;presenterAV=av&amp;maxAttendeeMikes=3&amp;returnUrl=http://<?php echo $_SERVER['SERVER_NAME'] ?>"><img src="/sites/all/themes/workshop/images/bt_iniciar.png" /></a></p>
+              </div>-->
             </ul>
 
           </div>
@@ -174,37 +174,37 @@
 	<?php if(arg(0) == "agenda"): ?>
 
  	<div id="cont_itens_gabinete_interno">
-    <div class="box_item_principal"><img src="/themes/workshop/images/bg_box_m.png" /></div>
+    <div class="box_item_principal"><a href="/workshop"><img src="/sites/all/themes/workshop/images/bg_box_m.png" /></a></div>
     <div class="box_item_menor box_margin">
     	<h2>Gerador de boletim</h2>
-        <img src="/themes/workshop/images/thumb_gerador_boletim.png" />
+        <img src="/sites/all/themes/workshop/images/thumb_gerador_boletim.png" />
         <p><a href="/newsletter">Produza com simples clic boletins personalizados e distribua para públicos especificamente selecionados</a></p>
     </div>
     <div class="box_item_menor">
     	<h2>Monitor</h2>
-        <img src="/themes/workshop/images/thumb_monitor.png" />
+        <img src="/sites/all/themes/workshop/images/thumb_monitor.png" />
         <p><a href="/monitor">Acompanhe em tempo real os conteúdos de sites de notícias, blogs, twiters, facebook e demais mídias sociais</a></p>
         </div>
     <div class="box_item_menor box_margin">
     	<h2>Arquivos</h2>
-        <img src="/themes/workshop/images/thumb_doc_compartilhados.png" />
-        <p><a href="/arquivos">Armazene e organize seus documentos compartilhados deixando-os disponíveis a qualquer tempo e local</a></p>
+        <img src="/sites/all/themes/workshop/images/thumb_doc_compartilhados.png" />
+        <p><a href="/admin/content/media">Armazene e organize seus documentos compartilhados deixando-os disponíveis a qualquer tempo e local</a></p>
         </div>
-    <div class="box_item_menor">
+    <!--<div class="box_item_menor">
     	<h2>Banco de imagens</h2>
-        <img src="/themes/workshop/images/thumb_banco_imagem.png" />
+        <img src="/sites/all/themes/workshop/images/thumb_banco_imagem.png" />
         <p><a href="/">Faça uploads de suas imagens e as envie para publicação na rede, imprensa ou banco de imagens</a></p>
-        </div>
-    <div class="box_item_menor box_margin">
+        </div>-->
+	    <div class="box_item_menor">
     	<h2>Contato</h2>
-        <img src="/themes/workshop/images/thumb_contato.png" />
+        <img src="/sites/all/themes/workshop/images/thumb_contato.png" />
         <p><a href="/newsletter/email">Gerencie sua base de contatos organizando-os por região, estrato profissional, área de interesse e outras categorias personalizadas</a></p>
         </div>
-    <div class="box_item_menor">
+    <!--<div class="box_item_menor">
     	<h2>Agendar Web Conferência Pública</h2>
-        <img src="/themes/workshop/images/thumb_conferencia.png" />
+        <img src="/sites/all/themes/workshop/images/thumb_conferencia.png" />
         <p><a href="/">Crie Web conferencias para conversar diretamente com seu público, com apoio de áudio, vídeo, chat e apresentações online</a></p>
-        </div>
+        </div>-->
 
     <?php endif; ?>
 
@@ -232,7 +232,7 @@
 
 <!-- Rodapé -->
 <div id="footer"> 
-  <p>Produzido por: <a href="#"><img src="/themes/workshop/images/logo_urucum.png" /></a></p>
+  <p>Produzido por: <a href="#"><img src="/sites/all/themes/workshop/images/logo_urucum.png" /></a></p>
 </div>
 
 <!-- fecha tudo -->

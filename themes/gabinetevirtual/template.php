@@ -85,7 +85,7 @@ function workshop_process_page(&$variables) {
   }
 
   if(arg(0) == 'agenda'){
-    $variables['img_header'] = '/themes/bolsa/img/bolsafamilia.png';
+    $variables['img_header'] = '/sites/all/themes/workshop/images/logo.jpg';
   }
 
   if($user->uid != 0){
@@ -99,7 +99,7 @@ function workshop_process_page(&$variables) {
   if($user->uid){
 	$variables['avatar'] = theme('user_picture', array('account' => user_load($user->uid), 'getsize' => TRUE, 'attributes' => array('class' => 'thumb', 'width' => '175', 'height' => '175')));
 	if(empty($variables['avatar']))
-		$variables['avatar'] = '<img class="portrait" src="/themes/workshop/images/no_picture.jpg">';
+		$variables['avatar'] = '<img class="portrait" src="sites/all/themes/workshop/images/no_picture.jpg">';
 	$variables['uid'] = $user->uid;
   }
 }
@@ -194,9 +194,9 @@ function workshop_links__system_main_menu($variables) {
   $html .= "<li>".l('Oficina de criação', 'workshop')."</li>";
   $html .= "<li>".l('Boletins', 'newsletter')."</li>";
   $html .= "<li>".l('Conteúdos', 'admin/content')."</li>";
-  $html .= "<li>".l('Galeria', 'workshop/gallery')."</li>";
+  #$html .= "<li>".l('Galeria', 'workshop/gallery')."</li>";
   $html .= "<li>".l('Monitor', 'monitor')."</li>";
-  $html .= "<li>".l('Perguntas', 'workshop/listaperguntas')."</li>";
+  #$html .= "<li>".l('Perguntas', 'workshop/listaperguntas')."</li>";
   //$html .= "<li>".l('Redes Sociais', 'socialnetworks')."</li>";
   $html .= "<li>".l('Sair', 'user/logout')."</li>";
   $html .= "</ul>";
@@ -221,11 +221,11 @@ function workshop_get_users_online(){
     $output = "";
     foreach ($allusers as $u) {
       @$output .= '<div class="user_chat">
-                    <a href="/user/'.$u->uid.'"><img width="37" class="portrait" src="/themes/workshop/images/no_picture.jpg"></a>
+                    <a href="/user/'.$u->uid.'"><img width="37" class="portrait" src="sites/all/themes/workshop/images/no_picture.jpg"></a>
                     <span>';
       @$output .= '<a href="javascript:void(0)" onclick="javascript:chatWith('.$u->uid.',\''.$u->name.'\')">'.substr($u->name, 0, 15).'</a></span>';
       $img = ($u->access >= time() - $time_period) ? 'online' : 'offline';
-      @$output .= '<img class="online" src="/themes/workshop/images/'.$img.'.png">';
+      @$output .= '<img class="online" src="sites/all/themes/workshop/images/'.$img.'.png">';
       @$output .= '</div>';
    }
 
