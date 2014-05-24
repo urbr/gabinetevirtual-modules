@@ -465,7 +465,7 @@ function workshop_theme(){
         ),
         'newsletters_page_published' => array(
         	'template' => 'newsletters_page_published',
-            'variables' => array('nodes' => NULL, 'news_id' => NULL, 'mail' => FALSE),
+            'variables' => array('nodes' => NULL, 'news_id' => NULL, 'mail' => FALSE, 'title' => 'Bolm Virtual'),
             'path' => drupal_get_path('module', 'workshop').'/theme'
         ),
         'newsletters_page_email' => array(

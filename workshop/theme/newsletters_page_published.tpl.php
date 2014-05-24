@@ -1,6 +1,7 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta property="og:title" content="<?php echo $title ?>" />
   <style type="text/css">
 
   BODY{
@@ -9,7 +10,7 @@
 
   .button {
     -moz-border-radius:5px 5px 5px 5px;
-    background:url("/themes/workshop/images/bg_button_g.png") repeat-x scroll 0 0 transparent;
+    background:url("http://<?php echo $_SERVER['SERVER_NAME']; ?>/themes/workshop/images/bg_button_g.png") repeat-x scroll 0 0 transparent;
     color:#FFFFFF !important;
     display:inline-block;
     font-size:16px;
@@ -44,16 +45,16 @@
 
       <table width="778px" border="0" bgcolor="#FFFFFF" style="border-collapse:collapse; margin:10px auto; font-family:'Lucida Sans Unicode', 'Lucida Grande', arial; -moz-border-radius-bottomright:12px; -moz-border-radius-bottomleft:12px; -moz-border-radius-topright:12px; 	-moz-border-radius-topleft:12px;">
         <tr>
-          <td width="20"><img alt="Layout" src="/themes/workshop/images/spacer.gif" width="20" height="15" /></td>
+          <td width="20"><img alt="Layout" src="http://<?php echo $_SERVER['SERVER_NAME']; ?>/themes/workshop/images/spacer.gif" width="20" height="15" /></td>
           <td>&nbsp;</td>
-          <td width="20"><img alt="Layout" src="/themes/workshop/images/spacer.gif" alt="" width="20" height="15" /></td>
+          <td width="20"><img alt="Layout" src="http://<?php echo $_SERVER['SERVER_NAME']; ?>/themes/workshop/images/spacer.gif" alt="" width="20" height="15" /></td>
         </tr>
         <tr>
-          <td><img alt="Layout" src="/themes/workshop/images/spacer.gif" alt="" width="20" height="1" /></td>
+          <td><img alt="Layout" src="http://<?php echo $_SERVER['SERVER_NAME']; ?>/themes/workshop/images/spacer.gif" alt="" width="20" height="1" /></td>
           <td valign="top"><table width="100%" height="130" border="0" style="border-collapse:collapse;">
 
             <tr>
-              <td valign="top"><img alt="Layout" src="/themes/workshop/images/cabecalho_news.png" /></td>
+              <td valign="top"><img alt="Layout" src="http://<?php echo $_SERVER['SERVER_NAME']; ?>/themes/workshop/images/cabecalho_news.png" /></td>
               </tr>
             </table></td>
             <td>&nbsp;</td>
@@ -71,7 +72,7 @@
                     foreach ($nodes as $node) {
                        if($i < 5){
 			   if($i <= 3)
-                              print '<img alt="Layout" src="/themes/workshop/images/divisor.gif">';
+                              print '<img alt="Layout" src="http://'.$_SERVER["SERVER_NAME"].'/themes/workshop/images/divisor.gif">';
                            @$file = (array)file_load(node_load($node->nid)->field_imagem['und'][0]['fid']);
                            if($i < 3){
                               print '<table width="100%" border="0" cellpadding="3">';
@@ -122,12 +123,12 @@
              <td valign="top" width="231" border="0" style="border-collapse:collapse;">
               <table border="0" style="border-collapse:collapse; -moz-border-radius-bottomleft:0px; -moz-border-radius-topleft:0px;" height="100%">
                 <tr>
-                  <td><img alt="Layout" src="/themes/workshop/images/spacer.gif" alt="" width="20" height="23" /></td>
-                  <td bgcolor="#EDEDED" id="colAux"><img alt="Layout" src="/themes/workshop/images/spacer.gif" alt="" width="20" height="23" /></td>
+                  <td><img alt="Layout" src="http://<?php echo $_SERVER['SERVER_NAME']; ?>/themes/workshop/images/spacer.gif" alt="" width="20" height="23" /></td>
+                  <td bgcolor="#EDEDED" id="colAux"><img alt="Layout" src="http://<?php echo $_SERVER['SERVER_NAME']; ?>/themes/workshop/images/spacer.gif" alt="" width="20" height="23" /></td>
                   <td width="170" bgcolor="#EDEDED">
 
                   <?php
-                    if(true){
+                    if(count($nodes) > 5){
                        print '<table>
                                 <tr>
                                   <td colspan="2" style="padding-top:10px;"><h2><font size="2" color="#000000">OUTROS DESTAQUES</font></h2></td>
@@ -142,7 +143,7 @@
                                       print '<td valign="top"><a href="http://'.$_SERVER['SERVER_NAME'].'/node/'.$others[$key][0].'" style="text-decoration:none;"><font size="1" color="#484848">'.$others[$key][1].'</font></a></td>
                                     </tr>
                                  </table>
-                                 <img alt="Layout" src="/themes/workshop/images/divisor_col_aux.gif" />';
+                                 <img alt="Layout" src="http://"'.$_SERVER["SERVER_NAME"].'/themes/workshop/images/divisor_col_aux.gif" />';
                        }
                     }
                   ?>
@@ -152,23 +153,55 @@
                         <th colspan="2"><h3 style="margin:0; padding:0;"><font size="1" color="#3C507E"><div align="left">TELEFONE</div></font></h3></th>
                     </tr>
                     <tr>
-                        <td style="width:25%;">&nbsp;</td>
-                        <td><h3 style="margin:0; padding:0;"><font size="1" color="#000000">Brasília</font></h3><font size="-1" color="#5B5B5B">61 3215-5269</font></td>
-			<!--<td><img alt="Layout" src="/themes/workshop/images/ic_twitter.gif" alt="Twitter" border="none;" /></td>-->
+                        <!--<td style="width:25%;">&nbsp;</td>-->
+                        <td><font size="-1" color="#5B5B5B">0800 707 2003</font></td>
+			<!--<td><img alt="Layout" src="http://<?php echo $_SERVER['SERVER_NAME']; ?>/themes/workshop/images/ic_twitter.gif" alt="Twitter" border="none;" /></td>-->
                     </tr>
                     <tr>
-                        <td style="width:25%;">&nbsp;</td>
-                        <td><h3 style="margin:0; padding:0;"><font size="1" color="#000000">Porto Alegre</font></h3><font size="-1" color="#5B5B5B">51 3023-3922</font></td>
-                        <!--<td><img alt="Layout" src="/themes/workshop/images/ic_twitter.gif" alt="Twitter" border="none;" /></td>-->
+                        <!--<td style="width:25%;">&nbsp;</td>-->
+                        <!--<td><h3 style="margin:0; padding:0;"><font size="1" color="#000000">Porto Alegre</font></h3><font size="-1" color="#5B5B5B">51 3023-3922</font></td>-->
+                    </tr>
+                  </table>
+
+                  <table width="100%" style="margin-top:20px;">
+                    <tr>
+			<td style="width:5%;"><a href="http://www.facebook.com/BolsaFamilia10anos"><img alt="Layout" src="http://<?php echo $_SERVER['SERVER_NAME']; ?>/themes/workshop/images/ic_facebook.gif" alt="Facebook" border="none;" /></a></td>
+			<td style="width:5%;"><a href="http://www.flickr.com/photos/bolsafamilia10anos"><img alt="Layout" src="http://<?php echo $_SERVER['SERVER_NAME']; ?>/themes/workshop/images/ic_flickr.gif" alt="Twitter" border="none;" /></a></td>
+                        <td><a href="http://www.youtube.com/bolsafamilia10anos"><img alt="Layout" src="http://<?php echo $_SERVER['SERVER_NAME']; ?>/themes/workshop/images/ic_youtube.gif" alt="Facebook" border="none;" /></a></td>
                     </tr>
                   </table>
                   <table width="100%" style="margin-bottom:10px">
                     <tr>
                     </tr>
-			<td><a href="http://<?php echo $_SERVER['SERVER_NAME']; ?>"><img alt="Layout" src="/themes/workshop/images/bt_site.gif" border="0" /></a></td>
-			<!--<td style="width:23%;"><img alt="Layout" src="/themes/workshop/images/ic_facebook.gif" alt="Facebook" border="none;" /></td>-->
+			<td><a href="http://<?php echo $_SERVER['SERVER_NAME']; ?>"><img alt="Layout" src="http://<?php echo $_SERVER['SERVER_NAME']; ?>/themes/workshop/images/bt_site.gif" border="0" /></a></td>
+			<!--<td style="width:23%;"><a href="http://www.facebook.com/BolsaFamilia10anos"><img alt="Layout" src="http://<?php echo $_SERVER['SERVER_NAME']; ?>/themes/workshop/images/ic_facebook.gif" alt="Facebook" border="none;" /></a></td>-->
                     <tr>
                   </table>
+
+
+<!-- COMPARTILHE -->
+
+
+                  <table width="100%" style="margin-top:20px;">
+                    <tr>
+                        <td colspan="2"><h3 style="margin:0; padding:0;"><font size="1" color="#3C507E"><div align="left">COMPARTILHE:</div></font></h3></th>
+                    </tr>
+                  </table>
+
+                  <table width="100%" style="margin-top:20px;margin-bottom:20px;">
+                    <tr>
+			<td style="width:5%;">
+				<a href="http://www.facebook.com/sharer.php?u=http://<?php echo $_SERVER['SERVER_NAME']; ?>/newsletter/item/<?php print $news_id; ?>">
+					<img alt="Layout" src="http://<?php echo $_SERVER['SERVER_NAME']; ?>/themes/workshop/images/ic_facebook.gif" alt="Facebook" border="none;" />
+				</a>
+			</td>
+			<td>
+				<a href="http://twitter.com/home?status=<?php echo $title; ?>: http://<?php echo $_SERVER['SERVER_NAME']; ?>/newsletter/item/<?php print $news_id; ?>">
+                                        <img alt="Layout" src="http://<?php echo $_SERVER['SERVER_NAME']; ?>/themes/workshop/images/ic_twitter.gif" alt="Facebook" border="none;" />
+			</td>
+                    </tr>
+                  </table>
+
 
                     </tr>
                   </table></td>
@@ -177,15 +210,15 @@
             </tr>
             <tr>
               <td>&nbsp;</td>
-              <td style="  border-top: 1px solid #CCCCCC;margin-top: 20px;" valign="bottom"><p style="float:left;"><font size="1">Bolsa Família</font></p>
+              <td style="  border-top: 1px solid #CCCCCC;margin-top: 20px;" valign="bottom"><p style="float:left;"><font size="1">Bolsa Família 10 Anos</font></p>
 
                 <p style="padding-left: 319px;"><font size="1">A mensagem foi enviada para 1change_email1. Se você não deseja mais receber os e-mails do Modelo, use este <a href="1change_href1" style="color:#468BCA;">link</a> para cancelar sua inscrição.</font></p></td>
                 <td>&nbsp;</td>
               </tr>
               <tr>
-                <td><img alt="Layout" src="/themes/workshop/images/spacer.gif" alt="" width="20" height="15" /></td>
+                <td><img alt="Layout" src="http://<?php echo $_SERVER['SERVER_NAME']; ?>/themes/workshop/images/spacer.gif" alt="" width="20" height="15" /></td>
                 <td>&nbsp;</td>
-                <td><img alt="Layout" src="/themes/workshop/images/spacer.gif" alt="" width="20" height="15" /></td>
+                <td><img alt="Layout" src="http://<?php echo $_SERVER['SERVER_NAME']; ?>/themes/workshop/images/spacer.gif" alt="" width="20" height="15" /></td>
       </td>
     </tr>
   </table>

@@ -161,8 +161,13 @@ function newsletter_view($newsletter_id){
 	->execute()
 	->fetchAll();
 
+	foreach(($obj = $result) as $res){
+		$title = $res->title;
+		break;
+	}
+
 	if($result){
-		print theme('newsletters_page_published', array('nodes' => $result, 'news_id' => $newsletter_id));
+		print theme('newsletters_page_published', array('nodes' => $result, 'news_id' => $newsletter_id, 'title' => $title));
 	} else {
 		drupal_goto();
 	}
@@ -278,6 +283,8 @@ function newsletter_send_form_validate($form, &$form_state){
 
 function newsletter_send_form_submit($form, &$form_state){
 
+	set_time_limit(0);
+
 	$news_id = $form_state['values']['news_id'];
 
 	$result = db_select('newsletter', 'nl')
@@ -287,7 +294,16 @@ function newsletter_send_form_submit($form, &$form_state){
 	->execute()
 	->fetchAll();
 
-	$html = theme('newsletters_page_published', array('nodes' => $result, 'news_id' => $news_id, 'mail' => TRUE));
+        foreach(($obj = $result) as $res){
+                $title = $res->title;
+                break;
+        }
+
+	$html = theme('newsletters_page_published', array('nodes' => $result, 'news_id' => $news_id, 'mail' => TRUE, 'title' => $title));
+
+	foreach($result as $r){
+		$subject = $r->title;
+	}
 
 	$where = "";
 	$leftjoin = array();
@@ -327,7 +343,7 @@ function newsletter_send_form_submit($form, &$form_state){
 
 	$fail = $success = 0;
 	foreach (db_query($query) as $res){
-		(Workshop::sendMail($html, $res)) ? $success++ : $fail++;
+		(Workshop::sendMail($html, $res, $subject)) ? $success++ : $fail++;
 	}
 	drupal_set_message("<p><b>Newsletter enviado com sucesso!</b></p><p><i>Relatório:</i></p>
 		<p>Total de e-mails enviados: <b>$success</b>
@@ -350,10 +366,15 @@ function newsletter_send_test($news_id){
 	->execute()
 	->fetchAll();
 
-	$html = theme('newsletters_page_published', array('nodes' => $result, 'news_id' => $news_id, 'mail' => TRUE));
+        foreach(($obj = $result) as $res){
+                $title = $res->title;
+                break;
+        }
+
+	$html = theme('newsletters_page_published', array('nodes' => $result, 'news_id' => $news_id, 'mail' => TRUE, 'title' => $title));
 
 	if($user->uid){
-		if(Workshop::sendMail($html, $user))
+		if(Workshop::sendMail($html, $user, "BOLETIM VIRTUAL - TESTE"))
 			drupal_set_message("Um newsletter de teste foi enviado para o e-mail: <b>".$user->mail."</b>");
 		else
 			form_set_error("error", "Não foi possível enviar esse newsletter por e-mail!");

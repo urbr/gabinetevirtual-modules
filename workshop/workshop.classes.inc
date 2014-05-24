@@ -4,7 +4,7 @@ class WorkShop {
 	
     function initialize() { }
 
-    public static function sendMail($html = "", $object){
+    public static function sendMail($html = "", $object, $subject = "BOLETIM VIRTUAL"){
     	if(!empty($html) && $object instanceof stdClass){
     		$mail = (isset($object->title)) ? $object->title : $object->mail;
     		$nid  = (isset($object->nid)) ? $object->nid : $object->uid;
@@ -13,7 +13,6 @@ class WorkShop {
 			$html = str_replace("1change_href1", $_SERVER['SERVER_NAME'].
 				"/newsletter/email/cancel/".$nid."/".$mail, $html);
 
-			$subject = "BOLETIM VIRTUAL - ".date("d/m/Y H:i", time());
 			$body[]  = $html;
 		    $params['subject'] = $subject;
 		    $params['body']    = $body;
