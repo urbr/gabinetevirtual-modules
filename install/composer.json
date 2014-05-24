@@ -1,7 +1,7 @@
 {
     "require": {
         "php": ">=5.3.0",
-	"urucumbrasil/modules-gabinetevirtual": "dev-master"
+	"urucumbrasil/gabinetevirtual-modules": "dev-master"
     },
     "config": {
         "vendor-dir":"sites\/all\/modules"

@@ -23,6 +23,7 @@ Instalação:
 	9  - Configure parameters in section Gabinete Virtual on Configuration page.
 	10 - Install theme
 		Command: ln -sf ../modules/urucumbrasil/gabinetevirtual-modules/themes/ sites/all/themes/urucumbrasil
+	11 - Install extra modules https://github.com/urucumbrasil/gabinetevirtual-required-modules
 
 Mais Informações
 ===============
