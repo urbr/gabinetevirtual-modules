@@ -1,6 +1,6 @@
 {
     "name": "urbr/gabinetevirtual-modules",
-    "description": "Módulo Gabinete Virtual para gestão de conteúdo em Drupal 7.x",
+    "description": "Módulo Gabinete Virtual para gestão de conteúdo Drupal 7.x",
     "license": "GPL",
     "authors": [
         {
