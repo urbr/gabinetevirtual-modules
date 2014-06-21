@@ -6,6 +6,7 @@
 	   theme : "modern",	
 	   valid_elements :"*[*]",
 	   editor_selector :"description textareaG",
+	   plugins: "anchor code ",
        height: "200",
 	});', array('type' => 'inline', 'scope' => 'footer'));
 ?>
