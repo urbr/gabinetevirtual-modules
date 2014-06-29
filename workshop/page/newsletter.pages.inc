@@ -7,12 +7,19 @@
 function newsletter(){
 
 	$newsletters = db_select('newsletter', 'nl')->distinct()
-	->fields('nl', array('news_id', 'created'))
+	->fields('nl', array('news_id', 'created', 'counter'))
 	->orderBy('created', 'DESC')
 	->execute()
 	->fetchAll();
 
-	return theme('newsletters_page', array('newsletters' => $newsletters));
+
+	foreach($newsletters as $n) {
+		$count = explode(",", $n->counter);
+		$n->num = sizeof($count)-1;
+		$news[] = $n;
+	}
+
+	return theme('newsletters_page', array('newsletters' => $news));
 }
 # FIM INDEX DA NEWSLETTER
 
@@ -204,7 +211,7 @@ function newsletter_send_form($form, &$form_state, $news_id){
 				->condition('f.entity_id', $res->nid, '=')
 				->execute()
 				->fetchField();
-
+			
 			$values[$key][$field] = $field;
 			$options[$key] = $name;
 		}
@@ -337,7 +344,7 @@ function newsletter_send_form_submit($form, &$form_state){
 		}
 	}
 
-	$query = "SELECT title, nid FROM node AS n ".implode(" ", $leftjoin)." WHERE ".$where;
+	$query = "SELECT distinct title, nid FROM node AS n ".implode(" ", $leftjoin)." WHERE ".$where;
 	$type  = "n.type = 'contatos' AND status <> 0";
 	$query = ($entry == 0) ? $query.$type : $query.' AND '.$type;
 
@@ -351,6 +358,39 @@ function newsletter_send_form_submit($form, &$form_state){
 	drupal_goto("newsletter");
 }
 #FIM FORMULÁRIO P/ ENVIO DE E-MAIL
+
+function newsletter_counter($newsletter_id, $email_string){
+
+        $result = db_select('newsletter', 'nl')
+        ->fields('nl')
+        ->condition('nl.news_id', $newsletter_id, '=')
+        ->orderBy('nl.id', 'ASC')
+        ->execute()
+        ->fetchAll();
+
+	$email = explode(".", $email_string);
+	$email_id = $email[0];
+        if($result){
+                $emails = ($result[0]->counter) ? $result[0]->counter : '';
+                $emails .= $email_id.',';
+
+                $update = db_update('newsletter')
+                ->fields(array(
+                    'counter' => $emails
+                ))
+                ->condition('news_id', $newsletter_id)
+                ->execute();
+	
+        }
+	// Serve file download.
+  	drupal_add_http_header('Cache-Control', 'must-revalidate, post-check=0, pre-check=0');
+  	drupal_add_http_header('Content-Type', 'image/gif');
+	drupal_add_http_header('Content-Transfer-Encoding', 'binary');
+  	drupal_add_http_header('Content-Length', filesize('/tmp/t.gif'));
+	readfile($_SERVER['DOCUMENT_ROOT'].'/'.drupal_get_path('module', 'workshop').'/images/t.gif');
+  	drupal_exit();
+}
+
 
 
 #ENVIO DE NEWSLETTER (TESTE)

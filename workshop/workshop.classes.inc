@@ -10,6 +10,7 @@ class WorkShop {
     		$nid  = (isset($object->nid)) ? $object->nid : $object->uid;
 
 			$html = str_replace("1change_email1", $mail, $html);
+			$html = str_replace("1email_id1", $nid, $html);
 			$html = str_replace("1change_href1", $_SERVER['SERVER_NAME'].
 				"/newsletter/email/cancel/".$nid."/".$mail, $html);
 

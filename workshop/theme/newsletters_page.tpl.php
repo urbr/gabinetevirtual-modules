@@ -21,7 +21,7 @@
 				<td>Enviar teste</td>
 				<td>Editar</td>
 				<td>Excluir</td>
-				<td>Relatório de envio</td>
+				<td>Relatório de recebimento</td>
 
 			</tr>
 
@@ -35,7 +35,7 @@
 					print ' 	<td><a class="button" href="?q=newsletter/send/test/'.$news->news_id.'">Teste</a> </td>';
 					print ' 	<td><a class="button" href="?q=newsletter/edit/item/'.$news->news_id.'">Editar</a></td>';
 					print ' 	<td><a class="button" href="?q=newsletter/delete/'.$news->news_id.'">Excluir</a></td>';
-					print ' 	<td>0</td>';
+					print ' 	<td>'.$news->num.'</td>';
 					print ' </tr>';
 				}
 			?>
