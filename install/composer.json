@@ -1,10 +1,10 @@
 {
     "require": {
         "php": ">=5.3.0",
-	"urbr/gabinetevirtual-modules": "dev-master",
-	"urbr/gabinetevirtual-required-modules": "dev-master"
+        "urbr/gabinetevirtual-modules": "dev-master",
+        "urbr/gabinetevirtual-required-modules": "dev-master"
     },
     "config": {
-        "vendor-dir":"sites\/all\/modules"
+        "vendor-dir":"sites\/all\/modules\/vendors"
     }
 }
