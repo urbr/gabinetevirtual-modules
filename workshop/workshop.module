@@ -244,6 +244,20 @@ function workshop_menu() {
 		'expanded' => TRUE,
 	);
 
+	$items['newsletter/report/%'] = array(
+		'title' => 'Relatório de leitura',
+		'page callback' => 'newsletter_report',
+		'page arguments' => array(2),
+		'access arguments' => array('administer_workshop'),
+		'description' => 'Exibe relatório de leitura do email',
+		'file' => 'newsletter.pages.inc',
+		'file path' => $path,
+		'menu_name' => 'main-menu',
+		'type' => MENU_CALLBACK,
+		'expanded' => TRUE,
+	);
+
+
 	$items['newsletter/email'] = array(
 		'title' => 'Banco de e-mails',
 		'page callback' => 'newsletter_email',
@@ -467,8 +481,13 @@ function workshop_theme(){
 		 ),
         'newsletters_page' => array(
         	'template' => 'newsletters_page',
-            'variables' => array('newsletters' => NULL),
-            'path' => drupal_get_path('module', 'workshop').'/theme'
+	        'variables' => array('newsletters' => NULL),
+          	'path' => drupal_get_path('module', 'workshop').'/theme'
+        ),
+        'newsletters_report_page' => array(
+        	'template' => 'newsletters_report_page',
+	        'variables' => array('log' => NULL),
+	        'path' => drupal_get_path('module', 'workshop').'/theme'
         ),
         'newsletters_page_create' => array(
         	'template' => 'newsletters_page_create',
@@ -512,6 +531,9 @@ function workshop_cron(){
 		$mail_message = drupal_mail('workshop', 'message', 
 			variable_get('workshop_mail_admin', ''), language_default(),
 			$params, variable_get('workshop_mail', 'boletim-virtual@norepley.com'), FALSE);
+	}
+	if(variable_get('newsletter_send_running', 0) == 0){
+		Workshop::cronSendMail();
 	}
 }
 

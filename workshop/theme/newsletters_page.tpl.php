@@ -21,8 +21,9 @@
 				<td>Enviar teste</td>
 				<td>Editar</td>
 				<td>Excluir</td>
-				<td>Relatório de recebimento</td>
-
+				<td>Em envio</td>
+				<td>Enviados</td>
+				<td>Lidos</td>
 			</tr>
 
 			<?php
@@ -35,7 +36,9 @@
 					print ' 	<td><a class="button" href="?q=newsletter/send/test/'.$news->news_id.'">Teste</a> </td>';
 					print ' 	<td><a class="button" href="?q=newsletter/edit/item/'.$news->news_id.'">Editar</a></td>';
 					print ' 	<td><a class="button" href="?q=newsletter/delete/'.$news->news_id.'">Excluir</a></td>';
-					print ' 	<td>'.$news->num.'</td>';
+					print ' 	<td>'.$news->send_num.'</td>';
+					print ' 	<td>'.$news->sent_num.'</td>';
+					print ' 	<td><a href="?q=newsletter/report/'.$news->news_id.'">'.$news->num.'</a></td>';
 					print ' </tr>';
 				}
 			?>
