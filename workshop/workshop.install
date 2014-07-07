@@ -48,6 +48,7 @@ function workshop_schema() {
    'primary key' => array('id'),
   );
 
+
   $schema['agenda'] = array(
    'description' => 'Tabela de eventos da agenda',
    'fields' => array(
@@ -100,10 +101,16 @@ function workshop_schema() {
         'not null' => TRUE,
       ),
       'created' => array (
-        'description' => 'Data de criação',
+        'description' => 'data de criação',
         'type' => 'int',
-        'unsigned' => TRUE,
-        'not null' => TRUE,
+        'unsigned' => true,
+        'not null' => true,
+      ),
+      'status' => array (
+        'description' => 'status',
+        'type' => 'int',
+        'unsigned' => true,
+        'not null' => true,
       ),
     ),
    'primary key' => array('id'),
@@ -227,7 +234,7 @@ function workshop_update_1() {
 
 
 function workshop_update_2() {
-  db_add_field('newsletter_log', 'ip', array('type' => 'varchar', 'not null' => FALSE, 'description' => 'IP reader'));
+  //db_add_field('newsletter_log', 'ip', array('type' => 'varchar', 'not null' => FALSE, 'description' => 'IP reader'));
 }
 function workshop_update_3() {
   drupal_install_schema('workshop_send_control');

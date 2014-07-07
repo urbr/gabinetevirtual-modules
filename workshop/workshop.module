@@ -738,7 +738,7 @@ function workshop_node_presave($node){
 
 function unsetFormFields($form){
 	unset($form['menu']);
-	unset($form['body_field']['format']);
+	//unset($form['body_field']['format']);
 	unset($form['revision_information']);
 	unset($form['path']);
 	unset($form['attachments']);

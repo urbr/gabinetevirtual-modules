@@ -1,11 +1,11 @@
 <!-- Include CSS for JQuery Frontier Calendar plugin (Required for calendar plugin) -->
-<link rel="stylesheet" type="text/css" href="/sites/all/modules/urbr/gabinetevirtual-modules/workshop/theme/agenda/css/frontierCalendar/jquery-frontier-cal-1.3.2.css" />
+<link rel="stylesheet" type="text/css" href="<?php print drupal_get_path('module', 'workshop')?>/theme/agenda/css/frontierCalendar/jquery-frontier-cal-1.3.2.css" />
 
 <!-- Include CSS for color picker plugin (Not required for calendar plugin. Used for example.) -->
-<link rel="stylesheet" type="text/css" href="/sites/all/modules/urbr/gabinetevirtual-modules/workshop/theme/agenda/css/colorpicker/colorpicker.css" />
+<link rel="stylesheet" type="text/css" href="<?php print drupal_get_path('module', 'workshop')?>/theme/agenda/css/colorpicker/colorpicker.css" />
 
 <!-- Include CSS for JQuery UI (Required for calendar plugin.) -->
-<link rel="stylesheet" type="text/css" href="/sites/all/modules/urbr/gabinetevirtual-modules/workshop/theme/agenda/css/jquery-ui/smoothness/jquery-ui-1.8.1.custom.css" />
+<link rel="stylesheet" type="text/css" href="<?php print drupal_get_path('module', 'workshop')?>/theme/agenda/css/jquery-ui/smoothness/jquery-ui-1.8.1.custom.css" />
 
 <!--
 Include JQuery Core (Required for calendar plugin)
@@ -13,23 +13,23 @@ Include JQuery Core (Required for calendar plugin)
 -->
 
 <!-- Include JQuery UI (Required for calendar plugin.) -->
-<script type="text/javascript" src="/sites/all/modules/urbr/gabinetevirtual-modules/workshop/theme/agenda/js/jquery-ui/smoothness/jquery-ui-1.8.1.custom.min.js"></script>
+<script type="text/javascript" src="<?php print drupal_get_path('module', 'workshop')?>/theme/agenda/js/jquery-ui/smoothness/jquery-ui-1.8.1.custom.min.js"></script>
 
 <!-- Include color picker plugin (Not required for calendar plugin. Used for example.) -->
-<script type="text/javascript" src="/sites/all/modules/urbr/gabinetevirtual-modules/workshop/theme/agenda/js/colorpicker/colorpicker.js"></script>
+<script type="text/javascript" src="<?php print drupal_get_path('module', 'workshop')?>/theme/agenda/js/colorpicker/colorpicker.js"></script>
 
 <!-- Include jquery tooltip plugin (Not required for calendar plugin. Used for example.) -->
-<script type="text/javascript" src="/sites/all/modules/urbr/gabinetevirtual-modules/workshop/theme/agenda/js/jquery-qtip-1.0.0-rc3140944/jquery.qtip-1.0.js"></script>
+<script type="text/javascript" src="<?php print drupal_get_path('module', 'workshop')?>/theme/agenda/js/jquery-qtip-1.0.0-rc3140944/jquery.qtip-1.0.js"></script>
 
 <!--
 	(Required for plugin)
 	Dependancies for JQuery Frontier Calendar plugin.
     ** THESE MUST BE INCLUDED BEFORE THE FRONTIER CALENDAR PLUGIN. **
 -->
-<script type="text/javascript" src="/sites/all/modules/urbr/gabinetevirtual-modules/workshop/theme/agenda/js/lib/jshashtable-2.1.js"></script>
+<script type="text/javascript" src="<?php print drupal_get_path('module', 'workshop')?>/theme/agenda/js/lib/jshashtable-2.1.js"></script>
 
 <!-- Include JQuery Frontier Calendar plugin -->
-<script type="text/javascript" src="/sites/all/modules/urbr/gabinetevirtual-modules/workshop/theme/agenda/js/frontierCalendar/jquery-frontier-cal-1.3.2.js"></script>
+<script type="text/javascript" src="<?php print drupal_get_path('module', 'workshop')?>/theme/agenda/js/frontierCalendar/jquery-frontier-cal-1.3.2.js"></script>
 
 
 <!-- Some CSS for our example. (Not required for calendar plugin. Used for example.)-->
