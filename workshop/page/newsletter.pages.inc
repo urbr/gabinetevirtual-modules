@@ -12,9 +12,53 @@ function newsletter(){
 	->execute()
 	->fetchAll();
 
-	return theme('newsletters_page', array('newsletters' => $newsletters));
+
+	foreach($newsletters as $n) {
+
+		$log = db_select('newsletter_log', 'nl')
+			->fields('nl', array('email_id'))
+			->condition('nl.news_id', $n->news_id)	
+			->execute();
+		$sent = db_select('newsletter_send_control', 'nl')
+			->fields('nl', array('email_id'))
+			->condition('nl.sent', 1)	
+			->condition('nl.news_id', $n->news_id)	
+			->execute();
+
+             	$send = db_select('newsletter_send_control', 'nl')
+			->fields('nl', array('email_id'))
+			->condition('nl.news_id', $n->news_id)	
+			->execute();
+
+
+		$n->num = $log->rowCount();
+		$n->sent_num = $sent->rowCount();
+		$n->send_num = $send->rowCount();
+		$news[] = $n;
+	}
+
+	return theme('newsletters_page', array('newsletters' => $news));
 }
 # FIM INDEX DA NEWSLETTER
+
+
+
+#  NEWSLETTER REPORT
+
+function newsletter_report($newsletter_id){
+
+	$query = db_select('newsletter_log', 'nl')
+			->fields('nl', array('email_id'));
+	$query->addExpression('count(nl.email_id)', 'count');
+	$query->condition('nl.news_id', $newsletter_id);
+	$query->groupBy('nl.email_id');
+	$query->orderBy('count', 'DESC');
+	$log = $query->execute()->fetchAll();
+	return theme('newsletters_report_page', array('log' => $log));
+}
+# END NEWSLETTER REPORT
+
+
 
 
 #GERAR FORMULÁRIO DE CRIAÇÃO DE NEWSLETTER
@@ -204,7 +248,7 @@ function newsletter_send_form($form, &$form_state, $news_id){
 				->condition('f.entity_id', $res->nid, '=')
 				->execute()
 				->fetchField();
-
+			
 			$values[$key][$field] = $field;
 			$options[$key] = $name;
 		}
@@ -337,13 +381,15 @@ function newsletter_send_form_submit($form, &$form_state){
 		}
 	}
 
-	$query = "SELECT title, nid FROM node AS n ".implode(" ", $leftjoin)." WHERE ".$where;
+	$query = "SELECT distinct title, nid FROM node AS n ".implode(" ", $leftjoin)." WHERE ".$where;
 	$type  = "n.type = 'contatos' AND status <> 0";
 	$query = ($entry == 0) ? $query.$type : $query.' AND '.$type;
 
 	$fail = $success = 0;
 	foreach (db_query($query) as $res){
-		(Workshop::sendMail($html, $res, $subject)) ? $success++ : $fail++;
+		$q = 'select email_id from newsletter_send_control where email_id = :email_id and news_id = :news_id';
+		if(db_query($q, array(':email_id' => $res->nid, ':news_id' => $news_id))->rowCount() == 0) 
+			(Workshop::queueMail($html, $res, $subject,$news_id)) ? $success++ : $fail++;
 	}
 	drupal_set_message("<p><b>Newsletter enviado com sucesso!</b></p><p><i>Relatório:</i></p>
 		<p>Total de e-mails enviados: <b>$success</b>
@@ -351,6 +397,30 @@ function newsletter_send_form_submit($form, &$form_state){
 	drupal_goto("newsletter");
 }
 #FIM FORMULÁRIO P/ ENVIO DE E-MAIL
+
+function newsletter_counter($newsletter_id, $email_string){
+
+	$email = explode(".", $email_string);
+	$email_id = $email[0];
+
+
+	db_insert('newsletter_log') // Table name no longer needs {}
+				->fields(array(
+				  'news_id' => $newsletter_id,
+				  'email_id' => $email_id,
+				  'ip'  => ip_address(),
+				  'date'  => time(),
+				))->execute();
+				
+	// Serve file download.
+  	drupal_add_http_header('Cache-Control', 'must-revalidate, post-check=0, pre-check=0');
+  	drupal_add_http_header('Content-Type', 'image/gif');
+	drupal_add_http_header('Content-Transfer-Encoding', 'binary');
+  	drupal_add_http_header('Content-Length', filesize('/tmp/t.gif'));
+	readfile($_SERVER['DOCUMENT_ROOT'].'/'.drupal_get_path('module', 'workshop').'/images/t.gif');
+  	drupal_exit();
+}
+
 
 
 #ENVIO DE NEWSLETTER (TESTE)

@@ -4,6 +4,51 @@ class WorkShop {
 	
     function initialize() { }
 
+    public static function queueMail($html = "", $object, $subject = 'BOLETIM VIRTUAL', $news_id){
+    	if(!empty($html) && $object instanceof stdClass){
+
+    		$mail = (isset($object->title)) ? $object->title : $object->mail;
+    		$nid  = (isset($object->nid)) ? $object->nid : $object->uid;
+
+		$html = str_replace("1change_email1", $mail, $html);
+		$html = str_replace("1email_id1", $nid, $html);
+		$html = str_replace("1change_href1", $_SERVER['SERVER_NAME'].
+			"/newsletter/email/cancel/".$nid."/".$mail, $html);
+
+		$body[]  = $html;
+	    	$params['subject'] = $subject;
+	   	$params['body']    = $body;
+		db_insert('newsletter_send_control') 
+				->fields(array(
+				  'email_id' => $nid,
+				  'subject' => $subject,
+				  'body' => $html,
+				  'sent' => 0,
+				  'error' => 0,
+				  'date' => time(),
+				  'news_id' => $news_id,
+				))->execute();
+	        return true;	
+    	}
+    	return false;
+    }
+	
+
+    public static function cronSendMail(){
+		variable_set('newsletter_send_running', 1);	
+		$query = db_select('newsletter_send_control', 'n');
+		$query->fields('n', array('email_id','subject','body','news_id'));
+		$query->condition('n.sent', 0);
+		$query->condition('n.error', 0);
+		$query->range(0,200);	
+		$result = $query->execute()->fetchAll();
+
+		foreach($result as $r) {
+			(Workshop::sendMail($r->body, node_load($r->email_id), $r->subject)) ? Workshop::success($r->news_id, $r->email_id) : Workshop::error($r->news_id, $r->email_id);
+		}
+		variable_set('newsletter_send_running', 0);	
+    }
+	
     public static function sendMail($html = "", $object, $subject = 'BOLETIM VIRTUAL'){
     	if(!empty($html) && $object instanceof stdClass){
 
@@ -11,6 +56,7 @@ class WorkShop {
     		$nid  = (isset($object->nid)) ? $object->nid : $object->uid;
 
 		$html = str_replace("1change_email1", $mail, $html);
+		$html = str_replace("1email_id1", $nid, $html);
 		$html = str_replace("1change_href1", $_SERVER['SERVER_NAME'].
 			"/newsletter/email/cancel/".$nid."/".$mail, $html);
 
@@ -23,9 +69,30 @@ class WorkShop {
     	}
     	return false;
     }
+    public static function error($news_id, $email_id){
+		db_update('newsletter_send_control') // Table name no longer needs {}
+		  ->fields(array(
+		    'error' => 1,
+		    'date' => time(),
+		  ))
+		  ->condition('news_id', $news_id)
+		  ->condition('email_id', $email_id)
+		  ->execute();
+    }
+    public static function success($news_id, $email_id){
+		db_update('newsletter_send_control') // Table name no longer needs {}
+		  ->fields(array(
+		    'sent' => 1,
+		    'date' => time(),
+		  ))
+		  ->condition('news_id', $news_id)
+		  ->condition('email_id', $email_id)
+		  ->execute();
+
+    }
 	
 	# Dump de contatos em formato CSV
-	public static function dumpCsv(){
+    public static function dumpCsv(){
 	    drupal_add_http_header('Cache-Control', 'max-age=60, must-revalidate');
 	    drupal_add_http_header('Content-Disposition', 'attachment; filename="contatos_dia_'.date("d-m-Y", time()).'_.csv"');
 	    drupal_add_http_header('Content-type', 'text/csv; charset=utf-8');

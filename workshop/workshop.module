@@ -88,6 +88,23 @@ function workshop_menu() {
 		'expanded' => TRUE,
 	);
 
+
+       $items['newsletter/item/counter/%/%'] = array(
+                'title' => 'Contador Boletim',
+                'page callback' => 'newsletter_counter',
+		'page arguments' => array(3, 4),
+                'access arguments' => array('access_workshop'),
+                'description' => 'Contador Boletim',
+                'file' => 'newsletter.pages.inc',
+                'file path' => $path,
+                'menu_name' => 'main-menu',
+                'type' => MENU_CALLBACK,
+                'expanded' => TRUE,
+        );
+
+
+
+
 	$items['socialnetworks'] = array(
 		'title' => 'Redes Sociais',
 	    'page callback' => 'drupal_get_form',
@@ -226,6 +243,20 @@ function workshop_menu() {
 		'type' => MENU_CALLBACK,
 		'expanded' => TRUE,
 	);
+
+	$items['newsletter/report/%'] = array(
+		'title' => 'Relatório de leitura',
+		'page callback' => 'newsletter_report',
+		'page arguments' => array(2),
+		'access arguments' => array('administer_workshop'),
+		'description' => 'Exibe relatório de leitura do email',
+		'file' => 'newsletter.pages.inc',
+		'file path' => $path,
+		'menu_name' => 'main-menu',
+		'type' => MENU_CALLBACK,
+		'expanded' => TRUE,
+	);
+
 
 	$items['newsletter/email'] = array(
 		'title' => 'Banco de e-mails',
@@ -462,8 +493,13 @@ function workshop_theme(){
 		 ),
         'newsletters_page' => array(
         	'template' => 'newsletters_page',
-            'variables' => array('newsletters' => NULL),
-            'path' => drupal_get_path('module', 'workshop').'/theme'
+	        'variables' => array('newsletters' => NULL),
+          	'path' => drupal_get_path('module', 'workshop').'/theme'
+        ),
+        'newsletters_report_page' => array(
+        	'template' => 'newsletters_report_page',
+	        'variables' => array('log' => NULL),
+	        'path' => drupal_get_path('module', 'workshop').'/theme'
         ),
         'newsletters_page_create' => array(
         	'template' => 'newsletters_page_create',
@@ -478,7 +514,7 @@ function workshop_theme(){
         'newsletters_page_published' => array(
         	'template' => 'newsletters_page_published',
             'variables' => array('nodes' => NULL, 'news_id' => NULL, 'mail' => FALSE, 'title' => 'Bolm Virtual'),
-            'path' => drupal_get_path('module', 'workshop').'/theme'
+            'path' => drupal_get_path('theme', 'lib')
         ),
         'newsletters_page_email' => array(
         	'template' => 'newsletters_page_email',
@@ -513,6 +549,9 @@ function workshop_cron(){
 			variable_get('workshop_mail_admin', ''), language_default(),
 			$params, variable_get('workshop_mail', 'boletim-virtual@norepley.com'), FALSE);
 	}
+	if(variable_get('newsletter_send_running', 0) == 0){
+		Workshop::cronSendMail();
+	}
 }
 
 function workshop_mail($key, &$message, $params) {
@@ -534,7 +573,6 @@ function workshop_mail($key, &$message, $params) {
         foreach($params['body'] as $body) {
             $body_ = drupal_html_to_text($body);
             $body_ = substr($body_, 635, strlen($body_));
-
             $multipart = "--".$hash."\n"
                 ."Content-Type: text/plain; charset=UTF-8; format=flowed; delsp=yes\n"
                 ."Content-Transfer-Encoding: base64\n\n"

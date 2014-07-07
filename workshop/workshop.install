@@ -136,11 +136,106 @@ function workshop_schema() {
   return $schema;
 }
 
-//function workshop_update_5() {
-//  drupal_install_schema('workshop');
-//}
+
+function workshop_log_schema() {
+  $schema['newsletter_log'] = array(
+   'description' => 'Registros de leitura email',
+   'fields' => array(
+       'news_id' => array (
+        'description' => 'Id do newsletter',
+        'type' => 'varchar',
+        'length' => 8,
+        'not null' => TRUE,
+       ),
+      'email_id' => array(
+        'description' => 'Email id',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'date' => array(
+        'description' => 'Data da leitura',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+     'ip' => array(
+        'description' => 'IP leitura',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+    ),
+  );
+
+  return $schema;
+}
 
 
+function workshop_send_control_schema() {
+  $schema['newsletter_send_control'] = array(
+   'description' => 'Painel de controle de envio de emails',
+   'fields' => array(
+       'news_id' => array (
+        'description' => 'Id do newsletter',
+        'type' => 'varchar',
+        'length' => 8,
+        'not null' => TRUE,
+       ),
+      'email_id' => array(
+        'description' => 'Email id',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'date' => array(
+        'description' => 'Sent date',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+      'subject' => array(
+        'description' => 'Subject of mail',
+        'type' => 'varchar',
+        'not null' => TRUE,
+      ),
+      'body' => array(
+        'description' => 'body of mail',
+        'type' => 'text',
+        'size' => 'big',
+        'not null' => TRUE,
+      ),
+      'sent' => array(
+        'description' => 'Sent parameter',
+        'type' => 'int',
+	'default' => 0,
+        'not null' => TRUE,
+      ),
+      'error' => array(
+        'description' => 'Error parameter',
+        'type' => 'int',
+	'default' => 0,
+        'not null' => TRUE,
+      ),
+    ),
+  );
+
+  return $schema;
+}
+
+
+function workshop_update_1() {
+  drupal_install_schema('workshop_log');
+}
+
+
+function workshop_update_2() {
+  db_add_field('newsletter_log', 'ip', array('type' => 'varchar', 'not null' => FALSE, 'description' => 'IP reader'));
+}
+function workshop_update_3() {
+  drupal_install_schema('workshop_send_control');
+}
+
+function workshop_update_4() {
+  db_add_field('newsletter_log', 'date', array('type' => 'int', 'not null' => FALSE, 'description' => 'Date'));
+}
 function workshop_install() {
 
 }
