@@ -416,6 +416,7 @@ $(document).ready(function(){
                         dataType: 'json',
 						data: {
 					        title: what,
+						owner: $("#owner").val(),
 					        start_date: startDateObj.getTime()/1000,
 					        end_date: endDateObj.getTime()/1000,
 					        event_color: $("#colorBackground").val(),
@@ -713,6 +714,11 @@ fieldset { padding:0; border:0; margin-top:25px; }
 		<fieldset>
 			<label for="name">Título do evento</label>
 			<input type="text" name="what" id="what" class="text ui-widget-content ui-corner-all" style="margin-bottom:12px; width:95%; padding: .4em;"/>
+			<label>Atribuir a(o):</label>
+			<select id="owner" class="text ui-widget-content ui-corner-all" style="margin-bottom:12px; width:95%; padding: .4em;">
+				<option value="presidente" SELECTED>Presidente</option>
+				<option value="reforma">Reforma Agrária</option>
+			</select>
 			<table style="width:100%; padding:5px;">
 				<tr>
 					<td>
@@ -802,7 +808,7 @@ fieldset { padding:0; border:0; margin-top:25px; }
 											<table>
 												<tr>
 													<td>
-														<label>Color de fundo&nbsp;&nbsp;</label>
+														<label>Cor de fundo&nbsp;&nbsp;</label>
 													</td>
 													<td>
 														<div id="colorSelectorBackground"><div style="background-color: #008714; width:30px; height:30px; border: 2px solid #000000;"></div></div>
@@ -810,7 +816,7 @@ fieldset { padding:0; border:0; margin-top:25px; }
 													</td>
 													<td>&nbsp;&nbsp;&nbsp;</td>
 													<td>
-														<label>Color do texto&nbsp;&nbsp;</label>
+														<label>Cor do texto&nbsp;&nbsp;</label>
 													</td>
 													<td>
 														<div id="colorSelectorForeground"><div style="background-color: #ffffff; width:30px; height:30px; border: 2px solid #000000;"></div></div>

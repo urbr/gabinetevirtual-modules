@@ -1,5 +1,26 @@
 <?php
 
+function agendas_view(){
+
+	$eventsDay = array();
+
+        $events = db_select('agenda', 'ag')
+        ->fields('ag')
+        ->condition('ag.start_date', time()-172800, '>')
+        ->orderBy('created', 'DESC')
+        ->execute()
+        ->fetchAll();
+
+	foreach($events as $e){
+		$now = date("dmY", time());
+		if($now == date("dmY", $e->start_date))
+			$eventsDay[$e->owner][] = $e;
+	}
+
+        return theme('agendas_page', array('events' => $eventsDay));
+}
+
+
 function agenda_view(){
 
 	global $user;
@@ -29,6 +50,7 @@ function agenda_save(){
 			$new = db_insert('agenda')
 			->fields(array(
 				'title' => $title,
+				'owner' => $owner,
 				'start_date' => $start_date,
 				'end_date' => $end_date,
 				'fname' => $user->name,
@@ -52,6 +74,7 @@ function agenda_save(){
                         $new = db_insert('agenda')
                         ->fields(array(
                                 'title' => $title,
+				'owner' => $owner,
                                 'start_date' => $start_date,
                                 'end_date' => $end_date,
                                 'fname' => "Anônimo",

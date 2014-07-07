@@ -329,6 +329,18 @@ function workshop_menu() {
 		'expanded' => TRUE,
 	);
 
+        $items['agendas'] = array(
+                'title' => 'Agendas',
+                'page callback' => 'agendas_view',
+                'access arguments' => array('access_workshop'),
+                'description' => 'Agendas',
+                'file' => 'agenda.pages.inc',
+                'file path' => $path,
+                'menu_name' => 'main-menu',
+                'type' => MENU_NORMAL_ITEM,
+                'expanded' => TRUE,
+        );
+
 	$items['agenda'] = array(
 		'title' => 'Agenda',
 		'page callback' => 'agenda_view',
@@ -472,6 +484,11 @@ function workshop_theme(){
         	'template' => 'newsletters_page_email',
             'variables' => array('users' => NULL, 'result' => NULL, 'fields' => NULL, 'filters' => NULL),
             'path' => drupal_get_path('module', 'workshop').'/theme'
+        ),
+        'agendas_page' => array(
+            'template' => 'agendas_page',
+            'variables' => array('events' => NULL),
+            'path' => drupal_get_path('theme', 'incra').'/pages'
         ),
         'agenda_page' => array(
         	'template' => 'agenda_page',
