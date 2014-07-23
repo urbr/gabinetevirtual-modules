@@ -50,8 +50,9 @@ function agenda_save(){
 			$new = db_insert('agenda')
 			->fields(array(
 				'title' => $title,
-				'owner' => $owner,
+				'description' => $description,
 				'start_date' => $start_date,
+				'description' => $description,
 				'end_date' => $end_date,
 				'fname' => $user->name,
 				'lname' => $user->name,
@@ -172,6 +173,14 @@ function agenda_update_form($form, &$form_state, $id){
 			'#required' => TRUE,
 		);
 
+                $form['description'] = array(
+                        '#type' => 'textarea',
+                        '#title' => t('Título do evento'),
+                        '#description' => t('Digite um valor para o campo descrição'),
+                        '#default_value' => $ev->description,
+                        '#required' => TRUE,
+                );
+
 		$form['start_date'] = array(
 		  '#type' => 'date_popup', 
 		  '#default_value' => date("Y-m-d", $ev->start_date),
@@ -216,6 +225,7 @@ function agenda_update_form_submit($form, &$form_state){
 		db_update('agenda')
 		->fields(array(
 			'title' => $form_state['values']['title'],
+			'description' => $form_state['values']['description'],
 			'start_date' => strtotime($form_state['values']['start_date']),
 			'end_date' => strtotime($form_state['values']['end_date']),
 		))

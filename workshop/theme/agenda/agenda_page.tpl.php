@@ -368,18 +368,18 @@ $(document).ready(function(){
 					startDay = startDay.replace(/^[0]+/g,"");
 					var startHour = jQuery.trim($("#startHour").val());
 					var startMin = jQuery.trim($("#startMin").val());
-					var startMeridiem = jQuery.trim($("#startMeridiem").val());
+					//var startMeridiem = jQuery.trim($("#startMeridiem").val());
 					startHour = parseInt(startHour.replace(/^[0]+/g,""));
 					if(startMin == "0" || startMin == "00"){
 						startMin = 0;
 					}else{
 						startMin = parseInt(startMin.replace(/^[0]+/g,""));
 					}
-					if(startMeridiem == "AM" && startHour == 12){
-						startHour = 0;
-					}else if(startMeridiem == "PM" && startHour < 12){
-						startHour = parseInt(startHour) + 12;
-					}
+					//if(startMeridiem == "AM" && startHour == 12){
+					//	startHour = 0;
+					//}else if(startMeridiem == "PM" && startHour < 12){
+					//	startHour = parseInt(startHour) + 12;
+					//}
 
 					var endDate = $("#endDate").val();
 					var endDtArray = endDate.split("-");
@@ -393,37 +393,42 @@ $(document).ready(function(){
 					endDay = endDay.replace(/^[0]+/g,"");
 					var endHour = jQuery.trim($("#endHour").val());
 					var endMin = jQuery.trim($("#endMin").val());
-					var endMeridiem = jQuery.trim($("#endMeridiem").val());
+					//var endMeridiem = jQuery.trim($("#endMeridiem").val());
 					endHour = parseInt(endHour.replace(/^[0]+/g,""));
 					if(endMin == "0" || endMin == "00"){
 						endMin = 0;
 					}else{
 						endMin = parseInt(endMin.replace(/^[0]+/g,""));
 					}
-					if(endMeridiem == "AM" && endHour == 12){
-						endHour = 0;
-					}else if(endMeridiem == "PM" && endHour < 12){
-						endHour = parseInt(endHour) + 12;
-					}
+					//if(endMeridiem == "AM" && endHour == 12){
+					//	endHour = 0;
+					//}else if(endMeridiem == "PM" && endHour < 12){
+					//	endHour = parseInt(endHour) + 12;
+					//}
 
 					// Dates use integers
 					var startDateObj = new Date(parseInt(startYear),parseInt(startMonth)-1,parseInt(startDay),startHour,startMin,0,0);
 					var endDateObj = new Date(parseInt(endYear),parseInt(endMonth)-1,parseInt(endDay),endHour,endMin,0,0);
-
+					var description = $("#description").val();
+					if(startDateObj.getTime()/1000 > endDateObj.getTime()/1000){
+						alert("A data de início do evento não pode ser maior que a data final.");
+						return;	
+					}
 					$.ajax({
-                        url: '?q=agenda/save',
-                        type: 'POST',
-                        dataType: 'json',
+						url: '?q=agenda/save',
+						type: 'POST',
+						dataType: 'json',
 						data: {
-					        title: what,
-						owner: $("#owner").val(),
-					        start_date: startDateObj.getTime()/1000,
-					        end_date: endDateObj.getTime()/1000,
-					        event_color: $("#colorBackground").val(),
-					        text_color: $("#colorForeground").val(),
+							title: what,
+							description: description,
+							owner: $("#owner").val(),
+							start_date: startDateObj.getTime()/1000,
+							end_date: endDateObj.getTime()/1000,
+							event_color: $("#colorBackground").val(),
+							text_color: $("#colorForeground").val(),
 						},
-                        async: false,
-                        success: function(json) {
+						async: false,
+						success: function(json) {
 							if (json.response != 0) {
 								jfcalplugin.addAgendaItem(
 									"#mycal",
@@ -522,11 +527,12 @@ $(document).ready(function(){
 			$("#endDate").val("");
 			$("#startHour option:eq(0)").attr("selected", "selected");
 			$("#startMin option:eq(0)").attr("selected", "selected");
-			$("#startMeridiem option:eq(0)").attr("selected", "selected");
+			//$("#startMeridiem option:eq(0)").attr("selected", "selected");
 			$("#endHour option:eq(0)").attr("selected", "selected");
 			$("#endMin option:eq(0)").attr("selected", "selected");
-			$("#endMeridiem option:eq(0)").attr("selected", "selected");			
+			//$("#endMeridiem option:eq(0)").attr("selected", "selected");			
 			$("#what").val("");
+			$("#description").html("");
 			//$("#colorBackground").val("#1040b0");
 			//$("#colorForeground").val("#ffffff");
 		}
@@ -626,6 +632,11 @@ $(document).ready(function(){
 	 });
 
 	 <?php foreach ($events as $ev) : ?>
+	    <?php if(!$ev->description): ?>
+		<?php $ev->description = "Nenhuma descrição cadastrada"; ?>
+	    <?php endif; ?>
+		<?php $description_text = (string)$ev->description; ?>
+		<?php $description_text = str_replace("\n", " ", $description_text); ?>
 	    jfcalplugin.addAgendaItem(
 		 	"#mycal",
 		 	"<?php print $ev->title; ?>",
@@ -633,8 +644,10 @@ $(document).ready(function(){
 		 	new Date(<?php print $ev->end_date; ?>*1000),
 		 	false,
 		 	{
-		 		Autor: "<?php print $ev->fname; ?>",
-		 		Identificador: <?php print $ev->id; ?>
+				<?php $autor = explode("@", $ev->fname); ?>
+		 		Autor: "<?php print $autor[0]; ?>",
+		 		Identificador: <?php print $ev->id; ?>,
+				Descrição: "<p><?php print $description_text; ?></p>",
 		 	},
 		 	{
 		 		backgroundColor: "<?php print $ev->event_color; ?>",
@@ -667,8 +680,9 @@ $(document).ready(function(){
 		{
 			$randomColor = dechex(rand(9999,10000000));
 			$rgb = rand(0,200) . ',' . rand(0,200) . ',' . rand(0,200);
+			$name = explode("@", $user->name);
 			echo '<div class=" user" style="background-color:rgb('.$rgb.');">
-					  <input name="check_calendars" onclick="javascript:show_hide_event('.$user->name.',this);" type="checkbox">
+					  <input name="check_calendars" onclick="javascript:show_hide_event('.$name[0].',this);" type="checkbox">
 					  '.$user->name.'
 					  <br>
 				  </div>';
@@ -714,11 +728,13 @@ fieldset { padding:0; border:0; margin-top:25px; }
 		<fieldset>
 			<label for="name">Título do evento</label>
 			<input type="text" name="what" id="what" class="text ui-widget-content ui-corner-all" style="margin-bottom:12px; width:95%; padding: .4em;"/>
-			<label>Atribuir a(o):</label>
+			<!--<label>Atribuir a(o):</label>
 			<select id="owner" class="text ui-widget-content ui-corner-all" style="margin-bottom:12px; width:95%; padding: .4em;">
 				<option value="presidente" SELECTED>Presidente</option>
 				<option value="reforma">Reforma Agrária</option>
-			</select>
+			</select>-->
+			<label for="description">Descrição</label>
+			<textarea name="description" id="description"></textarea>
 			<table style="width:100%; padding:5px;">
 				<tr>
 					<td>
@@ -729,18 +745,30 @@ fieldset { padding:0; border:0; margin-top:25px; }
 					<td>
 						<label>Hora</label>
 						<select id="startHour" class="text ui-widget-content ui-corner-all" style="margin-bottom:12px; width:95%; padding: .4em;">
-							<option value="12" SELECTED>12</option>
-							<option value="1">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-							<option value="4">4</option>
-							<option value="5">5</option>
-							<option value="6">6</option>
-							<option value="7">7</option>
-							<option value="8">8</option>
-							<option value="9">9</option>
+							<option value="24" SELECTED>00</option>
+							<option value="1">01</option>
+							<option value="2">02</option>
+							<option value="3">03</option>
+							<option value="4">04</option>
+							<option value="5">05</option>
+							<option value="6">06</option>
+							<option value="7">07</option>
+							<option value="8">08</option>
+							<option value="9">09</option>
 							<option value="10">10</option>
 							<option value="11">11</option>
+							<option value="12">12</option>
+							<option value="13">13</option>
+							<option value="14">14</option>
+							<option value="15">15</option>
+							<option value="16">16</option>
+							<option value="17">17</option>
+							<option value="18">18</option>
+							<option value="19">19</option>
+							<option value="20">20</option>
+							<option value="21">21</option>
+							<option value="22">22</option>
+							<option value="23">23</option>
 						</select>				
 						<td>
 							<td>
@@ -754,6 +782,7 @@ fieldset { padding:0; border:0; margin-top:25px; }
 									<option value="50">50</option>
 								</select>				
 								<td>
+									<!--
 									<td>
 										<label>AM/PM</label>
 										<select id="startMeridiem" class="text ui-widget-content ui-corner-all" style="margin-bottom:12px; width:95%; padding: .4em;">
@@ -761,6 +790,7 @@ fieldset { padding:0; border:0; margin-top:25px; }
 											<option value="PM">PM</option>
 										</select>				
 									</td>
+									-->
 								</tr>
 								<tr>
 									<td>
@@ -771,18 +801,30 @@ fieldset { padding:0; border:0; margin-top:25px; }
 									<td>
 										<label>Hora</label>
 										<select id="endHour" class="text ui-widget-content ui-corner-all" style="margin-bottom:12px; width:95%; padding: .4em;">
-											<option value="12" SELECTED>12</option>
-											<option value="1">1</option>
-											<option value="2">2</option>
-											<option value="3">3</option>
-											<option value="4">4</option>
-											<option value="5">5</option>
-											<option value="6">6</option>
-											<option value="7">7</option>
-											<option value="8">8</option>
-											<option value="9">9</option>
+											<option value="24" SELECTED>00</option>
+											<option value="1">01</option>
+											<option value="2">02</option>
+											<option value="3">03</option>
+											<option value="4">04</option>
+											<option value="5">05</option>
+											<option value="6">06</option>
+											<option value="7">07</option>
+											<option value="8">08</option>
+											<option value="9">09</option>
 											<option value="10">10</option>
 											<option value="11">11</option>
+											<option value="12">12</option>
+											<option value="13">13</option>
+											<option value="14">14</option>
+											<option value="15">15</option>
+											<option value="16">16</option>
+											<option value="17">17</option>
+											<option value="18">18</option>
+											<option value="19">19</option>
+											<option value="20">20</option>
+											<option value="21">21</option>
+											<option value="22">22</option>
+											<option value="23">23</option>
 										</select>				
 										<td>
 											<td>
@@ -796,13 +838,15 @@ fieldset { padding:0; border:0; margin-top:25px; }
 													<option value="50">50</option>
 												</select>				
 												<td>
+													<!--
 													<td>
 														<label>AM/PM</label>
 														<select id="endMeridiem" class="text ui-widget-content ui-corner-all" style="margin-bottom:12px; width:95%; padding: .4em;">
 															<option value="AM" SELECTED>AM</option>
 															<option value="PM">PM</option>
 														</select>				
-													</td>				
+													</td>	
+													-->			
 												</tr>			
 											</table>
 											<table>
