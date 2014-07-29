@@ -193,7 +193,8 @@ function workshop_links__system_main_menu($variables) {
   //$html .= "<li>".l('Agenda', 'agenda')."</li>";
   $html .= "<li>".l('Oficina de criação', 'workshop')."</li>";
   $html .= "<li>".l('Boletins', 'newsletter')."</li>";
-  $html .= "<li>".l('Conteúdos', 'admin/content')."</li>";
+  #$html .= "<li>".l('Conteúdos', 'admin/content')."</li>";
+  $html .= "<li>".l('Conteúdos', 'tarso/admin/content/order/noticias')."</li>";
   $html .= "<li>".l('Arquivos', 'tree')."</li>";
   #$html .= "<li>".l('Galeria', 'workshop/gallery')."</li>";
   $html .= "<li>".l('Monitor', 'monitor')."</li>";

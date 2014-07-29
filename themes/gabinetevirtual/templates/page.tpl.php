@@ -121,7 +121,7 @@
     <div id="user_information">
       <div class="user_photo">
         <a href="<?php echo url('user')?>/<?php echo isset($uid) ? $uid : 0 ?>/edit?destination=admin/people" target="_blank">
-		<?php print isset($avatar) && !preg_match('/no_picture/', $avatar) ? $avatar : "<img src=\"".drupal_get_path('theme', 'workshop')."/images/no_picture.jpg\">"; ?>
+		<?php print isset($avatar) && !preg_match('/no_picture/', $avatar) ? $avatar : "<img src=\"/".drupal_get_path('theme', 'workshop')."/images/no_picture.jpg\">"; ?>
 	</a>
         <div class="user_status">
           <span>
@@ -131,7 +131,7 @@
               <?php endif; ?>
             </b>
           </span> 
-          <img class="online" src="<?php echo drupal_get_path('theme', 'workshop') ?>/images/online.png">
+          <img class="online" src="/<?php echo drupal_get_path('theme', 'workshop') ?>/images/online.png">
         </div>
 
       </div>

@@ -635,8 +635,9 @@ $(document).ready(function(){
 	    <?php if(!$ev->description): ?>
 		<?php $ev->description = "Nenhuma descrição cadastrada"; ?>
 	    <?php endif; ?>
-		<?php $description_text = (string)$ev->description; ?>
-		<?php $description_text = str_replace("\n", " ", $description_text); ?>
+		<?php //$description_text = (string)$ev->description; ?>
+		<?php //$description_text = str_replace("\n", " ", $description_text); ?>
+		<?php $description_text = ""; ?>
 	    jfcalplugin.addAgendaItem(
 		 	"#mycal",
 		 	"<?php print $ev->title; ?>",
@@ -742,7 +743,6 @@ fieldset { padding:0; border:0; margin-top:25px; }
                 			}
 				?>
 			</select>
-			
 			<table style="width:100%; padding:5px;">
 				<tr>
 					<td>

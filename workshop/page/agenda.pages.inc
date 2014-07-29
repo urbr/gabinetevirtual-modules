@@ -181,7 +181,6 @@ function agenda_update_form($form, &$form_state, $id){
                         '#default_value' => $ev->description,
                         '#required' => TRUE,
                 );
-		
 		$form['start_date'] = array(
 		  '#type' => 'date_popup', 
 		  '#default_value' => date("Y-m-d", $ev->start_date),
