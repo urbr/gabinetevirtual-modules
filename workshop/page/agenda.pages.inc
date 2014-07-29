@@ -59,6 +59,7 @@ function agenda_save(){
 				'event_color' => $event_color,
 				'text_color' => $text_color,
 				'created' => time(),
+				'owner' => ($owner ? $owner : $user->uid),
 				'status' => 1,
 			))->execute();
 
@@ -180,7 +181,7 @@ function agenda_update_form($form, &$form_state, $id){
                         '#default_value' => $ev->description,
                         '#required' => TRUE,
                 );
-
+		
 		$form['start_date'] = array(
 		  '#type' => 'date_popup', 
 		  '#default_value' => date("Y-m-d", $ev->start_date),

@@ -234,7 +234,7 @@ function workshop_update_1() {
 
 
 function workshop_update_2() {
-  //db_add_field('newsletter_log', 'ip', array('type' => 'varchar', 'not null' => FALSE, 'description' => 'IP reader'));
+  db_add_field('newsletter_log', 'ip', array('type' => 'varchar', 'not null' => FALSE, 'description' => 'IP reader'));
 }
 function workshop_update_3() {
   drupal_install_schema('workshop_send_control');
@@ -242,6 +242,9 @@ function workshop_update_3() {
 
 function workshop_update_4() {
   db_add_field('newsletter_log', 'date', array('type' => 'int', 'not null' => FALSE, 'description' => 'Date'));
+}
+function workshop_update_5() {
+  db_add_field('agenda', 'owner', array('type' => 'int', 'description' => 'Owner user id'));
 }
 function workshop_install() {
 

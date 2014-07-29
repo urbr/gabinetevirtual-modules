@@ -728,13 +728,21 @@ fieldset { padding:0; border:0; margin-top:25px; }
 		<fieldset>
 			<label for="name">Título do evento</label>
 			<input type="text" name="what" id="what" class="text ui-widget-content ui-corner-all" style="margin-bottom:12px; width:95%; padding: .4em;"/>
-			<!--<label>Atribuir a(o):</label>
-			<select id="owner" class="text ui-widget-content ui-corner-all" style="margin-bottom:12px; width:95%; padding: .4em;">
-				<option value="presidente" SELECTED>Presidente</option>
-				<option value="reforma">Reforma Agrária</option>
-			</select>-->
 			<label for="description">Descrição</label>
 			<textarea name="description" id="description"></textarea>
+			<label>Atribuir a(o):</label>
+			<select id="owner" class="text ui-widget-content ui-corner-all" style="margin-bottom:12px; width:95%; padding: .4em;">
+				<option value="">Selecione a agenda</option>
+				<?php
+					$users = db_query("SELECT DISTINCT(owner) as uid FROM agenda where owner > 0");
+                			foreach ($users as $user)
+                			{
+						$u = user_load($user->uid);
+                        			print '<option value="'.$user->uid.'" SELECTED>'.$u->mail.'</option>';
+                			}
+				?>
+			</select>
+			
 			<table style="width:100%; padding:5px;">
 				<tr>
 					<td>
@@ -742,6 +750,7 @@ fieldset { padding:0; border:0; margin-top:25px; }
 						<input type="text" name="startDate" id="startDate" value="" class="text ui-widget-content ui-corner-all" style="margin-bottom:12px; width:95%; padding: .4em;"/>				
 					</td>
 					<td>&nbsp;</td>
+					
 					<td>
 						<label>Hora</label>
 						<select id="startHour" class="text ui-widget-content ui-corner-all" style="margin-bottom:12px; width:95%; padding: .4em;">
