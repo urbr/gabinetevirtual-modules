@@ -12,6 +12,7 @@ function newsletter(){
 	->execute()
 	->fetchAll();
 
+	$news = array();
 
 	foreach($newsletters as $n) {
 
@@ -123,9 +124,10 @@ function newsletter_edit_save(){
 				@$content[$nid[1]] = $_POST['publish_body_'.$nid[1]];
 			}
 	}
-
 	foreach ($title as $key => $value) {
 		try{
+			$content[$key] = empty($content[$key]) ? '&nbsp;' : $content[$key];
+
 			if(!isset($_POST['newsletter_id'])){
 				$new = db_insert('newsletter')
 				->fields(array(

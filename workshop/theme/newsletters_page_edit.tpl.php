@@ -15,7 +15,7 @@
 
 .button {
 	-moz-border-radius:5px 5px 5px 5px;
-	background:url("/themes/workshop/images/bg_button_g.png") repeat-x scroll 0 0 transparent;
+	background:url("/sites/all/themes/urbr/gabinetevirtual/images/bg_button_g.png") repeat-x scroll 0 0 transparent;
 	color:#FFFFFF !important;
 	display:inline-block;
 	font-size:16px;
@@ -117,13 +117,13 @@ td img {
 			if(!empty($news_id))
 				print '<input type="hidden" name="newsletter_id" value="'.$news_id.'">'; 
 		?>
-		<p align="center" style="font-family:'Lucida Sans Unicode', 'Lucida Grande', arial; font-size:13px; border:1px solid #FFEF97; width:735px; margin:0 auto; background:#FFFFCC; padding:10px;"><img src="/themes/workshop/images/ic_atencao.png" style="vertical-align:middle; margin-right:5px;" /> Aqui você pode <strong>editar</strong> os <strong>títulos</strong> e <strong>descrições</strong> antes de gerar o boletim.</a></p>
+		<p align="center" style="font-family:'Lucida Sans Unicode', 'Lucida Grande', arial; font-size:13px; border:1px solid #FFEF97; width:735px; margin:0 auto; background:#FFFFCC; padding:10px;"><img src="/sites/all/themes/urbr/gabinetevirtual/images/ic_atencao.png" style="vertical-align:middle; margin-right:5px;" /> Aqui você pode <strong>editar</strong> os <strong>títulos</strong> e <strong>descrições</strong> antes de gerar o boletim.</a></p>
 
 		<table width="778px" border="0" bgcolor="#FFFFFF" style="border-collapse:collapse; margin:10px auto; font-family:'Lucida Sans Unicode', 'Lucida Grande', arial; -moz-border-radius-bottomright:12px; -moz-border-radius-bottomleft:12px; -moz-border-radius-topright:12px; 	-moz-border-radius-topleft:12px;">
 			<tr>
-				<td width="20"><img src="/themes/workshop/images/spacer.gif" width="20" height="15" /></td>
+				<td width="20"><img src="/sites/all/themes/urbr/gabinetevirtual/images/spacer.gif" width="20" height="15" /></td>
 				<td>&nbsp;</td>
-				<td width="20"><img src="/themes/workshop/images/spacer.gif" alt="" width="20" height="15" /></td>
+				<td width="20"><img src="/sites/all/themes/urbr/gabinetevirtual/images/spacer.gif" alt="" width="20" height="15" /></td>
 			</tr>
 			<tr>
 			</tr>
@@ -177,8 +177,8 @@ td img {
 									<td valign="top" width="231" border="0" style="border-collapse:collapse;">
 										<table border="0" style="border-collapse:collapse; -moz-border-radius-bottomleft:10px; -moz-border-radius-topleft:10px;" height="100%">
 											<tr>
-												<td><img src="/themes/workshop/images/spacer.gif" alt="" width="20" height="23" /></td>
-												<td bgcolor="#EDEDED" id="colAux"><img src="/themes/workshop/images/spacer.gif" alt="" width="20" height="23" /></td>
+												<td><img src="/sites/all/themes/urbr/gabinetevirtual/images/spacer.gif" alt="" width="20" height="23" /></td>
+												<td bgcolor="#EDEDED" id="colAux"><img src="/sites/all/themes/urbr/gabinetevirtual/images/spacer.gif" alt="" width="20" height="23" /></td>
 												<td width="170" bgcolor="#EDEDED">
 
 												<!-- Bloco -->
@@ -206,16 +206,16 @@ td img {
 														<tr>
 															<td width="90">
 
-																<p><a href="http://<?php echo $_SERVER['SERVER_NAME']; ?>"><img src="/themes/workshop/images/bt_site.gif" border="0" /></a></p></td>
+																<p><a href="http://<?php echo $_SERVER['SERVER_NAME']; ?>"><img src="/sites/all/themes/urbr/gabinetevirtual/images/bt_site.gif" border="0" /></a></p></td>
 																<td width="34"><!-- Redes Sociais -->
 
-																	<p style="margin:0 0 12px 0; padding:0;"><a href="#"><img src="/themes/workshop/images/ic_twitter.gif" alt="Twitter" border="none;" /></a></p>
-																	<p style="margin:0 0 12px 0; padding:0;"><a href="#"><img src="/themes/workshop/images/ic_facebook.gif" alt="Facebook" border="none;" /></a></p>
+																	<p style="margin:0 0 12px 0; padding:0;"><a href="#"><img src="/sites/all/themes/urbr/gabinetevirtual/images/ic_twitter.gif" alt="Twitter" border="none;" /></a></p>
+																	<p style="margin:0 0 12px 0; padding:0;"><a href="#"><img src="/sites/all/themes/urbr/gabinetevirtual/images/ic_facebook.gif" alt="Facebook" border="none;" /></a></p>
 																</tr>
 															</table>
 
 															<!-- FIM COLUNA AUXILIAR --></td>
-															<td bgcolor="#EDEDED"><img src="/themes/workshop/images/spacer.gif" alt="" width="20" height="23" /></td>
+															<td bgcolor="#EDEDED"><img src="/sites/all/themes/urbr/gabinetevirtual/images/spacer.gif" alt="" width="20" height="23" /></td>
 
 														</tr>
 													</table></td>

@@ -56,7 +56,7 @@ $(document).ready(function(){
 }
 
 .setas{
-	background:url("/themes/workshop/images/setas.png") no-repeat;
+	background:url("/sites/all/themes/urbr/gabinetevirtual/images/setas.png") no-repeat;
 	height:71px;
 	display:block;
 	margin-left:305px;
@@ -68,7 +68,7 @@ $(document).ready(function(){
 }
 
 .column .item_date{
-	background:url("/themes/workshop/images/ic_date.gif") no-repeat 88px 7px;
+	background:url("/sites/all/themes/urbr/gabinetevirtual/images/ic_date.gif") no-repeat 88px 7px;
 	padding:0 0 0 15px;
 	color:437EA1;
 	font-size:10px;

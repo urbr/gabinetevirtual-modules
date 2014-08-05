@@ -513,7 +513,7 @@ function workshop_theme(){
         ),
         'newsletters_page_published' => array(
         	'template' => 'newsletters_page_published',
-            'variables' => array('nodes' => NULL, 'news_id' => NULL, 'mail' => FALSE, 'title' => 'Bolm Virtual'),
+            'variables' => array('nodes' => NULL, 'news_id' => NULL, 'mail' => FALSE, 'title' => 'Boletim Virtual'),
             'path' => drupal_get_path('theme', 'lib')
         ),
         'newsletters_page_email' => array(
