@@ -1,3 +1,7 @@
+
+
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
+		<script src="https://code.jquery.com/ui/1.11.0/jquery-ui.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 	$('#drag .sortable-list').sortable({

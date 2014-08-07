@@ -228,6 +228,8 @@ function newsletter_send($form, $news_id){
 
 function newsletter_send_form($form, &$form_state, $news_id){
 
+	set_time_limit(0);
+
 	$result = db_select('node', 'n')
 	->fields('n', array('nid'))
 	->condition('n.type', 'contatos', '=')

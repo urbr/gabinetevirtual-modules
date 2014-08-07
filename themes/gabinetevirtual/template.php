@@ -9,8 +9,8 @@ function workshop_preprocess_html(&$variables) {
   if(arg(0) != 'workshop' && arg(0) != 'newsletter' && arg(0) != 'batch')
   	drupal_add_js(drupal_get_path('module', 'workshop').'/theme/agenda/js/jquery-core/jquery-1.4.2-ie-fix.min.js', array('weight' => -20));  
   if(arg(0) == 'newsletter'){
-	drupal_add_js(drupal_get_path('module', 'workshop').'/theme/js/jquery.min.js', array('weight' => -20));
-	drupal_add_js(drupal_get_path('module', 'workshop').'/theme/js/jquery-ui-min.js', array('weight' => -19));
+	//drupal_add_js(drupal_get_path('module', 'workshop').'/theme/js/jquery.min.js', array('weight' => -20));
+	//drupal_add_js(drupal_get_path('module', 'workshop').'/theme/js/jquery-ui-min.js', array('weight' => -19));
   }
 
   if (!empty($variables['page']['featured'])) {
