@@ -143,7 +143,6 @@ function workshop_schema() {
   return $schema;
 }
 
-
 function workshop_log_schema() {
   $schema['newsletter_log'] = array(
    'description' => 'Registros de leitura email',

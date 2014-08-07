@@ -92,38 +92,43 @@ class WorkShop {
     }
 	
 	# Dump de contatos em formato CSV
-    public static function dumpCsv(){
-	    drupal_add_http_header('Cache-Control', 'max-age=60, must-revalidate');
-	    drupal_add_http_header('Content-Disposition', 'attachment; filename="contatos_dia_'.date("d-m-Y", time()).'_.csv"');
-	    drupal_add_http_header('Content-type', 'text/csv; charset=utf-8');
-		
+	public static function dumpCsv(){
+		drupal_add_http_header('Cache-Control', 'max-age=60, must-revalidate');
+		drupal_add_http_header('Content-Disposition', 'attachment; filename="contatos_dia_'.date("d-m-Y", time()).'_.csv"');
+		drupal_add_http_header('Content-type', 'text/csv; charset=utf-8');
+
 		$i = 1;
 		$delim = ',';
-	    $columns = $rows = array();
+		$columns = $rows = array();
 		$columns[] = "EMAIL";
 
-	    $result = db_query("SELECT title FROM node WHERE type = 'contatos' ORDER BY nid ASC");
-	    foreach ($result as $res)
-	    	$rows[0][] = $res->title;
+		$result = db_query("SELECT title FROM node WHERE type = 'contatos' ORDER BY nid ASC");
+		foreach ($result as $res)
+			$rows[0][] = $res->title;
 
-	    $fields = field_info_instances("node", "contatos");
-	    foreach ($fields as $key => $value) {
-	    	$key = strtoupper(str_replace('field_', '', $key));
-	      	$columns[] = $key;
-	      	$result = db_query("SELECT field_".$key."_value AS value
-							FROM field_data_field_$key ORDER BY entity_id ASC");
-	      	foreach ($result as $res)
-	      		$rows[$i][] = $res->value;
-	      	$i++;
-	    }
-	    print implode($delim, $columns)."\n";
-	    for($j=0;$j<=$i;$j++){
-	    	for($k=0;$k<=$i;$k++)
-	    		@print $rows[$k][$j].$delim;
-	    	print "\n";
+		$fields = field_info_instances("node", "contatos");
+		foreach ($fields as $key => $value) {
+			$key = strtoupper(str_replace('field_', '', $key));
+			$columns[] = $key;
+			$result = db_query("SELECT field_".$key."_value AS value
+				FROM field_data_field_$key ORDER BY entity_id ASC");
+			foreach ($result as $res)
+				$rows[$i][] = $res->value;
+			$i++;
+		}
+		print implode($delim, $columns)."\n";
+
+		$max = count($rows[0]);
+		$max2 = count($rows);
+
+		for($j=0;$j<$max;$j++){
+			for($k=0;$k<$max2;$k++){
+				@print $rows[$k][$j] ? $rows[$k][$j] : 'vazio';
+				@print $delim;
+			}
+			@print "\n";
 		}
 	}
-
 	# Codifica uma string (p/ pesquisa em redes sociais)
 	public static function encodeTerms($terms){
 		return urlencode(str_replace(",", "\" OR \"", "\"".$terms."\""));
