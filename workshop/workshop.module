@@ -549,9 +549,9 @@ function workshop_cron(){
 			variable_get('workshop_mail_admin', ''), language_default(),
 			$params, variable_get('workshop_mail', 'boletim-virtual@norepley.com'), FALSE);
 	}
-	if(variable_get('newsletter_send_running', 0) == 0){
-		Workshop::cronSendMail();
-	}
+		if(variable_get('newsletter_send_running', 0) == 0){
+			Workshop::cronSendMail();
+		}
 }
 
 function workshop_mail($key, &$message, $params) {

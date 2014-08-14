@@ -18,7 +18,8 @@ class WorkShop {
 		$body[]  = $html;
 	    	$params['subject'] = $subject;
 	   	$params['body']    = $body;
-		db_insert('newsletter_send_control') 
+		if($nid != 0) {
+			db_insert('newsletter_send_control') 
 				->fields(array(
 				  'email_id' => $nid,
 				  'subject' => $subject,
@@ -28,6 +29,19 @@ class WorkShop {
 				  'date' => time(),
 				  'news_id' => $news_id,
 				))->execute();
+		} else {		
+			db_insert('newsletter_send_control') 
+                                ->fields(array(
+                                  'email_id' => $nid,
+                                  'subject' => $subject,
+                                  'body' => $html,
+                                  'sent' => 0,
+                                  'error' => 0,
+                                  'date' => time(),
+                                  'email' => $mail,
+                                  'news_id' => $news_id,
+                                ))->execute();
+		}
 	        return true;	
     	}
     	return false;
@@ -37,14 +51,21 @@ class WorkShop {
     public static function cronSendMail(){
 		variable_set('newsletter_send_running', 1);	
 		$query = db_select('newsletter_send_control', 'n');
-		$query->fields('n', array('email_id','subject','body','news_id'));
+		$query->fields('n', array('email_id','subject','body','news_id','email'));
 		$query->condition('n.sent', 0);
 		$query->condition('n.error', 0);
-		$query->range(0,200);	
+		$query->range(0,1000);	
 		$result = $query->execute()->fetchAll();
 
 		foreach($result as $r) {
-			(Workshop::sendMail($r->body, node_load($r->email_id), $r->subject)) ? Workshop::success($r->news_id, $r->email_id) : Workshop::error($r->news_id, $r->email_id);
+			if ($r->email_id != 0) {
+				(Workshop::sendMail($r->body, node_load($r->email_id), $r->subject)) ? Workshop::success($r->news_id, $r->email_id) : Workshop::error($r->news_id, $r->email_id);
+			} else {
+				$email = new stdClass();
+				$email->mail = $r->email;
+				$email->nid = 0;
+				(Workshop::sendMail($r->body, $email, $r->subject)) ? Workshop::success($r->news_id, $r->email_id, $r->email) : Workshop::error($r->news_id, $r->email_id, $r->email);
+			}
 		}
 		variable_set('newsletter_send_running', 0);	
     }
@@ -69,22 +90,24 @@ class WorkShop {
     	}
     	return false;
     }
-    public static function error($news_id, $email_id){
-		db_update('newsletter_send_control') // Table name no longer needs {}
+    public static function error($news_id, $email_id, $email = NULL){
+		$update = db_update('newsletter_send_control') // Table name no longer needs {}
 		  ->fields(array(
 		    'error' => 1,
 		    'date' => time(),
 		  ))
-		  ->condition('news_id', $news_id)
-		  ->condition('email_id', $email_id)
-		  ->execute();
+		->condition('email', $email)
+		->condition('news_id', $news_id)
+		->condition('email_id', $email_id)
+		->execute();
     }
-    public static function success($news_id, $email_id){
-		db_update('newsletter_send_control') // Table name no longer needs {}
+    public static function success($news_id, $email_id, $email = NULL){
+		$udpate = db_update('newsletter_send_control') // Table name no longer needs {}
 		  ->fields(array(
 		    'sent' => 1,
 		    'date' => time(),
 		  ))
+		  ->condition('email', $email)
 		  ->condition('news_id', $news_id)
 		  ->condition('email_id', $email_id)
 		  ->execute();

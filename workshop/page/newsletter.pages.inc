@@ -230,11 +230,6 @@ function newsletter_send_form($form, &$form_state, $news_id){
 
 	set_time_limit(0);
 
-	$result = db_select('node', 'n')
-	->fields('n', array('nid'))
-	->condition('n.type', 'contatos', '=')
-	->execute();
-
 	$fields = field_info_instances("node", "contatos");
 
 	foreach (getFieldsNewsletter() as $value) {
@@ -242,19 +237,23 @@ function newsletter_send_form($form, &$form_state, $news_id){
 			unset($fields[$value]);
 	}
 
-	while ($res = $result->fetchObject()) {
-		foreach ($fields as $key => $value) {
+	foreach ($fields as $key => $value) {
 
-			$name = str_replace('field_', '', $key);
+		$name = str_replace('field_', '', $key);
 
-			$field = db_select("field_data_".$key, 'f')
-				->fields('f', array("field_".$name."_value"))
-				->condition('f.entity_id', $res->nid, '=')
-				->execute()
-				->fetchField();
-			
-			$values[$key][$field] = $field;
-			$options[$key] = $name;
+	        $result = db_query(sprintf("
+			SELECT DISTINCT(%s) AS value 
+			   FROM %s f 
+			   LEFT JOIN node n 
+			   ON f.entity_id = n.nid
+			   ORDER BY value ASC",
+			sprintf('field_%s_value', $name), 
+			sprintf('field_data_%s', $key)
+       		));
+
+		foreach($result as $record) {
+			$values[$key][$record->value] = $record->value;
+                	$options[$key] = $name;
 		}
 	}
 
@@ -297,6 +296,13 @@ function newsletter_send_form($form, &$form_state, $news_id){
 			);
 		}
 	}
+
+        $form['lista'] = array(
+        	'#type' => 'textfield',
+		'#title' => t('Lista de emails'),
+		'#description' => t('Digite os emails separados por vírgulas'),
+    	);
+
 
         $form['enviar'] = array(
         	'#type' => 'submit',
@@ -388,12 +394,18 @@ function newsletter_send_form_submit($form, &$form_state){
 	$query = "SELECT distinct title, nid FROM node AS n ".implode(" ", $leftjoin)." WHERE ".$where;
 	$type  = "n.type = 'contatos' AND status <> 0";
 	$query = ($entry == 0) ? $query.$type : $query.' AND '.$type;
-
 	$fail = $success = 0;
 	foreach (db_query($query) as $res){
 		$q = 'select email_id from newsletter_send_control where email_id = :email_id and news_id = :news_id';
 		if(db_query($q, array(':email_id' => $res->nid, ':news_id' => $news_id))->rowCount() == 0) 
 			(Workshop::queueMail($html, $res, $subject,$news_id)) ? $success++ : $fail++;
+	}
+	$emails_list =  explode(',', $form_state['values']['lista']);
+	foreach ($emails_list as $e){
+			$new_email = new stdClass();
+			$new_email->mail = $e;
+			$new_email->nid = 0;
+			(Workshop::queueMail($html, $new_email, $subject,$news_id)) ? $success++ : $fail++;
 	}
 	drupal_set_message("<p><b>Newsletter enviado com sucesso!</b></p><p><i>Relatório:</i></p>
 		<p>Total de e-mails enviados: <b>$success</b>
