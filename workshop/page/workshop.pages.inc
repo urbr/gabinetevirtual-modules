@@ -1,4 +1,4 @@
-<?php
+asd<?php
 
 # Retorna um formulário de um tipo de conteúdo
 function workshop_get_node_type_form($type){

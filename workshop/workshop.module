@@ -743,7 +743,7 @@ function unsetFormFields($form){
 	unset($form['path']);
 	unset($form['attachments']);
 	unset($form['author']);
-	unset($form['options']);
+	//unset($form['options']);
 	unset($form['comment_settings']);
 	unset($form['actions']['preview']);
 	return $form;
