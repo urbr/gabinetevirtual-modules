@@ -396,16 +396,18 @@ function newsletter_send_form_submit($form, &$form_state){
 	$query = ($entry == 0) ? $query.$type : $query.' AND '.$type;
 	$fail = $success = 0;
 	foreach (db_query($query) as $res){
-		$q = 'select email_id from newsletter_send_control where email_id = :email_id and news_id = :news_id';
-		if(db_query($q, array(':email_id' => $res->nid, ':news_id' => $news_id))->rowCount() == 0) 
-			(Workshop::queueMail($html, $res, $subject,$news_id)) ? $success++ : $fail++;
+		$q = 'SELECT email_id FROM newsletter_send_control WHERE email_id = :email_id AND news_id = :news_id';
+		if(db_query($q, array(':email_id' => $res->nid, ':news_id' => $news_id))->rowCount() == 0){
+			(Workshop::queueMail($html, $res, $subject, $news_id)) ? $success++ : $fail++;
+		}
 	}
+
 	$emails_list =  explode(',', $form_state['values']['lista']);
 	foreach ($emails_list as $e){
 			$new_email = new stdClass();
 			$new_email->mail = $e;
 			$new_email->nid = 0;
-			(Workshop::queueMail($html, $new_email, $subject,$news_id)) ? $success++ : $fail++;
+			(Workshop::queueMail($html, $new_email, $subject, $news_id)) ? $success++ : $fail++;
 	}
 	drupal_set_message("<p><b>Newsletter enviado com sucesso!</b></p><p><i>Relatório:</i></p>
 		<p>Total de e-mails enviados: <b>$success</b>
