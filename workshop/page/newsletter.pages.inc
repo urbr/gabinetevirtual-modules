@@ -404,10 +404,12 @@ function newsletter_send_form_submit($form, &$form_state){
 
 	$emails_list =  explode(',', $form_state['values']['lista']);
 	foreach ($emails_list as $e){
-			$new_email = new stdClass();
-			$new_email->mail = $e;
-			$new_email->nid = 0;
-			(Workshop::queueMail($html, $new_email, $subject, $news_id)) ? $success++ : $fail++;
+                if(!empty($e)){
+                        $new_email = new stdClass();
+                        $new_email->mail = $e;
+                        $new_email->nid = 0;
+                        (Workshop::queueMail($html, $new_email, $subject, $news_id)) ? $success++ : $fail++;
+                }
 	}
 	drupal_set_message("<p><b>Newsletter enviado com sucesso!</b></p><p><i>Relatório:</i></p>
 		<p>Total de e-mails enviados: <b>$success</b>
